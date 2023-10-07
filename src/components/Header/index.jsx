@@ -3,7 +3,7 @@ Header.propTypes = {};
 function Header(props) {
   return (
     <div>
-      <h1>Header</h1>
+      <h1 className=" bg-slate-400">Header</h1>
     </div>
   );
 }
