@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 DetailProduct.propTypes = {};
 
 function DetailProduct(props) {
+  console.log('hee');
   return (
     <div className="border border-yellow-300 mx-[24px] h-[1400px] ">
       <div className="py-0 px-4 lg:flex lg:py-0 lg:px-0 lg:justify-center lg:items-center  ">
