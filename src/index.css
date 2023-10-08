@@ -10,6 +10,8 @@ body {
     font-family: 'Playfair Display', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: white;
+  background-color: #514f4f;
 }
 
 code {

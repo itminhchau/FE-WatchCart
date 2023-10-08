@@ -1,4 +1,5 @@
 import Header from 'components/Header';
+import ModalNav from 'components/Header/components/ModalNav';
 import { Route, Routes } from 'react-router-dom';
 import Home from 'scenes/Home';
 import Product from 'scenes/Product';
