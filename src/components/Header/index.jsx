@@ -21,7 +21,7 @@ function Header(props) {
         <div className=" lg:hidden w-[32px] h-full cursor-pointer hover:scale-125">
           <img src={menu} alt="" onClick={() => setMenuCheck(!menuCheck)} />
         </div>
-        <img src={logo} alt="logo" srcset="" className="h-[96px] min-w-[256px]" />
+        <img src={logo} alt="logo" srcset="" className="h-[70px] min-w-[140px]" />
       </div>
       {menuCheck && <ModalNav />}
       <ul className=" basis-3/6  justify-center items-center gap-6 font-bold text-[18px] hidden lg:flex ">
