@@ -21,7 +21,7 @@ function Header(props) {
         <div className=" lg:hidden w-[32px] h-full cursor-pointer hover:scale-125">
           <img src={menu} alt="" onClick={() => setMenuCheck(!menuCheck)} />
         </div>
-        <img src={logo} alt="logo" srcset="" className="h-[70px] min-w-[140px]" />
+        <img src={logo} alt="logo" srcSet="" className="h-[70px] min-w-[140px]" />
       </div>
       {menuCheck && <ModalNav />}
       <ul className=" basis-3/6  justify-center items-center gap-6 font-bold text-[18px] hidden lg:flex ">
@@ -40,7 +40,7 @@ function Header(props) {
       </ul>
       <div className=" basis-1/6 font-bold flex justify-end items-center mr-4">
         <div className=" relative">
-          <img src={cart} alt="" srcset="" className=" h-[24px] w-[24px] " />
+          <img src={cart} alt="" srcSet="" className=" h-[24px] w-[24px] " />
           <span className=" bg-primary-yelow  h-[24px] w-[24px] text-center block text-white  absolute top-[-18px] right-[-18px] rounded-full">
             12
           </span>
