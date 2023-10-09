@@ -1,6 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-// import detail from '../../../../assets/detail.jpg';
 DetailProduct.propTypes = {};
 
 function DetailProduct(props) {

@@ -1,10 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import addUser from '../../../../assets/image/add-user.png';
+import logout from '../../../../assets/image/logout.png';
 import profile from '../../../../assets/image/profile.png';
 import setting from '../../../../assets/image/setting.png';
-import logout from '../../../../assets/image/logout.png';
-import addUser from '../../../../assets/image/add-user.png';
 
 ModalProfile.propTypes = {};
 

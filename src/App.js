@@ -1,13 +1,12 @@
 import Header from 'components/Header';
-import ModalNav from 'components/Header/components/ModalNav';
 import { Route, Routes } from 'react-router-dom';
+import ShipDetailForm from 'scenes/form/ShipDetailForm';
 import Home from 'scenes/Home';
 import Product from 'scenes/Product';
-import DetailProduct from 'scenes/Product/components/DetailProduct';
 
 function App() {
   return (
-    <div className="App container mx-auto">
+    <div className="App container mx-auto mb-2">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

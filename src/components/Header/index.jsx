@@ -48,7 +48,11 @@ function Header(props) {
       </div>
       <div className="basis-1/6 ">
         <div className="auth flex justify-start px-4 gap-4 items-center cursor-pointer">
-          {!loginCheck && <span onClick={() => setLoginCheck(!loginCheck)}>Login</span>}
+          {!loginCheck && (
+            <span className=" min-w-[80px] cursor-pointer" onClick={() => setLoginCheck(!loginCheck)}>
+              Đăng Nhập
+            </span>
+          )}
           {loginCheck && (
             <div className="flex justify-between items-center gap-4 relative">
               <img src={profile} alt="" onClick={() => setCheckProfile(!checkProfile)} />
