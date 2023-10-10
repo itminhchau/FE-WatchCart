@@ -1,5 +1,6 @@
 import Header from 'components/Header';
 import { Route, Routes } from 'react-router-dom';
+import Footer from 'scenes/Footer';
 import Home from 'scenes/Home';
 import Product from 'scenes/Product';
 import DetailProduct from 'scenes/Product/components/DetailProduct';
@@ -15,6 +16,7 @@ function App() {
         <Route path="/products/:id" element={<DetailProduct />} />
         <Route path="/shipment" element={<Shipment />} />
       </Routes>
+      <Footer />
     </div>
   );
 }

@@ -48,7 +48,7 @@ function CategoryProduct() {
       idBrand: id,
     });
   };
-  console.log(listProduct);
+
   return (
     <div className=" mx-[24px]">
       <div className=" my-[18px] flex justify-start gap-4 items-center">
