@@ -45,7 +45,7 @@ function InputField({ form, label, name, width }) {
             // color="warning"
             label={label}
             variant="outlined"
-            sx={{ margin: '4px 8px', border: '2px', width: `${width}` }}
+            sx={{ margin: '12px 8px', border: '2px', width: `${width}` }}
             helperText={error?.message}
           />
         );

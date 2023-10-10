@@ -16,7 +16,7 @@ function InputFieldDropdown({ form, name, label, list, width }) {
             select
             label={label}
             defaultValue="1"
-            sx={{ width: `${width}`, marginTop: '4px', marginLeft: '8px' }}
+            sx={{ width: `${width}`, marginTop: '20px', marginLeft: '8px' }}
             error={invalid}
             helperText={error?.message}
           >
