@@ -17,7 +17,7 @@ function DetailProduct(props) {
   useEffect(() => {
     (async () => {
       const res = await productsApi.getProduct(id);
-      console.log('product (id)', res);
+      // console.log('product (id)', res);
       setProduct(res.data.data);
     })();
   }, [id]);

@@ -23,7 +23,7 @@ function ItemProduct({ product }) {
       <img
         src={product.imageProduct[0].url}
         alt=""
-        srcset=""
+        srcSet=""
         className=" cursor-pointer hover:scale-110 ease-in duration-300 mb-4"
       />
       <span className=" block text-center">{product.nameProduct}</span>
