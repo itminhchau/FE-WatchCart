@@ -5,9 +5,9 @@ TitleWeb.propTypes = {};
 
 function TitleWeb({ title, subTitle }) {
   return (
-    <div>
-      <div className=" flex justify-between items-center">
-        <span className=" font-bold text-[24px] mr-[18px] my-[8px]">{title}</span>
+    <div className=" my-4">
+      <div className=" flex justify-between items-center mb-2">
+        <span className=" font-bold text-[20px] mr-[18px]">{title}</span>
         <div className=" border-[1px] flex-1"></div>
       </div>
 

@@ -1,20 +1,35 @@
+import productsApi from 'api/productsApi';
+import { formatPrice } from 'constants/common';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 DetailProduct.propTypes = {};
 
 function DetailProduct(props) {
-  console.log('hee');
+  const params = useParams();
+  const { id } = params;
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    (async () => {
+      const res = await productsApi.getProduct(id);
+      console.log('product (id)', res);
+      setProduct(res.data.data);
+    })();
+  }, [id]);
+
   return (
-    <div className="border border-yellow-300 mx-[24px] h-[1400px] ">
+    <div className="  h-[1400px] max-w-[1200px] mx-auto py-[24px]">
       <div className="py-0 px-4 lg:flex lg:py-0 lg:px-0 lg:justify-center lg:items-center  ">
-        <div className="">{/* <img src={detail} alt="detail-product" /> */}</div>
+        <div className="">
+          <img src={product?.imageProduct[0].url} alt="detail-product" />
+        </div>
         <div>
           <div>
-            <h1 className="text-3xl font-semibold	">Apple Watch SE 2022 40mm viền nhôm dây silicone</h1>
-            <div className="my-4 mx-0 text-[#f61900] text-2xl font-bold leading-7	">5.940.000đ</div>
-            <span className="font-normal text-base">
-              Đo nhịp tim, Tính lượng Calories tiêu thụ, Đếm số bước chân, Tính quãng đường chạy, Chế độ luyện tập, Phát
-              hiện té ngã, Báo thức, Nghe nhạc với tai nghe Bluetooth, Gọi điện trên đồng hồ, Từ chối cuộc gọi, Dự báo
-              thời tiết, La bàn, Điều khiển chơi nhạc, Thay mặt đồng hồ.
-            </span>
+            <h1 className="text-3xl font-semibold	">{product?.nameProduct}</h1>
+            <div className="my-4 mx-0 text-primary-yelow text-2xl font-bold leading-7	">
+              {formatPrice(product?.price)}
+            </div>
+            <span className="font-normal text-base">{product.shortDescription}</span>
             <div className="flex items-center justify-start gap-2 my-8 mx-0">
               <div className="p-[20px] rounded-lg">x</div>
               <div>x</div>

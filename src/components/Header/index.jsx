@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import cart from '../../assets/image/cart.png';
 import logo from '../../assets/image/logo.png';
 import menu from '../../assets/image/menu.png';
@@ -13,7 +13,7 @@ function Header(props) {
   const [loginCheck, setLoginCheck] = useState(false);
   const [checkProfile, setCheckProfile] = useState(false);
 
-  console.log('menu: ', menuCheck);
+  const navigate = useNavigate();
 
   return (
     <div className="h-24 bg-black flex flex-row justify-between items-center px-6 relative">
@@ -21,12 +21,18 @@ function Header(props) {
         <div className=" lg:hidden w-[32px] h-full cursor-pointer hover:scale-125">
           <img src={menu} alt="" onClick={() => setMenuCheck(!menuCheck)} />
         </div>
-        <img src={logo} alt="logo" srcSet="" className="h-[70px] min-w-[140px]" />
+        <img
+          src={logo}
+          alt="logo"
+          srcSet=""
+          className="h-[70px] min-w-[140px] cursor-pointer"
+          onClick={() => navigate('/')}
+        />
       </div>
       {menuCheck && <ModalNav />}
       <ul className=" basis-3/6  justify-center items-center gap-6 font-bold text-[18px] hidden lg:flex ">
         <li>
-          <Link>Trang Chủ</Link>
+          <Link to="/">Trang Chủ</Link>
         </li>
         <li>
           <Link>Sản Phẩm</Link>

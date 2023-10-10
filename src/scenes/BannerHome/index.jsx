@@ -1,15 +1,15 @@
 import Slider from 'react-slick';
 
-Banner.propTypes = {};
+BannerHome.propTypes = {};
 
-function Banner({ listImage, slidesToShow }) {
+function BannerHome({ listImage }) {
   var settings = {
     dots: false,
     infinite: true,
     speed: 500,
     autoplay: true,
     autoplaySpeed: 2000,
-    slidesToShow: slidesToShow,
+    slidesToShow: 1,
     slidesToScroll: 1,
   };
   return (
@@ -18,7 +18,7 @@ function Banner({ listImage, slidesToShow }) {
         listImage.map((item) => {
           return (
             <div key={item.id}>
-              <img src={item.image} alt="" className=" w-full" />
+              <img src={item.image} alt="" className="w-full" />
             </div>
           );
         })}
@@ -26,4 +26,4 @@ function Banner({ listImage, slidesToShow }) {
   );
 }
 
-export default Banner;
+export default BannerHome;
