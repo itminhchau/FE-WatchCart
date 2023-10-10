@@ -5,6 +5,8 @@ import Contact from 'scenes/Contact';
 import ShipDetailForm from 'scenes/form/ShipDetailForm';
 import Home from 'scenes/Home';
 import Product from 'scenes/Product';
+import DetailProduct from 'scenes/Product/components/DetailProduct';
+import Shipment from 'scenes/Shipment';
 
 function App() {
   return (
@@ -13,9 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Product />} />
+        <Route path="/shipment" element={<Shipment />} />
       </Routes>
-      <Cart />
-      {/* <Contact /> */}
     </div>
   );
 }

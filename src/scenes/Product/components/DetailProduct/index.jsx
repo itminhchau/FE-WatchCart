@@ -1,30 +1,63 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import detail from '../../../../assets/image/detail-product.jpg';
 DetailProduct.propTypes = {};
-
+const chooseColor = [
+  {
+    id: 1,
+    name: 'p-[20px] rounded-lg shadow-lg bg-[#ecebe9] my-0 mx-[5px] cursor-pointer capitalize',
+  },
+  {
+    id: 2,
+    name: 'p-[20px] rounded-lg shadow-lg bg-black my-0 mx-[5px] cursor-pointer capitalize',
+  },
+  {
+    id: 3,
+    name: 'p-[20px] rounded-lg shadow-lg bg-[#e1dbd3] my-0 mx-[5px] cursor-pointer capitalize',
+  },
+];
+const active = {
+  border: '2px solid ',
+  borderColor: '#eba81d',
+};
+const inactive = {};
 function DetailProduct(props) {
-  console.log('hee');
+  const [isActive, setIsActive] = useState(1);
+  const handleActive = (id) => {
+    setIsActive(id);
+  };
   return (
-    <div className="border border-yellow-300 mx-[24px] h-[1400px] ">
-      <div className="py-0 px-4 lg:flex lg:py-0 lg:px-0 lg:justify-center lg:items-center  ">
-        <div className="">{/* <img src={detail} alt="detail-product" /> */}</div>
+    <div className=" py-8 lg:py-0 mb-[40px] ">
+      <div className="py-0 px-4 lg:px-32 lg:flex lg:justify-center lg:items-center gap-x-8 ">
+        <div className="  shadow-sm shadow-white ">
+          <img src={detail} alt="detail-product" className=" lg:max-w-lg " />
+        </div>
         <div>
-          <div>
-            <h1 className="text-3xl font-semibold	">Apple Watch SE 2022 40mm viền nhôm dây silicone</h1>
-            <div className="my-4 mx-0 text-[#f61900] text-2xl font-bold leading-7	">5.940.000đ</div>
+          <div className=" ">
+            <h1 className="text-3xl font-semibold pt-[20px]	">Apple Watch SE 2022 40mm viền nhôm dây silicone</h1>
+            <div className="my-4 mx-0  text-2xl font-bold leading-7 text-primary-yelow">5.940.000đ</div>
             <span className="font-normal text-base">
               Đo nhịp tim, Tính lượng Calories tiêu thụ, Đếm số bước chân, Tính quãng đường chạy, Chế độ luyện tập, Phát
               hiện té ngã, Báo thức, Nghe nhạc với tai nghe Bluetooth, Gọi điện trên đồng hồ, Từ chối cuộc gọi, Dự báo
               thời tiết, La bàn, Điều khiển chơi nhạc, Thay mặt đồng hồ.
             </span>
-            <div className="flex items-center justify-start gap-2 my-8 mx-0">
-              <div className="p-[20px] rounded-lg">x</div>
-              <div>x</div>
-              <div>x</div>
+            <div className="flex items-center justify-start gap-2 mt-4 mx-0 text-sm ">
+              {chooseColor &&
+                chooseColor.length > 0 &&
+                chooseColor.map((item) => (
+                  <div
+                    key={item.id}
+                    className={item.name}
+                    onClick={() => handleActive(item.id)}
+                    style={isActive === item.id ? active : inactive}
+                  ></div>
+                ))}
             </div>
             <div>
-              <div className="w-[100%] sm:w-[30%]">
+              <div className="w-[100%] sm:w-[300px] mt-5">
                 <a
                   href="/"
-                  className="flex items-center justify-center gap-x-[10px] h-[50px] text-white bg-[#f61900] font-semibold rounded-md	text-[17px] hover:bg-[#05c3ff] duration-200 "
+                  className="flex items-center justify-center gap-x-[10px] h-[50px] text-white bg-primary-yelow font-semibold rounded-md	text-[17px] hover:bg-[#05c3ff] duration-200 "
                 >
                   <svg
                     stroke="currentColor"
@@ -44,11 +77,11 @@ function DetailProduct(props) {
           </div>
         </div>
       </div>
-      <div className="mt-[40px] ">
+      <div className="mt-[40px] py-0 px-4 lg:px-32 sm:pb-[10px]">
         <div className="pl-[40px] text-2xl font-semibold mb-[30px] ">
           <h1>Thông tin chi tiết</h1>
         </div>
-        <div className="py-0 px-4 text-sm font-normal ">
+        <div className=" text-sm font-normal  ">
           <p className="mb-[15px]">Màn hình OLED luôn hiển thị</p>
           <p className="mb-[15px]">
             Màn hình hiển thị sắc nét, màu sắc chân thực ngay cả dưới trời nắng gắt. Tính năng luôn bật sáng màn hình
