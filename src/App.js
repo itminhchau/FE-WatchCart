@@ -1,12 +1,9 @@
 import Header from 'components/Header';
 import { Route, Routes } from 'react-router-dom';
-import Cart from 'scenes/Cart';
-import Contact from 'scenes/Contact';
-import ShipDetailForm from 'scenes/form/ShipDetailForm';
 import Home from 'scenes/Home';
 import Product from 'scenes/Product';
 import DetailProduct from 'scenes/Product/components/DetailProduct';
-import ItemProduct from 'scenes/Product/components/ItemProduct';
+import Shipment from 'scenes/Shipment';
 
 function App() {
   return (
@@ -16,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Product />} />
         <Route path="/products/:id" element={<DetailProduct />} />
+        <Route path="/shipment" element={<Shipment />} />
       </Routes>
     </div>
   );
