@@ -11,6 +11,12 @@ module.exports = {
         'primary-yelow': '#eba81d',
         'primary-gray': '#333333',
       },
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        '4-8': 'repeat(1, 4fr 8fr)',
+
+        // Complex site-specific column configuratio
+      },
     },
   },
   plugins: [],

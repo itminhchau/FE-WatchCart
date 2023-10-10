@@ -1,32 +1,19 @@
+import colorApi from 'api/colorApi';
 import productsApi from 'api/productsApi';
 import { formatPrice } from 'constants/common';
-import { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 DetailProduct.propTypes = {};
-const chooseColor = [
-  {
-    id: 1,
-    name: 'p-[20px] rounded-lg shadow-lg bg-[#ecebe9] my-0 mx-[5px] cursor-pointer capitalize',
-  },
-  {
-    id: 2,
-    name: 'p-[20px] rounded-lg shadow-lg bg-black my-0 mx-[5px] cursor-pointer capitalize',
-  },
-  {
-    id: 3,
-    name: 'p-[20px] rounded-lg shadow-lg bg-[#e1dbd3] my-0 mx-[5px] cursor-pointer capitalize',
-  },
-];
-const active = {
-  border: '2px solid ',
-  borderColor: '#eba81d',
-};
-const inactive = {};
+
 function DetailProduct(props) {
+  const [listColor, setListColor] = useState('');
+  const [product, setProduct] = useState();
+  const [isActive, setIsActive] = useState(0);
   const params = useParams();
   const { id } = params;
-  const [product, setProduct] = useState({});
+
   useEffect(() => {
     (async () => {
       const res = await productsApi.getProduct(id);
@@ -35,36 +22,79 @@ function DetailProduct(props) {
     })();
   }, [id]);
 
-  const [isActive, setIsActive] = useState(1);
   const handleActive = (id) => {
     setIsActive(id);
   };
+
+  const urlProduct = useMemo(() => {
+    return product && product.imageProduct ? product.imageProduct[0].url : '';
+  }, [product]);
+
+  const arrayIdColor = useMemo(() => {
+    if (!product) {
+      return;
+    }
+    const newArray = product.imageProduct.map((item) => {
+      return item.idColor;
+    });
+    return newArray;
+  }, [product]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await colorApi.getAll();
+      setListColor(res.data.data);
+    })();
+  }, []);
+
+  const listColorOfProduct = useMemo(() => {
+    if (!listColor || !arrayIdColor) {
+      return;
+    }
+    let newData = [];
+    for (let i = 0; i < arrayIdColor.length; i++) {
+      listColor?.forEach((element) => {
+        if (element.id === arrayIdColor[i]) {
+          newData.push({
+            id: element.id,
+            hexCode: element.hexCode,
+          });
+        }
+      });
+    }
+    return newData;
+  }, [arrayIdColor, listColor]);
+
+  const safeDescription = DOMPurify.sanitize(product?.description);
+  const mark = { __html: safeDescription };
   return (
-    <div className=" py-8 lg:py-0 mb-[40px] ">
-      <div className="py-0 px-4 lg:px-32 lg:flex lg:justify-center lg:items-center gap-x-8 ">
-        <div className="  shadow-sm shadow-white ">
-          {/* <img src={detail} alt="detail-product" className=" lg:max-w-lg " /> */}
+    <div className="  lg:py-0 mb-[40px] ">
+      <div className="py-[24px] px-4 lg:px-32 lg:flex lg:justify-center lg:items-center gap-x-8 ">
+        <div className="  shadow-sm shadow-white  w-full h-full rounded-3xl border-1 bg-white overflow-hidden">
+          <img src={urlProduct} alt="" className=" lg:max-w-lg hover:scale-110 ease-in duration-300" />
         </div>
         <div>
           <div className=" ">
-            <h1 className="text-3xl font-semibold pt-[20px]	">Apple Watch SE 2022 40mm viền nhôm dây silicone</h1>
-            <div className="my-4 mx-0  text-2xl font-bold leading-7 text-primary-yelow">5.940.000đ</div>
-            <span className="font-normal text-base">
-              Đo nhịp tim, Tính lượng Calories tiêu thụ, Đếm số bước chân, Tính quãng đường chạy, Chế độ luyện tập, Phát
-              hiện té ngã, Báo thức, Nghe nhạc với tai nghe Bluetooth, Gọi điện trên đồng hồ, Từ chối cuộc gọi, Dự báo
-              thời tiết, La bàn, Điều khiển chơi nhạc, Thay mặt đồng hồ.
-            </span>
-            <div className="flex items-center justify-start gap-2 mt-4 mx-0 text-sm ">
-              {chooseColor &&
-                chooseColor.length > 0 &&
-                chooseColor.map((item) => (
-                  <div
-                    key={item.id}
-                    className={item.name}
-                    onClick={() => handleActive(item.id)}
-                    style={isActive === item.id ? active : inactive}
-                  ></div>
-                ))}
+            <h1 className="text-3xl font-semibold pt-[20px]	">{product?.nameProduct}</h1>
+            <div className="my-4 mx-0  text-2xl font-bold leading-7 text-primary-yelow">
+              {formatPrice(product?.price)}
+            </div>
+            <span className="font-normal text-base">{product?.shortDescription}</span>
+            <div className="flex items-center justify-start gap-2 mt-4 mx-0 text-sm w-fit p-[16px] bg-white rounded-xl">
+              {listColorOfProduct &&
+                listColorOfProduct.length > 0 &&
+                listColorOfProduct.map((item) => {
+                  return (
+                    <div
+                      key={item.id}
+                      style={{ backgroundColor: `${item.hexCode}` }}
+                      className={`p-[20px] rounded-lg shadow-lg  my-0 mx-[5px] cursor-pointer capitalize ${
+                        isActive === item.id ? 'border-2 border-primary-yelow ' : ''
+                      }`}
+                      onClick={() => handleActive(item.id)}
+                    ></div>
+                  );
+                })}
             </div>
             <div>
               <div className="w-[100%] sm:w-[300px] mt-5">
@@ -94,18 +124,7 @@ function DetailProduct(props) {
         <div className="pl-[40px] text-2xl font-semibold mb-[30px] ">
           <h1>Thông tin chi tiết</h1>
         </div>
-        <div className=" text-sm font-normal  ">
-          <p className="mb-[15px]">Màn hình OLED luôn hiển thị</p>
-          <p className="mb-[15px]">
-            Màn hình hiển thị sắc nét, màu sắc chân thực ngay cả dưới trời nắng gắt. Tính năng luôn bật sáng màn hình
-            xem giờ tiện lợi ngay cả khi đang lái xe. Bên cạnh đó, màn hình sẽ tự động giảm độ sáng khi không cần thiết
-            để tăng tối đa thời lượng pin.
-          </p>
-          <p className="mb-[15px]">Định vị chính xác bằng GPS và la bàn</p>
-          <div className="mb-[15px]">
-            Định vị GPS định vị với độ chính xác cao vị trí của bạn, giúp dễ dàng tính toán lộ trình luyện tập.
-          </div>
-        </div>
+        <div className=" text-sm font-normal  " dangerouslySetInnerHTML={mark}></div>
       </div>
     </div>
   );
