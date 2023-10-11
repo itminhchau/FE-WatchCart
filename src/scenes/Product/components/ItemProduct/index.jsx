@@ -17,7 +17,7 @@ function ItemProduct({ product }) {
   };
   return (
     <div
-      className=" overflow-hidden text-black bg-white max-w-full md:max-w-[285px]  flex flex-col justify-center items-center border-[1px] border-white rounded-[10px] p-[8px] box-border"
+      className=" overflow-hidden text-black bg-white  max-w-full md:max-w-[285px]  flex flex-col justify-center items-center border-[1px] border-white rounded-[10px] p-[8px] box-border"
       onClick={() => handleClickNavigate(product.id)}
     >
       <img

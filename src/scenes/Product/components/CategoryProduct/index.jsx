@@ -48,7 +48,7 @@ function CategoryProduct() {
       idBrand: id,
     });
   };
-
+  console.log(listProduct);
   return (
     <div className=" mx-[24px]">
       <div className=" my-[18px] flex justify-start gap-4 items-center">
@@ -79,7 +79,7 @@ function CategoryProduct() {
       </div>
       <div className=" grid gap-[16px] grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
         {listProduct.map((item) => {
-          return <ItemProduct product={item} />;
+          return <ItemProduct key={item.id} product={item} />;
         })}
       </div>
     </div>
