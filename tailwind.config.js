@@ -10,10 +10,11 @@ module.exports = {
         'primary-white': '#fff',
         'primary-yelow': '#eba81d',
         'primary-gray': '#333333',
+        'icon-triangle': 'transparent transparent #fff transparent',
       },
       gridTemplateColumns: {
         // Simple 16 column grid
-        '4-8': 'repeat(1, 4fr 8fr)',
+        '1-4-1': 'repeat(1, 1fr 4fr 1fr)',
 
         // Complex site-specific column configuratio
       },

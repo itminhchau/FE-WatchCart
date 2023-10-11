@@ -1,6 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import dongho from '../../../../assets/image/dongho.png';
 import { Rating } from '@mui/material';
 import { formatPrice } from 'constants/common';
 import { useNavigate } from 'react-router-dom';

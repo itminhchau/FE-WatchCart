@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { hideMiniCart, showMiniCart } from 'scenes/Cart/cartSlice';
+import ModalCart from 'scenes/Cart/components/ModalCart';
 import cart from '../../assets/image/cart.png';
 import logo from '../../assets/image/logo.png';
 import menu from '../../assets/image/menu.png';
@@ -12,8 +15,34 @@ function Header(props) {
   const [menuCheck, setMenuCheck] = useState(false);
   const [loginCheck, setLoginCheck] = useState(false);
   const [checkProfile, setCheckProfile] = useState(false);
+  const dispatch = useDispatch();
+  const isShowCart = useSelector((state) => state.cart.showCart);
 
   const navigate = useNavigate();
+  console.log(isShowCart);
+  const modalCartRef = useRef(null);
+  const modalProfileRef = useRef(null);
+  const modalMenuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (modalCartRef.current && !modalCartRef.current.contains(event.target)) {
+        dispatch(hideMiniCart());
+      }
+      if (modalProfileRef.current && !modalProfileRef.current.contains(event.target)) {
+        setCheckProfile(false);
+      }
+      if (modalMenuRef.current && !modalMenuRef.current.contains(event.target)) {
+        setMenuCheck(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      console.log('xoa dom');
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="h-24 bg-black flex flex-row justify-between items-center px-6 relative">
@@ -29,7 +58,7 @@ function Header(props) {
           onClick={() => navigate('/')}
         />
       </div>
-      {menuCheck && <ModalNav />}
+      {menuCheck && <ModalNav modalMenuRef={modalMenuRef} />}
       <ul className=" basis-3/6  justify-center items-center gap-6 font-bold text-[18px] hidden lg:flex ">
         <li>
           <Link to="/">Trang Chủ</Link>
@@ -44,9 +73,15 @@ function Header(props) {
           <Link>Liên Hệ</Link>
         </li>
       </ul>
-      <div className=" basis-1/6 font-bold flex justify-end items-center mr-4">
+      <div className=" basis-1/6 font-bold flex justify-end items-center mr-4 ">
         <div className=" relative">
-          <img src={cart} alt="" srcSet="" className=" h-[24px] w-[24px] " />
+          <img
+            src={cart}
+            alt=""
+            srcSet=""
+            className=" h-[24px] w-[24px] cursor-pointer"
+            onClick={() => dispatch(showMiniCart())}
+          />
           <span className=" bg-primary-yelow  h-[24px] w-[24px] text-center block text-white  absolute top-[-18px] right-[-18px] rounded-full">
             12
           </span>
@@ -63,11 +98,12 @@ function Header(props) {
             <div className="flex justify-between items-center gap-4 relative">
               <img src={profile} alt="" onClick={() => setCheckProfile(!checkProfile)} />
               <span className=" hidden lg:block">Dao Minh Chau</span>
-              {checkProfile && <ModalProfile />}
+              {checkProfile && <ModalProfile modalProfileRef={modalProfileRef} />}
             </div>
           )}
         </div>
       </div>
+      {isShowCart && <ModalCart modalCartRef={modalCartRef} />}
     </div>
   );
 }

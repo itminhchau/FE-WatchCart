@@ -1,7 +1,5 @@
-import React from 'react';
-import logo from '../../assets/image/logo.png';
-import chungnhan from '../../assets/image/chung-nhan-1.webp';
 import baohanh from '../../assets/image/bao-hanh.webp';
+import chungnhan from '../../assets/image/chung-nhan-1.webp';
 const Footer = () => {
   return (
     <div className="px-4 pt-[4px] mt-[20px] bg-black lg:flex lg:justify-around lg:items-center">

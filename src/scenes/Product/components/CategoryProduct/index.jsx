@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import ItemProduct from '../ItemProduct';
+import brandApi from 'api/brandApi';
+import productsApi from 'api/productsApi';
+import { useEffect, useState } from 'react';
 import apple from '../../../../assets/image/apple.png';
 import samsung from '../../../../assets/image/samsung.png';
 import xiaomi from '../../../../assets/image/xiaomi.png';
-import brandApi from 'api/brandApi';
-import productsApi from 'api/productsApi';
+import ItemProduct from '../ItemProduct';
 
 CategoryProduct.propTypes = {};
 
 function CategoryProduct() {
-  const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const [listBrand, setListBrand] = useState();
   const [idBrand, setIdBrand] = useState({ idBrand: 1 });
   const [listProduct, setListProduct] = useState([]);

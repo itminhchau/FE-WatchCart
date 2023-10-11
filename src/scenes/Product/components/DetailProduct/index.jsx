@@ -1,9 +1,13 @@
 import colorApi from 'api/colorApi';
+import imageProductApi from 'api/imageProductApi';
 import productsApi from 'api/productsApi';
+import QuantityButton from 'components/QuantityButton';
 import { formatPrice } from 'constants/common';
 import DOMPurify from 'dompurify';
 import { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { addTocart, showMiniCart } from 'scenes/Cart/cartSlice';
 
 DetailProduct.propTypes = {};
 
@@ -11,25 +15,44 @@ function DetailProduct(props) {
   const [listColor, setListColor] = useState('');
   const [product, setProduct] = useState();
   const [isActive, setIsActive] = useState(0);
+  const [image, setImage] = useState({});
   const params = useParams();
   const { id } = params;
 
+  const dispatch = useDispatch();
+
+  // get product by id
   useEffect(() => {
     (async () => {
       const res = await productsApi.getProduct(id);
-      // console.log('product (id)', res);
       setProduct(res.data.data);
     })();
   }, [id]);
 
-  const handleActive = (id) => {
-    setIsActive(id);
+  // active button choose color
+  const handleActive = async (idColor) => {
+    setIsActive(idColor);
+    const res = await imageProductApi.getImage({
+      idColor: idColor,
+      idProduct: parseInt(id),
+    });
+    setImage({
+      id: res.data.data.id,
+      url: res.data.data.url,
+    });
   };
 
-  const urlProduct = useMemo(() => {
-    return product && product.imageProduct ? product.imageProduct[0].url : '';
+  // set image when product change
+  useEffect(() => {
+    const url = product && product.imageProduct ? product.imageProduct[0].url : '';
+    const id = product && product.imageProduct ? product.imageProduct[0].id : '';
+    setImage({
+      id,
+      url,
+    });
   }, [product]);
 
+  // return new array container idColor
   const arrayIdColor = useMemo(() => {
     if (!product) {
       return;
@@ -40,6 +63,7 @@ function DetailProduct(props) {
     return newArray;
   }, [product]);
 
+  // get all color
   useEffect(() => {
     (async () => {
       const res = await colorApi.getAll();
@@ -47,6 +71,7 @@ function DetailProduct(props) {
     })();
   }, []);
 
+  // return list color of product in detail product
   const listColorOfProduct = useMemo(() => {
     if (!listColor || !arrayIdColor) {
       return;
@@ -65,13 +90,30 @@ function DetailProduct(props) {
     return newData;
   }, [arrayIdColor, listColor]);
 
+  // add product to cart
+  const handleAddToCart = (value) => {
+    const newProduct = {
+      id: parseInt(id),
+      product: {
+        id: parseInt(id),
+        nameProduct: product?.nameProduct,
+        imageProduct: image,
+        price: product?.price,
+      },
+      quantity: value,
+    };
+    dispatch(addTocart(newProduct));
+    dispatch(showMiniCart());
+  };
+
+  //
   const safeDescription = DOMPurify.sanitize(product?.description);
   const mark = { __html: safeDescription };
   return (
     <div className="  lg:py-0 mb-[40px] ">
       <div className="py-[24px] px-4 lg:px-32 lg:flex lg:justify-center lg:items-center gap-x-8 ">
         <div className="  shadow-sm shadow-white  w-full h-full rounded-3xl border-1 bg-white overflow-hidden">
-          <img src={urlProduct} alt="" className=" lg:max-w-lg hover:scale-110 ease-in duration-300" />
+          <img src={image.url} alt="" className=" lg:max-w-lg hover:scale-110 ease-in duration-300" />
         </div>
         <div>
           <div className=" ">
@@ -95,8 +137,9 @@ function DetailProduct(props) {
                     ></div>
                   );
                 })}
+              <QuantityButton onSubmit={handleAddToCart} />
             </div>
-            <div>
+            {/* <div>
               <div className="w-[100%] sm:w-[300px] mt-5">
                 <a
                   href="/"
@@ -116,7 +159,7 @@ function DetailProduct(props) {
                   <div>Cho vào giỏ hàng</div>
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

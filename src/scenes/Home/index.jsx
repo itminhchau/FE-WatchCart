@@ -4,7 +4,6 @@ import listImageHomeBanner from 'mockData/listImageHomeBanner';
 import BannerBrand from 'scenes/BannerBrand';
 import BannerHome from 'scenes/BannerHome';
 import CategoryProduct from 'scenes/Product/components/CategoryProduct';
-import ItemProduct from 'scenes/Product/components/ItemProduct';
 
 Home.propTypes = {};
 

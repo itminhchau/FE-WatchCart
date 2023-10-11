@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 
 ModalNav.propTypes = {};
 
-function ModalNav(props) {
+function ModalNav({ modalMenuRef }) {
   return (
-    <div className="absolute top-[96px] left-0 lg:hidden">
+    <div ref={modalMenuRef} className="absolute top-[96px] left-0 lg:hidden z-10">
       <ul className="w-[220px] font-bold text-[14px] bg-primary-gray text-primary-white text-center ">
         <li className=" py-2 border-b hover:bg-primary-yelow ">
-          <Link>Trang Chủ</Link>
+          <Link to="/">Trang Chủ</Link>
         </li>
         <li className=" py-2 border-b hover:bg-primary-yelow ">
-          <Link>Sản Phẩm</Link>
+          <Link to="/products">Sản Phẩm</Link>
         </li>
         <li className=" py-2 border-b hover:bg-primary-yelow">
           <Link>Tin Tức</Link>

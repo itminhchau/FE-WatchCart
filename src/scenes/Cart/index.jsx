@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import cart from '../../assets/image/detail-product.jpg';
 import cartEmpty from '../../assets/image/cart-empty.webp';
 const Cart = () => {
-  const [totalProduct, setTotalProduct] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [cartIsEmpty, setCartIsEmpty] = useState(false);
 
   const handleAddClick = () => {
-    setTotalProduct((add) => add + 1);
+    setQuantity((add) => add + 1);
   };
   const handleSubtractClick = () => {
-    if (totalProduct === 1) {
-      return 1;
+    if (quantity === 1) {
+      setQuantity(1);
     }
-    setTotalProduct((sub) => sub - 1);
+    setQuantity((sub) => sub - 1);
   };
   const handleRemoveProduct = () => {
     setCartIsEmpty(!cartIsEmpty);
@@ -41,7 +41,7 @@ const Cart = () => {
                 <h1 className="text-2xl font-medium">Giỏ hàng của bạn</h1>
                 <div className="text-gray-200">
                   Bạn đang có
-                  <span className="font-medium text-white"> {totalProduct} sản phẩm </span>
+                  <span className="font-medium text-white"> {quantity} sản phẩm </span>
                   trong giỏ hàng
                 </div>
               </div>
@@ -69,7 +69,7 @@ const Cart = () => {
                     <div className="text-[14px] mt-[10px] text-black">5.940.000đ</div>
                   </div>
                   <div className="">
-                    <div className="text-[14px] font-medium text-black">{5940000 * totalProduct}đ</div>
+                    <div className="text-[14px] font-medium text-black">{5940000 * quantity}đ</div>
                     <div className="flex items-center justify-between mt-1">
                       <button className="">
                         <i
@@ -77,7 +77,7 @@ const Cart = () => {
                           className="fa-solid fa-minus text-gray-900 text-[14px] hover:text-primary-yelow duration-150	"
                         ></i>
                       </button>
-                      <div className="text-primary-yelow">{totalProduct}</div>
+                      <div className="text-primary-yelow">{quantity}</div>
                       <button className="">
                         <i
                           onClick={() => handleAddClick()}
@@ -93,7 +93,7 @@ const Cart = () => {
               <div className="bg-[#fff] py-2 px-2 lg:py-[30px] lg:px-[10px] rounded-md ">
                 <div className="flex justify-between mb-[7px] lg:mx-[30px] ">
                   <div className="text-black font-bold sm:text-[18px]">Tổng tiền:</div>
-                  <div className="text-primary-yelow font-semibold sm:text-[18px]">{5940000 * totalProduct}đ</div>
+                  <div className="text-primary-yelow font-semibold sm:text-[18px]">{5940000 * quantity}đ</div>
                 </div>
                 <div className="border-t-2 pt-[15px] lg:px-[70px]">
                   <div className="text-[14px] text-gray-600">
