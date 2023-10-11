@@ -65,18 +65,9 @@ function CategoryProduct() {
               </div>
             );
           })}
-
-        {/* <div>
-          <img src={samsung} alt="" className="w-[60px] h-[60px] cursor-pointer hover:scale-110 ease-in duration-300" />
-          <span> samsung watch</span>
-        </div>
-        <div>
-          <img src={xiaomi} alt="" className="w-[60px] h-[60px] cursor-pointer hover:scale-110 ease-in duration-300" />
-          <span> xiaomi watch</span>
-        </div> */}
       </div>
       <div className=" grid gap-[16px] grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
-        {listProduct.map((item) => {
+        {listProduct?.map((item) => {
           return <ItemProduct key={item.id} product={item} />;
         })}
       </div>

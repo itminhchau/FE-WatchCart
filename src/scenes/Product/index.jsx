@@ -1,15 +1,12 @@
+import { Pagination } from '@mui/material';
 import productsApi from 'api/productsApi';
 import { useEffect, useState } from 'react';
-import productImg from '../../assets/image/detail-product.jpg';
-import { formatPrice } from '../../constants/common';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Pagination } from '@mui/material';
 import ItemProduct from './components/ItemProduct';
 Product.propTypes = {};
 
 function Product(props) {
   const [listAllProduct, setListAllProduct] = useState([]);
-  const [total, setTotal] = useState();
+  const [total, setTotal] = useState('');
   const [filter, setFilter] = useState({
     page: 1,
     limit: 12,
@@ -48,10 +45,9 @@ function Product(props) {
             <Pagination
               onChange={handleOnChangePage}
               sx={{ margin: '16px 0 0 0' }}
-              page={filter.page}
-              count={totalPages}
+              page={filter.page || 1}
+              count={totalPages || 10}
               color="primary"
-              // disabled={filter.page === 1 || filter.page >= totalPages}
             />
           </div>
         </div>
