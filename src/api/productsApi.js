@@ -1,9 +1,11 @@
 import axiosClient from './axiosClient';
 
 const productsApi = {
-  getAll() {
-    const url = '';
-    return axiosClient.get(url);
+  getAll(params) {
+    const url = `/api/v1/get/products`;
+    return axiosClient.get(url, {
+      params: params,
+    });
   },
   getProduct(id) {
     const url = `/api/v1/get-single/product/${id}`;

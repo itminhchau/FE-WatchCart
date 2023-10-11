@@ -64,7 +64,7 @@ function Header(props) {
           <Link to="/">Trang Chủ</Link>
         </li>
         <li>
-          <Link>Sản Phẩm</Link>
+          <Link to="/products">Sản Phẩm</Link>
         </li>
         <li>
           <Link>Tin Tức</Link>
