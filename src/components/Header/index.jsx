@@ -43,7 +43,6 @@ function Header(props) {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      console.log('xoa dom');
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dispatch]);
