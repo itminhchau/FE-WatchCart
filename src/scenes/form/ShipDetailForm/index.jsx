@@ -32,10 +32,6 @@ function ShipDetailForm({ onSubmit }) {
         message: 'Số điện thoại không hợp lệ',
         excludeEmptyString: false,
       }),
-      // .number()
-      // .positive('Bắt buộc là số')
-      // .required('Vui lòng nhập số điện thoại')
-      // .typeError('Bắt buộc là số'),
       address: yup.string().required('Vui lòng nhập địa chỉ'),
       province: yup.string().required('Vui lòng chọn Tỉnh/Thành phố'),
       district: yup.string().required('Vui lòng chọn Quận/Huyện'),

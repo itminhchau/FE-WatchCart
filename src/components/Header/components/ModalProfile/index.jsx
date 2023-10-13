@@ -1,4 +1,6 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logOut } from 'scenes/auth/userSlice';
 import addUser from '../../../../assets/image/add-user.png';
 import logout from '../../../../assets/image/logout.png';
 import profile from '../../../../assets/image/profile.png';
@@ -7,6 +9,10 @@ import setting from '../../../../assets/image/setting.png';
 ModalProfile.propTypes = {};
 
 function ModalProfile({ modalProfileRef }) {
+  const dispatch = useDispatch();
+  const handlLogout = () => {
+    dispatch(logOut());
+  };
   return (
     <div
       ref={modalProfileRef}
@@ -15,19 +21,19 @@ function ModalProfile({ modalProfileRef }) {
       <ul className=" font-bold text-[14px] text-primary-white text-center">
         <li className=" p-2 border-b hover:bg-primary-yelow flex justify-start gap-4 items-center">
           <img src={profile} alt="" className="w-[18px] h-[18px]" />
-          <Link>My Profile</Link>
+          <Link>Hồ sơ của tôi</Link>
         </li>
         <li className=" p-2 border-b hover:bg-primary-yelow flex justify-start gap-4 items-center">
           <img src={addUser} alt="" className="w-[18px] h-[18px]" />
-          <Link>Add another account</Link>
+          <Link>Thêm tài khoản khác</Link>
         </li>
         <li className=" p-2 border-b hover:bg-primary-yelow flex justify-start gap-4 items-center">
           <img src={setting} alt="" className="w-[18px] h-[18px]" />
-          <Link>Setting</Link>
+          <Link>Cài đặt</Link>
         </li>
         <li className=" p-2  hover:bg-primary-yelow flex justify-start gap-4 items-center">
           <img src={logout} alt="" className="w-[18px] h-[18px]" />
-          <span>Logout</span>
+          <span onClick={handlLogout}>Đăng xuất</span>
         </li>
       </ul>
     </div>

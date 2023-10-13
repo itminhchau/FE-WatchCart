@@ -1,11 +1,11 @@
 import Header from 'components/Header';
 import { Route, Routes } from 'react-router-dom';
+import Cart from 'scenes/Cart';
 import Footer from 'scenes/Footer';
 import Home from 'scenes/Home';
 import Product from 'scenes/Product';
 import DetailProduct from 'scenes/Product/components/DetailProduct';
 import Shipment from 'scenes/Shipment';
-import Cart from 'scenes/Cart';
 
 function App() {
   return (
@@ -18,7 +18,6 @@ function App() {
         <Route path="/shipment" element={<Shipment />} />
         <Route path="/cart" element={<Cart />} />
       </Routes>
-
       <Footer />
     </div>
   );
