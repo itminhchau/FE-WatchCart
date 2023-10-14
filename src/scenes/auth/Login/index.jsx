@@ -12,8 +12,9 @@ function Login({ onClose }) {
     try {
       const result = await dispatch(login(values));
       const user = unwrapResult(result);
-      onClose();
-      console.log(user);
+      if (user) {
+        onClose();
+      }
     } catch (error) {
       console.log('error login', error);
     }

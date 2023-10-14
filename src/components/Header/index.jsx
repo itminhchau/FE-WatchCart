@@ -20,7 +20,7 @@ function Header(props) {
   const dispatch = useDispatch();
   const isShowCart = useSelector((state) => state.cart.showCart);
   const user = useSelector((state) => state.user.current);
-  const loginSuccess = !!user.id;
+  const loginSuccess = user ? !!user.id : false;
 
   const navigate = useNavigate();
 
