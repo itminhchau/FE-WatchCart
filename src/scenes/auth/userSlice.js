@@ -4,6 +4,7 @@ import StorageKeys from 'constants/storage-keys';
 
 export const login = createAsyncThunk('users/login', async (payload, thunkAPI) => {
   const res = await userApi.login(payload);
+
   localStorage.setItem(StorageKeys.TOKEN, res.data.access_token);
   localStorage.setItem(StorageKeys.USER, JSON.stringify(res.data.customer));
   return res.data.customer;
