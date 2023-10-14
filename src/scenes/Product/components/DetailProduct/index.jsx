@@ -102,6 +102,7 @@ function DetailProduct(props) {
       },
       quantity: value,
     };
+    console.log('check new product', newProduct);
     dispatch(addTocart(newProduct));
     dispatch(showMiniCart());
   };

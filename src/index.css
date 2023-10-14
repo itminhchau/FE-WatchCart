@@ -17,7 +17,3 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-
-.slick-arrow {
-  display: none !important;
-}

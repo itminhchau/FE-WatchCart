@@ -12,6 +12,7 @@ function BannerBrand({ listImage }) {
     autoplaySpeed: 2000,
     slidesToShow: 4,
     slidesToScroll: 1,
+    arrows: false,
   };
   return (
     <div className="wrap-banner-brand mx-[24px]">
