@@ -3,7 +3,9 @@ import listImageBrand from 'mockData/listImageBrand';
 import listImageHomeBanner from 'mockData/listImageHomeBanner';
 import BannerBrand from 'scenes/BannerBrand';
 import BannerHome from 'scenes/BannerHome';
+import BestSellingProduct from 'scenes/Product/components/BestSellingProduct';
 import CategoryProduct from 'scenes/Product/components/CategoryProduct';
+import ProductNew from 'scenes/Product/components/ProductNew';
 
 Home.propTypes = {};
 
@@ -19,6 +21,10 @@ function Home(props) {
           subTitle="Những sản phẩm nổi tiếng với chất lượng hàng đầu được shop nhập về phục vụ quý khách hàng"
         />
         <CategoryProduct />
+        <TitleWeb title="SẢN PHẨM MỚI NHẤT" subTitle="Những sản phẩm mới nhất được cập nhật liên tục" />
+        <ProductNew />
+        <TitleWeb title="SẢN PHẨM BÁN CHẠY NHẤT" subTitle="Top những sản phẩm được ưa chuộng nhất" />
+        <BestSellingProduct />
       </div>
     </>
   );
