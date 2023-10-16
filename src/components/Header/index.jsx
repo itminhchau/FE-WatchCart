@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import cartApi from 'api/cartApi';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Login from 'scenes/auth/Login';
@@ -21,13 +22,15 @@ function Header(props) {
   const isShowCart = useSelector((state) => state.cart.showCart);
   const user = useSelector((state) => state.user.current);
   const loginSuccess = user ? !!user.id : false;
+  const [countItemCart, setCountItemCart] = useState(0);
+  const checkAddToCart = useSelector((state) => state.cart.checkAddToCart);
 
   const navigate = useNavigate();
 
   const modalCartRef = useRef(null);
   const modalProfileRef = useRef(null);
   const modalMenuRef = useRef(null);
-  console.log(user);
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (modalCartRef.current && !modalCartRef.current.contains(event.target)) {
@@ -50,6 +53,21 @@ function Header(props) {
   const handleCloseLogin = () => {
     setLoginCheck(false);
   };
+  const handleCheckProfile = () => {
+    setCheckProfile(!checkProfile);
+  };
+
+  // const handleSetCountItemCart = (value) => {
+  //   setCountItemCart(value);
+  // };
+  useEffect(() => {
+    (async () => {
+      const res = await cartApi.getAllCart({ idCustomer: user.id || '' });
+      if (res && res.data.errCode === 0) {
+        setCountItemCart(res.data.data.length);
+      }
+    })();
+  }, [checkAddToCart, user.id]);
   return (
     <>
       <div className="h-24 bg-black flex flex-row justify-between items-center px-6 relative">
@@ -90,7 +108,7 @@ function Header(props) {
               onClick={() => dispatch(showMiniCart())}
             />
             <span className=" bg-primary-yelow  h-[24px] w-[24px] text-center block text-white  absolute top-[-18px] right-[-18px] rounded-full">
-              12
+              {countItemCart}
             </span>
           </div>
         </div>
@@ -103,11 +121,11 @@ function Header(props) {
             )}
             {loginSuccess && (
               <div className="flex justify-between items-center gap-4 relative">
-                <img src={profile} alt="" onClick={() => setCheckProfile(!checkProfile)} />
+                <img src={profile} alt="" onClick={handleCheckProfile} />
                 <span className=" hidden lg:block">
                   {user.lastName} {user.firstName}
                 </span>
-                {checkProfile && <ModalProfile modalProfileRef={modalProfileRef} />}
+                {checkProfile && <ModalProfile modalProfileRef={modalProfileRef} onCheckProfile={handleCheckProfile} />}
               </div>
             )}
           </div>

@@ -4,19 +4,29 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideMiniCart } from 'scenes/Cart/cartSlice';
 import { formatPrice } from 'constants/common';
+import { useEffect, useState } from 'react';
+import cartApi from 'api/cartApi';
 
 ModalCart.propTypes = {};
 
-function ModalCart({ modalCartRef }) {
+function ModalCart({ modalCartRef, onSetCountItemCart }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) => state.cart.itemCart);
+  const user = useSelector((state) => state.user.current);
+  const checkAddToCart = useSelector((state) => state.cart.checkAddToCart);
+  const [listCart, setListCart] = useState([]);
   const handleNavigate = () => {
     navigate('/cart');
     dispatch(hideMiniCart());
   };
 
-  console.log('check cart item in modal', cartItem);
+  useEffect(() => {
+    (async () => {
+      const res = await cartApi.getAllCart({ idCustomer: user.id || '' });
+      setListCart(res.data.data);
+    })();
+  }, [checkAddToCart, user.id]);
+
   return (
     <div
       ref={modalCartRef}
@@ -24,14 +34,17 @@ function ModalCart({ modalCartRef }) {
     >
       <span className=" text-[20px] font-bold">Thông tin giỏ hàng</span>
       <ul className=" overflow-y-scroll mt-3 mb-3 min-h-[200px] max-h-[300px]">
-        {cartItem &&
-          cartItem.map((item) => {
+        {listCart &&
+          listCart.map((item) => {
             return (
-              <li key={item.id} className=" grid grid-cols-1-4-1 gap-2 bg-gray-200 p-[8px] rounded-xl my-[10px]">
-                <img src={item.product.imageProduct.url} alt="" className=" m-auto rounded-xl" />
+              <li
+                key={item.ImageProductId}
+                className=" grid grid-cols-1-4-1 gap-2 bg-gray-200 p-[8px] rounded-xl my-[10px]"
+              >
+                <img src={item.ImageProduct.url} alt="" className=" m-auto rounded-xl" />
                 <div className="flex flex-col justify-center items-start">
-                  <span className=" font-bold">{item.product.nameProduct}</span>
-                  <span>{formatPrice(item.product.price)}</span>
+                  <span className=" font-bold">{item.ImageProduct.imageProduct.nameProduct}</span>
+                  <span>{formatPrice(item.ImageProduct.imageProduct.price)}</span>
                 </div>
                 <div className="flex flex-col justify-center items-center gap-2">
                   <span>{item.quantity}</span>

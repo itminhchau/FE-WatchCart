@@ -6,7 +6,8 @@ import Home from 'scenes/Home';
 import Product from 'scenes/Product';
 import DetailProduct from 'scenes/Product/components/DetailProduct';
 import Shipment from 'scenes/Shipment';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <div className="App container mx-auto mb-2">
@@ -19,6 +20,18 @@ function App() {
         <Route path="/cart" element={<Cart />} />
       </Routes>
       <Footer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

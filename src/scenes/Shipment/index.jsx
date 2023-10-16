@@ -2,9 +2,7 @@ import React from 'react';
 import ShipDetailForm from 'scenes/form/ShipDetailForm';
 import cart from '../../assets/image/detail-product.jpg';
 function Shipment() {
-  const handleSubmit = (values) => {
-    console.log(values);
-  };
+  const handleSubmit = (values) => {};
   return (
     <div className="lg:flex lg:items-center lg:justify-center lg:gap-x-5  mt-[20px] mb-[20px] ">
       <div className="flex  flex-col-reverse  lg:flex lg:justify-center lg:flex-row  ">

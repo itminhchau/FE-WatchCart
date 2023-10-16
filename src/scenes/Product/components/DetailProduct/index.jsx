@@ -1,13 +1,16 @@
+import cartApi from 'api/cartApi';
 import colorApi from 'api/colorApi';
 import imageProductApi from 'api/imageProductApi';
 import productsApi from 'api/productsApi';
 import QuantityButton from 'components/QuantityButton';
 import { formatPrice } from 'constants/common';
+import StorageKeys from 'constants/storage-keys';
 import DOMPurify from 'dompurify';
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { addTocart, showMiniCart } from 'scenes/Cart/cartSlice';
+import { toast } from 'react-toastify';
+import { addTocart, changeWhenSentToCart, showMiniCart } from 'scenes/Cart/cartSlice';
 
 DetailProduct.propTypes = {};
 
@@ -18,6 +21,7 @@ function DetailProduct(props) {
   const [image, setImage] = useState({});
   const params = useParams();
   const { id } = params;
+  const user = useSelector((state) => state.user.current);
 
   const dispatch = useDispatch();
 
@@ -91,20 +95,28 @@ function DetailProduct(props) {
   }, [arrayIdColor, listColor]);
 
   // add product to cart
-  const handleAddToCart = (value) => {
+  const handleAddToCart = async (value) => {
     const newProduct = {
-      id: parseInt(id),
-      product: {
-        id: parseInt(id),
-        nameProduct: product?.nameProduct,
-        imageProduct: image,
-        price: product?.price,
-      },
+      idImageProduct: image.id,
+      idCustomer: user.id,
       quantity: value,
+      status: 'pending',
     };
-    console.log('check new product', newProduct);
-    dispatch(addTocart(newProduct));
-    dispatch(showMiniCart());
+    const token = localStorage.getItem(StorageKeys.TOKEN);
+    try {
+      const res = await cartApi.createCart(newProduct, token);
+      console.log('check res cart', res);
+      if (res.data.errCode === 0) {
+        dispatch(changeWhenSentToCart());
+      }
+    } catch (error) {
+      if (error.response.data.errCode === 3) {
+        toast.error(`${error.response.data.message}`);
+      }
+    }
+
+    // dispatch(addTocart(newProduct));
+    // dispatch(showMiniCart());
   };
 
   //

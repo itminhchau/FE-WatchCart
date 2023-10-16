@@ -8,10 +8,11 @@ import setting from '../../../../assets/image/setting.png';
 
 ModalProfile.propTypes = {};
 
-function ModalProfile({ modalProfileRef }) {
+function ModalProfile({ modalProfileRef, onCheckProfile }) {
   const dispatch = useDispatch();
   const handlLogout = () => {
     dispatch(logOut());
+    onCheckProfile();
   };
   return (
     <div
