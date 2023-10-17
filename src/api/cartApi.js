@@ -22,6 +22,10 @@ const cartApi = {
     const url = `/api/v1/delete/cart/${id}`;
     return axiosClient.delete(url);
   },
+  updateQuantityCart(data) {
+    const url = '/api/v1/update/quantity/cart';
+    return axiosClient.put(url, data);
+  },
 };
 
 export default cartApi;
