@@ -6,6 +6,7 @@ export const cartSlice = createSlice({
     showCart: false,
     itemCart: [],
     checkAddToCart: false,
+    checkDeleteItemCart: false,
   },
   reducers: {
     showMiniCart: (state) => {
@@ -16,6 +17,9 @@ export const cartSlice = createSlice({
     },
     changeWhenSentToCart: (state) => {
       state.checkAddToCart = !state.checkAddToCart;
+    },
+    changeWhenDeleteItemCart: (state) => {
+      state.checkDeleteItemCart = !state.checkDeleteItemCart;
     },
     // addTocart: (state, action) => {
     //   const newItem = action.payload;
@@ -45,5 +49,5 @@ export const cartSlice = createSlice({
 });
 
 export const { actions, reducer } = cartSlice;
-export const { showMiniCart, hideMiniCart, changeWhenSentToCart } = actions;
+export const { showMiniCart, hideMiniCart, changeWhenSentToCart, changeWhenDeleteItemCart } = actions;
 export default reducer;

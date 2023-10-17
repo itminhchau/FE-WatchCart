@@ -1,7 +1,9 @@
 import cartApi from 'api/cartApi';
+import StorageKeys from 'constants/storage-keys';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Login from 'scenes/auth/Login';
 import { hideMiniCart, showMiniCart } from 'scenes/Cart/cartSlice';
 import ModalCart from 'scenes/Cart/components/ModalCart';
@@ -24,6 +26,8 @@ function Header(props) {
   const loginSuccess = user ? !!user.id : false;
   const [countItemCart, setCountItemCart] = useState(0);
   const checkAddToCart = useSelector((state) => state.cart.checkAddToCart);
+  const token = localStorage.getItem(StorageKeys.TOKEN);
+  const checkDeleteItemCart = useSelector((state) => state.cart.checkDeleteItemCart);
 
   const navigate = useNavigate();
 
@@ -62,12 +66,18 @@ function Header(props) {
   // };
   useEffect(() => {
     (async () => {
-      const res = await cartApi.getAllCart({ idCustomer: user.id || '' });
-      if (res && res.data.errCode === 0) {
-        setCountItemCart(res.data.data.length);
+      try {
+        const res = await cartApi.getAllCart({ idCustomer: user.id || '' }, token);
+        if (res && res.data.errCode === 0) {
+          setCountItemCart(res.data.data.length);
+        }
+      } catch (error) {
+        if (error.response.data.errCode === 3) {
+          setCountItemCart(0);
+        }
       }
     })();
-  }, [checkAddToCart, user.id]);
+  }, [checkAddToCart, user.id, token, checkDeleteItemCart]);
   return (
     <>
       <div className="h-24 bg-black flex flex-row justify-between items-center px-6 relative">

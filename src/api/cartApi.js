@@ -9,11 +9,18 @@ const cartApi = {
       },
     });
   },
-  getAllCart(data) {
+  getAllCart(data, accessToken) {
     const url = '/api/v1/getall/cart';
     return axiosClient.get(url, {
       params: data,
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // Gửi mã thông báo truy cập trong header
+      },
     });
+  },
+  deleteItemCart(id) {
+    const url = `/api/v1/delete/cart/${id}`;
+    return axiosClient.delete(url);
   },
 };
 

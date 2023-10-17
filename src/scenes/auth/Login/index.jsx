@@ -9,6 +9,7 @@ Login.propTypes = {};
 function Login({ onClose }) {
   const dispatch = useDispatch();
   const handleSubmit = async (values) => {
+    console.log('value login', values);
     try {
       const result = await dispatch(login(values));
       const user = unwrapResult(result);

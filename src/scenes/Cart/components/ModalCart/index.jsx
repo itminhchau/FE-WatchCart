@@ -2,10 +2,12 @@ import imageProduct from 'assets/image/detail-product.jpg';
 import iconDelete from 'assets/image/delete.png';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideMiniCart } from 'scenes/Cart/cartSlice';
+import { changeWhenDeleteItemCart, hideMiniCart } from 'scenes/Cart/cartSlice';
 import { formatPrice } from 'constants/common';
 import { useEffect, useState } from 'react';
 import cartApi from 'api/cartApi';
+import StorageKeys from 'constants/storage-keys';
+import { toast } from 'react-toastify';
 
 ModalCart.propTypes = {};
 
@@ -13,8 +15,12 @@ function ModalCart({ modalCartRef, onSetCountItemCart }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.current);
+  const checkLogin = !!user.id;
   const checkAddToCart = useSelector((state) => state.cart.checkAddToCart);
   const [listCart, setListCart] = useState([]);
+  const token = localStorage.getItem(StorageKeys.TOKEN);
+  const checkDeleteItemCart = useSelector((state) => state.cart.checkDeleteItemCart);
+
   const handleNavigate = () => {
     navigate('/cart');
     dispatch(hideMiniCart());
@@ -22,10 +28,25 @@ function ModalCart({ modalCartRef, onSetCountItemCart }) {
 
   useEffect(() => {
     (async () => {
-      const res = await cartApi.getAllCart({ idCustomer: user.id || '' });
-      setListCart(res.data.data);
+      try {
+        const res = await cartApi.getAllCart({ idCustomer: user.id || '' }, token);
+        setListCart(res.data.data);
+      } catch (error) {
+        if (error.response.data.errCode === 3) {
+          toast.error(`${error.response.data.message}`);
+        }
+      }
     })();
-  }, [checkAddToCart, user.id]);
+  }, [checkAddToCart, user.id, token, checkDeleteItemCart]);
+  const handlDeleteItemCart = async (id) => {
+    try {
+      const res = await cartApi.deleteItemCart(id);
+      console.log(res.data);
+      if (res && res.data.errCode === 0) {
+        dispatch(changeWhenDeleteItemCart());
+      }
+    } catch (error) {}
+  };
 
   return (
     <div
@@ -37,10 +58,7 @@ function ModalCart({ modalCartRef, onSetCountItemCart }) {
         {listCart &&
           listCart.map((item) => {
             return (
-              <li
-                key={item.ImageProductId}
-                className=" grid grid-cols-1-4-1 gap-2 bg-gray-200 p-[8px] rounded-xl my-[10px]"
-              >
+              <li key={item.id} className=" grid grid-cols-1-4-1 gap-2 bg-gray-200 p-[8px] rounded-xl my-[10px]">
                 <img src={item.ImageProduct.url} alt="" className=" m-auto rounded-xl" />
                 <div className="flex flex-col justify-center items-start">
                   <span className=" font-bold">{item.ImageProduct.imageProduct.nameProduct}</span>
@@ -48,14 +66,21 @@ function ModalCart({ modalCartRef, onSetCountItemCart }) {
                 </div>
                 <div className="flex flex-col justify-center items-center gap-2">
                   <span>{item.quantity}</span>
-                  <img src={iconDelete} alt="" className=" w-[20px] h-[20px] cursor-pointer" />
+                  <img
+                    src={iconDelete}
+                    alt=""
+                    className=" w-[20px] h-[20px] cursor-pointer"
+                    onClick={() => handlDeleteItemCart(item.id)}
+                  />
                 </div>
               </li>
             );
           })}
       </ul>
       <button
-        className=" bg-primary-yelow text-[white] text-[20px] p-[8px] rounded-lg cursor-pointer hover:bg-blue-500 duration-100"
+        className={`${
+          checkLogin ? '' : 'pointer-events-none bg-gray-300'
+        } bg-primary-yelow text-[white] text-[20px] p-[8px] rounded-lg cursor-pointer hover:bg-blue-500 duration-100`}
         onClick={handleNavigate}
       >
         Xem giỏ hàng
