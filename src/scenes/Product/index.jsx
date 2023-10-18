@@ -1,16 +1,28 @@
 import { Pagination } from '@mui/material';
 import productsApi from 'api/productsApi';
-import { useEffect, useState } from 'react';
+import queryString from 'query-string';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import ItemProduct from './components/ItemProduct';
 Product.propTypes = {};
 
 function Product(props) {
   const [listAllProduct, setListAllProduct] = useState([]);
   const [total, setTotal] = useState('');
+  const location = useLocation();
+  console.log(location);
   const [filter, setFilter] = useState({
     page: 1,
     limit: 12,
   });
+
+  const queryParams = useMemo(() => {
+    const param = queryString.parse(location.search);
+    console.log(param);
+    return {
+      ...param,
+    };
+  }, [location.search]);
 
   const totalPages = Math.ceil(total / filter.limit);
   useEffect(() => {
