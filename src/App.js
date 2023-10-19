@@ -8,6 +8,8 @@ import DetailProduct from 'scenes/Product/components/DetailProduct';
 import Shipment from 'scenes/Shipment';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Register from 'scenes/auth/Register';
+import ProfileUser from 'scenes/ProfileUser';
 function App() {
   return (
     <div className="App container mx-auto mb-2">
@@ -18,6 +20,8 @@ function App() {
         <Route path="/products/:id" element={<DetailProduct />} />
         <Route path="/shipment" element={<Shipment />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<ProfileUser />} />
       </Routes>
       <Footer />
       <ToastContainer

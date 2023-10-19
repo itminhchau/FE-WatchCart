@@ -22,7 +22,7 @@ function ModalProfile({ modalProfileRef, onCheckProfile }) {
       <ul className=" font-bold text-[14px] text-primary-white text-center">
         <li className=" p-2 border-b hover:bg-primary-yelow flex justify-start gap-4 items-center">
           <img src={profile} alt="" className="w-[18px] h-[18px]" />
-          <Link>Hồ sơ của tôi</Link>
+          <Link to={`/profile`}>Hồ sơ của tôi</Link>
         </li>
         <li className=" p-2 border-b hover:bg-primary-yelow flex justify-start gap-4 items-center">
           <img src={addUser} alt="" className="w-[18px] h-[18px]" />
