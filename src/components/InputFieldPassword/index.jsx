@@ -18,7 +18,7 @@ InputFieldPassword.propTypes = {
 };
 
 function InputFieldPassword(props) {
-  const { form, name, label, disable } = props;
+  const { form, name, label, disable, width } = props;
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -51,6 +51,7 @@ function InputFieldPassword(props) {
                 name={name}
                 value={value}
                 disabled={disable}
+                sx={{ width: `${width}` }}
               />
               <FormHelperText error={invalid}>{error?.message}</FormHelperText>
             </>
