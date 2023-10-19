@@ -102,10 +102,10 @@ function Header(props) {
             <Link to="/products">Sản Phẩm</Link>
           </li>
           <li>
-            <Link>Tin Tức</Link>
+            <Link to="/news">Tin Tức</Link>
           </li>
           <li>
-            <Link>Liên Hệ</Link>
+            <Link to="/contact">Liên Hệ</Link>
           </li>
         </ul>
         <div className=" basis-1/6 font-bold flex justify-end items-center mr-4 ">
