@@ -43,7 +43,7 @@ function Product(props) {
     <>
       <div className="lg:flex lg:justify-between mb-[80px]">
         <div className="left lg:w-[20%]">
-          <div className="">check</div>
+          <div className="w-full h-[100vh] bg-white"></div>
         </div>
         <div className="right mt-[20px] px-3 lg:w-[80%]">
           <div className="text-[22px] py-2 px-2 font-bold ">Sản phẩm</div>

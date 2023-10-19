@@ -39,12 +39,12 @@ const RegisterForm = ({ onSubmit }) => {
   return (
     <form
       onSubmit={form.handleSubmit(handleSubmit)}
-      className="flex flex-col justify-center items-center gap-2 w-[60%] lg:w-[80%]  "
+      className="flex flex-col justify-start items-center gap-2 overflow-y-scroll "
     >
       <InputField name="firstName" label="Họ" form={form} width="100%" />
       <InputField name="lastName" label="Tên" form={form} width="100%" />
       <InputField name="email" label="Email" form={form} width="100%" />
-      <InputFieldPassword name="password" label="Mật khẩu" form={form} width="400px" />
+      <InputFieldPassword name="password" label="Mật khẩu" form={form} width="380px" />
       <InputField name="shipAddress" label="Địa chỉ" form={form} width="100%" />
       <InputField name="phoneNumber" label="Số điện thoại" form={form} width="100%" />
       <InputField name="gender" label="Giới tính" form={form} width="100%" />

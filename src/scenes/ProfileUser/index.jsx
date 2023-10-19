@@ -3,7 +3,7 @@ import profile from '../../assets/image/profile.png';
 import user from '../../assets/image/user.png';
 import buy from '../../assets/image/buy-product.png';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const account = [
   {
@@ -45,10 +45,9 @@ const ProfileUser = () => {
   const handleClickActive = (id) => {
     setActive(id);
   };
-
   return (
     <div>
-      <div className="container-profile container mx-auto py-2 px-2 bg-[#f5f5f5] text-black flex gap-5 sm:gap-40">
+      <div className="container-profile container mx-auto py-2 px-2 bg-[#f5f5f5] text-black flex justify-center gap-5 sm:gap-40">
         <div className="profile-left pl-0 sm:pl-[50px] 	">
           <div className="profile-top flex items-center gap-4 text-[14px] ">
             <div>
@@ -96,24 +95,6 @@ const ProfileUser = () => {
                 </div>
                 <div className="hover:text-primary-yelow ease-linear duration-100">Đơn mua</div>
               </div>
-              {/* <div className="flex items-center mt-[15px] gap-3 cursor-pointer">
-                <div>
-                  <img src={buy} alt="" className="w-[20px] h-[20px]" />
-                </div>
-                <div className="hover:text-primary-yelow ease-linear duration-100">Thông báo</div>
-              </div>
-              <div className="flex items-center mt-[15px] gap-3 cursor-pointer">
-                <div>
-                  <img src={buy} alt="" className="w-[20px] h-[20px]" />
-                </div>
-                <div className="hover:text-primary-yelow ease-linear duration-100">Kho</div>
-              </div>
-              <div className="flex items-center mt-[15px] gap-3 cursor-pointer">
-                <div>
-                  <img src={buy} alt="" className="w-[20px] h-[20px]" />
-                </div>
-                <div className="hover:text-primary-yelow ease-linear duration-100">Shop xu</div>
-              </div> */}
             </div>
           </div>
         </div>

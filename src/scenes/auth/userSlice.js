@@ -4,20 +4,26 @@ import StorageKeys from 'constants/storage-keys';
 
 export const login = createAsyncThunk('users/login', async (payload, thunkAPI) => {
   const res = await userApi.login(payload);
-
   if (res && res.data.errCode === 0) {
     localStorage.setItem(StorageKeys.TOKEN, res.data.access_token);
     localStorage.setItem(StorageKeys.USER, JSON.stringify(res.data.customer));
   } else {
-    console.log('khônng đăng nhập được');
+    return res.data;
   }
   return res.data.customer;
+});
+export const register = createAsyncThunk('users/register', async (payload, thunkAPI) => {
+  const res = await userApi.register(payload);
+  if (res && res.data.errCode === 0) {
+    return res.data;
+  }
 });
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
     current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {},
+    register: {},
   },
   reducers: {
     logOut: (state, action) => {
@@ -36,6 +42,10 @@ export const userSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       // Add user to the state array
       state.current = action.payload;
+    });
+    builder.addCase(register.fulfilled, (state, action) => {
+      // Add user to the state array
+      state.register = action.payload;
     });
   },
 });

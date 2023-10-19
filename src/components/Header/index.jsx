@@ -1,10 +1,12 @@
 import cartApi from 'api/cartApi';
+import { AUTHMODE } from 'constants/common';
 import StorageKeys from 'constants/storage-keys';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Login from 'scenes/auth/Login';
+import Register from 'scenes/auth/Register';
 import { hideMiniCart, showMiniCart } from 'scenes/Cart/cartSlice';
 import ModalCart from 'scenes/Cart/components/ModalCart';
 import cart from '../../assets/image/cart.png';
@@ -13,6 +15,7 @@ import menu from '../../assets/image/menu.png';
 import profile from '../../assets/image/profile.png';
 import ModalNav from './components/ModalNav';
 import ModalProfile from './components/ModalProfile';
+
 Header.propTypes = {};
 
 function Header(props) {
@@ -28,6 +31,7 @@ function Header(props) {
   const checkAddToCart = useSelector((state) => state.cart.checkAddToCart);
   const token = localStorage.getItem(StorageKeys.TOKEN);
   const checkDeleteItemCart = useSelector((state) => state.cart.checkDeleteItemCart);
+  const [mode, setMode] = useState(AUTHMODE.LOGIN);
 
   const navigate = useNavigate();
 
@@ -61,9 +65,16 @@ function Header(props) {
     setCheckProfile(!checkProfile);
   };
 
-  // const handleSetCountItemCart = (value) => {
-  //   setCountItemCart(value);
-  // };
+  const handleSetModeLogin = () => {
+    setMode(AUTHMODE.LOGIN);
+  };
+  const handleSetModeRegister = () => {
+    setMode(AUTHMODE.REGISTER);
+  };
+
+  const handleSetLoginCheck = () => {
+    setLoginCheck(!loginCheck);
+  };
   useEffect(() => {
     (async () => {
       try {
@@ -125,7 +136,7 @@ function Header(props) {
         <div className="basis-1/6 ">
           <div className="auth flex justify-start px-4 gap-4 items-center cursor-pointer">
             {!loginSuccess && (
-              <span className=" min-w-[80px] cursor-pointer" onClick={() => setLoginCheck(!loginCheck)}>
+              <span className=" min-w-[80px] cursor-pointer" onClick={handleSetLoginCheck}>
                 Đăng Nhập
               </span>
             )}
@@ -142,7 +153,12 @@ function Header(props) {
         </div>
         {isShowCart && <ModalCart modalCartRef={modalCartRef} />}
       </div>
-      {loginCheck && <Login onClose={handleCloseLogin} />}
+      {loginCheck && mode === AUTHMODE.LOGIN && (
+        <Login onClose={handleCloseLogin} handleSetModeRegister={handleSetModeRegister} />
+      )}
+      {loginCheck && mode === AUTHMODE.REGISTER && (
+        <Register onClose={handleCloseLogin} handleSetModeLogin={handleSetModeLogin} />
+      )}
     </>
   );
 }

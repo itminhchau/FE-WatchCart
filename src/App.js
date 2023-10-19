@@ -9,6 +9,9 @@ import Shipment from 'scenes/Shipment';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Contact from 'scenes/Contact';
+import Register from 'scenes/auth/Register';
+import ProfileUser from 'scenes/ProfileUser';
+import News from 'scenes/News';
 function App() {
   return (
     <div className="App container mx-auto mb-2">
@@ -20,6 +23,8 @@ function App() {
         <Route path="/shipment" element={<Shipment />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/profile" element={<ProfileUser />} />
+        <Route path="/news" element={<News />} />
       </Routes>
       <Footer />
       <ToastContainer
