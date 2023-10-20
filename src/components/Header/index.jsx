@@ -8,6 +8,7 @@ import Login from 'scenes/auth/Login';
 import Register from 'scenes/auth/Register';
 import { hideMiniCart, showMiniCart } from 'scenes/Cart/cartSlice';
 import ModalCart from 'scenes/Cart/components/ModalCart';
+import { setClickProductHeader } from 'scenes/Product/productSlice';
 import cart from '../../assets/image/cart.png';
 import logo from '../../assets/image/logo.png';
 import menu from '../../assets/image/menu.png';
@@ -91,7 +92,7 @@ function Header(props) {
   return (
     <>
       <div className="h-24 bg-black flex flex-row justify-between items-center px-6 relative">
-        <div className=" basis-1/6 bg-cover flex justify-between items-center">
+        <div className=" basis-1/6 bg-cover flex justify-between items-center ">
           <div className=" lg:hidden w-[32px] h-full cursor-pointer hover:scale-125">
             <img src={menu} alt="" onClick={() => setMenuCheck(!menuCheck)} />
           </div>
@@ -99,17 +100,19 @@ function Header(props) {
             src={logo}
             alt="logo"
             srcSet=""
-            className="h-[70px] min-w-[140px] cursor-pointer"
+            className="h-[70px] min-w-[140px] cursor-pointer hidden md:block"
             onClick={() => navigate('/')}
           />
         </div>
         {menuCheck && <ModalNav modalMenuRef={modalMenuRef} />}
-        <ul className=" basis-3/6  justify-center items-center gap-6 font-bold text-[18px] hidden lg:flex ">
+        <ul className=" basis-2.5/6  justify-center items-center gap-6 font-bold text-[18px] hidden lg:flex ">
           <li>
             <Link to="/">Trang Chủ</Link>
           </li>
           <li>
-            <Link to="/products">Sản Phẩm</Link>
+            <Link to="/products" onClick={() => dispatch(setClickProductHeader())}>
+              Sản Phẩm
+            </Link>
           </li>
           <li>
             <Link to="/news">Tin Tức</Link>
@@ -118,7 +121,14 @@ function Header(props) {
             <Link to="/contact">Liên Hệ</Link>
           </li>
         </ul>
-        <div className=" basis-1/6 font-bold flex justify-end items-center mr-4 ">
+        <div className="search basis-1/6">
+          <input
+            type="text"
+            placeholder="Tìm kiếm sản phẩm "
+            className="w-[150px] text-[15px] px-[8px] py-[4px] rounded-xl md:w-[180px] text-gray-500 outline-none"
+          />
+        </div>
+        <div className=" basis-0.5/6 font-bold flex justify-end items-center mr-4 ">
           <div className=" relative">
             <img
               src={cart}

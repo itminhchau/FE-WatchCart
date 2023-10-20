@@ -4,13 +4,13 @@ import productsApi from 'api/productsApi';
 import menu from 'assets/image/list.png';
 import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ItemProduct from './components/ItemProduct';
 Product.propTypes = {};
 
 function Product(props) {
   const [listAllProduct, setListAllProduct] = useState([]);
-  const [total, setTotal] = useState('');
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -18,6 +18,7 @@ function Product(props) {
   const [activeBrand, setActiveBrand] = useState(null);
   const [listBrand, setListBrand] = useState([]);
   const navigate = useNavigate();
+  const clickProductHeader = useSelector((state) => state.product.clickProductHeader);
 
   console.log(location);
   const [pagination, setPagination] = useState({
@@ -32,6 +33,9 @@ function Product(props) {
       ...param,
       page: Number.parseInt(param.page) || 1,
       limit: Number.parseInt(param.limit) || 12,
+      idBrand: param.idBrand || '',
+      newProduct: param.newProduct || '',
+      modePrice: param.modePrice || '',
     };
   }, [location.search]);
 
@@ -111,6 +115,12 @@ function Product(props) {
       setListBrand(res.data.data);
     })();
   }, []);
+
+  useEffect(() => {
+    setActive(null);
+    setActiveBrand(null);
+    setSelectedItem('');
+  }, [clickProductHeader]);
 
   return (
     <>
