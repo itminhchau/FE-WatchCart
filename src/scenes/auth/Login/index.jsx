@@ -10,7 +10,6 @@ Login.propTypes = {};
 
 function Login({ onClose, handleSetModeRegister }) {
   const [error, setError] = useState();
-
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
