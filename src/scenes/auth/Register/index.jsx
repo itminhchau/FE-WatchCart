@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import RegisterForm from './RegisterForm';
 import CloseIcon from '@mui/icons-material/Close';
-import backgroundLogin from 'assets/image/login.jfif';
-import { Link, useNavigate } from 'react-router-dom';
-import { register } from '../userSlice';
-import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
+import backgroundLogin from 'assets/image/login.jfif';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { register } from '../userSlice';
+import RegisterForm from './RegisterForm';
 
 const Register = ({ onClose, handleSetModeLogin }) => {
   const [error, setError] = useState(false);

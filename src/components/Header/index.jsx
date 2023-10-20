@@ -1,10 +1,9 @@
 import cartApi from 'api/cartApi';
 import { AUTHMODE } from 'constants/common';
 import StorageKeys from 'constants/storage-keys';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Login from 'scenes/auth/Login';
 import Register from 'scenes/auth/Register';
 import { hideMiniCart, showMiniCart } from 'scenes/Cart/cartSlice';

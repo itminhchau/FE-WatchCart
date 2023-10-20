@@ -24,10 +24,6 @@ const productsApi = {
     const url = `/xxx/${id}`;
     return axiosClient.delete(url);
   },
-  getProductNew() {
-    const url = `/api/v1/get-new/product`;
-    return axiosClient.get(url);
-  },
 };
 
 export default productsApi;

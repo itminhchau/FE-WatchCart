@@ -55,27 +55,27 @@ const Contact = () => {
           <span className="text-gray-500 text-[16px] ">Kết nối với chúng tôi</span>
           <ul className=" flex justify-center items-center gap-8 my-4">
             <li>
-              <a href="#">
+              <a href="/facebook">
                 <img src={facebook} alt="" />{' '}
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/youtube">
                 <img src={youtube} alt="" />{' '}
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/instagram">
                 <img src={instagram} alt="" />{' '}
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/linkedin">
                 <img src={linkedin} alt="" />{' '}
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="/twitter">
                 <img src={twitter} alt="" />{' '}
               </a>
             </li>

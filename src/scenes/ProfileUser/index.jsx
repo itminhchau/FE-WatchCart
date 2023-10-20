@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import buy from '../../assets/image/buy-product.png';
 import profile from '../../assets/image/profile.png';
 import user from '../../assets/image/user.png';
-import buy from '../../assets/image/buy-product.png';
-import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
 
 const account = [
   {

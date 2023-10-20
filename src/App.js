@@ -1,17 +1,16 @@
 import Header from 'components/Header';
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Cart from 'scenes/Cart';
+import Contact from 'scenes/Contact';
 import Footer from 'scenes/Footer';
 import Home from 'scenes/Home';
+import News from 'scenes/News';
 import Product from 'scenes/Product';
 import DetailProduct from 'scenes/Product/components/DetailProduct';
-import Shipment from 'scenes/Shipment';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
-import Contact from 'scenes/Contact';
-import Register from 'scenes/auth/Register';
 import ProfileUser from 'scenes/ProfileUser';
-import News from 'scenes/News';
+import Shipment from 'scenes/Shipment';
 function App() {
   return (
     <div className="App container mx-auto mb-2">

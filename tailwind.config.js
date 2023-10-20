@@ -15,6 +15,7 @@ module.exports = {
       gridTemplateColumns: {
         // Simple 16 column grid
         '1-4-1': 'repeat(1, 1fr 4fr 1fr)',
+        '2-8': 'repeat(1,2fr 10fr)',
 
         // Complex site-specific column configuratio
       },

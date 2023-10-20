@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { addTocart, changeWhenSentToCart, showMiniCart } from 'scenes/Cart/cartSlice';
+import { changeWhenSentToCart } from 'scenes/Cart/cartSlice';
 
 DetailProduct.propTypes = {};
 

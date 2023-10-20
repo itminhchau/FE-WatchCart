@@ -1,13 +1,12 @@
-import imageProduct from 'assets/image/detail-product.jpg';
-import iconDelete from 'assets/image/delete.png';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeWhenDeleteItemCart, hideMiniCart } from 'scenes/Cart/cartSlice';
-import { formatPrice } from 'constants/common';
-import { useEffect, useState } from 'react';
 import cartApi from 'api/cartApi';
+import iconDelete from 'assets/image/delete.png';
+import { formatPrice } from 'constants/common';
 import StorageKeys from 'constants/storage-keys';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { changeWhenDeleteItemCart, hideMiniCart } from 'scenes/Cart/cartSlice';
 
 ModalCart.propTypes = {};
 
