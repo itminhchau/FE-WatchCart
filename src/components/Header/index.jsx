@@ -1,4 +1,5 @@
 import cartApi from 'api/cartApi';
+import productsApi from 'api/productsApi';
 import { AUTHMODE } from 'constants/common';
 import StorageKeys from 'constants/storage-keys';
 import { useEffect, useRef, useState } from 'react';
@@ -34,6 +35,8 @@ function Header(props) {
   const checkDeleteItemCart = useSelector((state) => state.cart.checkDeleteItemCart);
   const [mode, setMode] = useState(AUTHMODE.LOGIN);
   const [checkModalSearch, setCheckModalSearch] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [listProductSearch, setListProductSearch] = useState([]);
 
   const navigate = useNavigate();
 
@@ -55,6 +58,10 @@ function Header(props) {
       }
       if (modalSearchRef.current && !modalSearchRef.current.contains(event.target)) {
         setCheckModalSearch(false);
+        setSearchInput({
+          keyWord: '',
+          limit: 10,
+        });
       }
     }
 
@@ -96,8 +103,27 @@ function Header(props) {
     })();
   }, [checkAddToCart, user.id, token, checkDeleteItemCart]);
 
+  useEffect(() => {
+    (async () => {
+      const res = await productsApi.searchProduct(searchInput);
+      console.log('check res search ', res.data.data);
+      setListProductSearch(res.data.data);
+    })();
+  }, [searchInput]);
+
+  const handleOnchangeInput = (e) => {
+    setSearchInput({ keyWord: e.target.value, limit: 10 });
+  };
+
   const handleClickSearch = () => {
-    setCheckModalSearch(!checkModalSearch);
+    setCheckModalSearch(true);
+  };
+  const handleCloseSearch = () => {
+    setCheckModalSearch(false);
+    setSearchInput({
+      keyWord: '',
+      limit: 10,
+    });
   };
   return (
     <>
@@ -137,6 +163,8 @@ function Header(props) {
             placeholder="Tìm kiếm sản phẩm "
             className="w-[150px] text-[15px] px-[8px] py-[4px] rounded-xl md:w-[180px] text-gray-500 outline-none "
             onClick={handleClickSearch}
+            value={searchInput.keyWord}
+            onChange={(e) => handleOnchangeInput(e)}
           />
         </div>
         <div className=" basis-0.5/6 font-bold flex justify-end items-center mr-4 ">
@@ -172,7 +200,13 @@ function Header(props) {
           </div>
         </div>
         {isShowCart && <ModalCart modalCartRef={modalCartRef} />}
-        {checkModalSearch && <ModalSearch modalSearchRef={modalSearchRef} />}
+        {checkModalSearch && (
+          <ModalSearch
+            modalSearchRef={modalSearchRef}
+            listProductSearch={listProductSearch}
+            onCloseSearch={handleCloseSearch}
+          />
+        )}
       </div>
       {loginCheck && mode === AUTHMODE.LOGIN && (
         <Login onClose={handleCloseLogin} handleSetModeRegister={handleSetModeRegister} />
