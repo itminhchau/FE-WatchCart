@@ -50,7 +50,7 @@ function ModalCart({ modalCartRef, onSetCountItemCart }) {
   return (
     <div
       ref={modalCartRef}
-      className="flex flex-col bg-white text-black p-[16px]  w-full min-h-[50vh] top-[80px] right-0 lg:right-[23px] rounded-xl lg:w-[450px] absolute after:content-[''] after:block after:border-[15px] after:border-icon-triangle after:absolute after:top-[-27px] after:left-[58%] md:after::left-[58%] lg:after:left-[55%] xl:after:left-[46%] 2xl:after:left-[36%]  z-10"
+      className="flex flex-col bg-white text-black p-[16px]  w-full min-h-[50vh] top-[80px] right-0 lg:right-[23px] rounded-xl lg:w-[450px] absolute after:content-[''] after:block after:border-[15px] after:border-icon-triangle after:absolute after:top-[-27px] after:left-[65%] md:after::left-[67%] lg:after:left-[51%] xl:after:left-[33%] 2xl:after:left-[17%]  z-10"
     >
       <span className=" text-[20px] font-bold">Thông tin giỏ hàng</span>
       <ul className=" overflow-y-scroll mt-3 mb-3 min-h-[200px] max-h-[300px]">

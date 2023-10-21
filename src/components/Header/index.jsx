@@ -15,6 +15,7 @@ import menu from '../../assets/image/menu.png';
 import profile from '../../assets/image/profile.png';
 import ModalNav from './components/ModalNav';
 import ModalProfile from './components/ModalProfile';
+import ModalSearch from './components/ModalSearch';
 
 Header.propTypes = {};
 
@@ -32,12 +33,14 @@ function Header(props) {
   const token = localStorage.getItem(StorageKeys.TOKEN);
   const checkDeleteItemCart = useSelector((state) => state.cart.checkDeleteItemCart);
   const [mode, setMode] = useState(AUTHMODE.LOGIN);
+  const [checkModalSearch, setCheckModalSearch] = useState(false);
 
   const navigate = useNavigate();
 
   const modalCartRef = useRef(null);
   const modalProfileRef = useRef(null);
   const modalMenuRef = useRef(null);
+  const modalSearchRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -49,6 +52,9 @@ function Header(props) {
       }
       if (modalMenuRef.current && !modalMenuRef.current.contains(event.target)) {
         setMenuCheck(false);
+      }
+      if (modalSearchRef.current && !modalSearchRef.current.contains(event.target)) {
+        setCheckModalSearch(false);
       }
     }
 
@@ -62,7 +68,7 @@ function Header(props) {
     setLoginCheck(false);
   };
   const handleCheckProfile = () => {
-    setCheckProfile(!checkProfile);
+    setCheckProfile(true);
   };
 
   const handleSetModeLogin = () => {
@@ -89,6 +95,10 @@ function Header(props) {
       }
     })();
   }, [checkAddToCart, user.id, token, checkDeleteItemCart]);
+
+  const handleClickSearch = () => {
+    setCheckModalSearch(!checkModalSearch);
+  };
   return (
     <>
       <div className="h-24 bg-black flex flex-row justify-between items-center px-6 relative">
@@ -121,11 +131,12 @@ function Header(props) {
             <Link to="/contact">Liên Hệ</Link>
           </li>
         </ul>
-        <div className="search basis-1/6">
+        <div className="search basis-1/6 ">
           <input
             type="text"
             placeholder="Tìm kiếm sản phẩm "
-            className="w-[150px] text-[15px] px-[8px] py-[4px] rounded-xl md:w-[180px] text-gray-500 outline-none"
+            className="w-[150px] text-[15px] px-[8px] py-[4px] rounded-xl md:w-[180px] text-gray-500 outline-none "
+            onClick={handleClickSearch}
           />
         </div>
         <div className=" basis-0.5/6 font-bold flex justify-end items-center mr-4 ">
@@ -161,6 +172,7 @@ function Header(props) {
           </div>
         </div>
         {isShowCart && <ModalCart modalCartRef={modalCartRef} />}
+        {checkModalSearch && <ModalSearch modalSearchRef={modalSearchRef} />}
       </div>
       {loginCheck && mode === AUTHMODE.LOGIN && (
         <Login onClose={handleCloseLogin} handleSetModeRegister={handleSetModeRegister} />
