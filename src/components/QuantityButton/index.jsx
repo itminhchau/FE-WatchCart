@@ -2,11 +2,13 @@ import { useState } from 'react';
 
 QuantityButton.propTypes = {};
 
-function QuantityButton({ onSubmit }) {
+function QuantityButton({ onSubmit, stock }) {
   const [quantity, setQuantity] = useState(1);
 
   const handleAddClick = () => {
-    setQuantity((add) => add + 1);
+    if (quantity < stock) {
+      setQuantity((add) => add + 1);
+    }
   };
   const handleSubtractClick = () => {
     if (quantity <= 1) {
@@ -20,6 +22,7 @@ function QuantityButton({ onSubmit }) {
       onSubmit(quantity);
     }
   };
+  console.log('check tooc', stock);
   return (
     <div className=" ml-3">
       <div className="flex items-center justify-center gap-8 mt-1">
@@ -32,8 +35,15 @@ function QuantityButton({ onSubmit }) {
         </button>
       </div>
       <div>
-        <div className="w-[100%] sm:w-[300px] mt-5 cursor-pointer" onClick={handleAddToCart}>
-          <div className="flex items-center justify-center gap-x-[10px] h-[50px] text-white bg-primary-yelow font-semibold rounded-md	text-[17px] hover:bg-[#05c3ff] duration-200 ">
+        <div
+          className={`${stock === 0 ? 'pointer-events-none' : ''} w-[100%] sm:w-[300px] mt-5 cursor-pointer `}
+          onClick={handleAddToCart}
+        >
+          <div
+            className={`${
+              stock === 0 ? 'bg-gray-300' : 'bg-primary-yelow'
+            } flex items-center justify-center gap-x-[10px] h-[50px]  text-white   font-semibold rounded-md	text-[17px] hover:bg-[#05c3ff] duration-200 `}
+          >
             <svg
               stroke="currentColor"
               fill="currentColor"

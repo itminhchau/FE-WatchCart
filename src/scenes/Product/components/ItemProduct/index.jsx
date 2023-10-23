@@ -15,7 +15,7 @@ function ItemProduct({ product }) {
 
   return (
     <div
-      className=" overflow-hidden text-black bg-white  max-w-full md:max-w-[285px]  flex flex-col justify-center items-center border-[1px] border-white rounded-[10px] p-[8px] box-border"
+      className=" overflow-hidden text-black bg-white  max-w-full md:max-w-[285px]  flex flex-col justify-center items-center border-[1px] border-white rounded-[10px] p-[8px] box-border relative"
       onClick={() => handleClickNavigate(product.id)}
     >
       <img
@@ -24,9 +24,18 @@ function ItemProduct({ product }) {
         srcSet=""
         className="min-h-[166px] cursor-pointer hover:scale-110 ease-in duration-300 mb-4"
       />
-      <span className=" block text-center">{product.nameProduct}</span>
+      <span className="  line-clamp-2 overflow-ellipsis">{product.nameProduct}</span>
       <Rating name="read-only" value={product.rate} readOnly />
-      <span>{formatPrice(product.price)}</span>
+      <div className=" flex justify-center gap-4 items-end w-full">
+        <span className="text-[16px] font-bold">{formatPrice(product.price)}</span>
+        <span className=" line-through text-[12px] text-gray-400">{formatPrice(product.price)}</span>
+      </div>
+
+      <span className=" text-gray-500 text-[14px] float-left block w-full">Đã bán: {product.quantitySold || 0}</span>
+      <div class=" flex flex-col justify-center  items-center absolute top-[4px] right-[4px] w-[40px] h-[36px] text-center bg-primary-yelow before:content-[''] before:block before:absolute before:border-x-[20px] before:border-b-[8px] before:bottom-[-8px] before:left-0 before:border-solid before:border-icon-sale">
+        <span class=" text-white text-[16px]">10%</span>
+        <span class=" text-white text-[14px]">Giảm</span>
+      </div>
     </div>
   );
 }

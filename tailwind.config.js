@@ -11,6 +11,7 @@ module.exports = {
         'primary-yelow': '#eba81d',
         'primary-gray': '#333333',
         'icon-triangle': 'transparent transparent #fff transparent',
+        'icon-sale': 'transparent #eba81d transparent #eba81d',
       },
       gridTemplateColumns: {
         // Simple 16 column grid

@@ -17,11 +17,12 @@ DetailProduct.propTypes = {};
 function DetailProduct(props) {
   const [listColor, setListColor] = useState('');
   const [product, setProduct] = useState();
-  const [isActive, setIsActive] = useState(0);
+  const [isActive, setIsActive] = useState();
   const [image, setImage] = useState({});
   const params = useParams();
   const { id } = params;
   const user = useSelector((state) => state.user.current);
+  const [stock, setStock] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -44,16 +45,19 @@ function DetailProduct(props) {
       id: res.data.data.id,
       url: res.data.data.url,
     });
+    setStock(res.data.data.stock);
   };
 
   // set image when product change
   useEffect(() => {
     const url = product && product.imageProduct ? product.imageProduct[0].url : '';
     const id = product && product.imageProduct ? product.imageProduct[0].id : '';
+    const stock = product && product.imageProduct ? product.imageProduct[0].stock : '';
     setImage({
       id,
       url,
     });
+    setStock(stock);
   }, [product]);
 
   // return new array container idColor
@@ -118,6 +122,7 @@ function DetailProduct(props) {
     // dispatch(addTocart(newProduct));
     // dispatch(showMiniCart());
   };
+  console.log('check stock', stock);
 
   //
   const safeDescription = DOMPurify.sanitize(product?.description);
@@ -134,7 +139,10 @@ function DetailProduct(props) {
             <div className="my-4 mx-0  text-2xl font-bold leading-7 text-primary-yelow">
               {formatPrice(product?.price)}
             </div>
-            <span className="font-normal text-base">{product?.shortDescription}</span>
+            <div className="flex flex-col justify-start items-start">
+              <span className="font-normal text-base">{product?.shortDescription}</span>
+              <span className="font-normal text-base text-red-300">Số lượng sản phẩm còn: {stock}</span>
+            </div>
             <div className="flex items-center justify-start gap-2 mt-4 mx-0 text-sm w-fit p-[16px] bg-white rounded-xl">
               {listColorOfProduct &&
                 listColorOfProduct.length > 0 &&
@@ -150,29 +158,8 @@ function DetailProduct(props) {
                     ></div>
                   );
                 })}
-              <QuantityButton onSubmit={handleAddToCart} />
+              <QuantityButton onSubmit={handleAddToCart} stock={stock} />
             </div>
-            {/* <div>
-              <div className="w-[100%] sm:w-[300px] mt-5">
-                <a
-                  href="/"
-                  className="flex items-center justify-center gap-x-[10px] h-[50px] text-white bg-primary-yelow font-semibold rounded-md	text-[17px] hover:bg-[#05c3ff] duration-200 "
-                >
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth="0"
-                    viewBox="0 0 1024 1024"
-                    height="25"
-                    width="25"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M922.9 701.9H327.4l29.9-60.9 496.8-.9c16.8 0 31.2-12 34.2-28.6l68.8-385.1c1.8-10.1-.9-20.5-7.5-28.4a34.99 34.99 0 0 0-26.6-12.5l-632-2.1-5.4-25.4c-3.4-16.2-18-28-34.6-28H96.5a35.3 35.3 0 1 0 0 70.6h125.9L246 312.8l58.1 281.3-74.8 122.1a34.96 34.96 0 0 0-3 36.8c6 11.9 18.1 19.4 31.5 19.4h62.8a102.43 102.43 0 0 0-20.6 61.7c0 56.6 46 102.6 102.6 102.6s102.6-46 102.6-102.6c0-22.3-7.4-44-20.6-61.7h161.1a102.43 102.43 0 0 0-20.6 61.7c0 56.6 46 102.6 102.6 102.6s102.6-46 102.6-102.6c0-22.3-7.4-44-20.6-61.7H923c19.4 0 35.3-15.8 35.3-35.3a35.42 35.42 0 0 0-35.4-35.2zM305.7 253l575.8 1.9-56.4 315.8-452.3.8L305.7 253zm96.9 612.7c-17.4 0-31.6-14.2-31.6-31.6 0-17.4 14.2-31.6 31.6-31.6s31.6 14.2 31.6 31.6a31.6 31.6 0 0 1-31.6 31.6zm325.1 0c-17.4 0-31.6-14.2-31.6-31.6 0-17.4 14.2-31.6 31.6-31.6s31.6 14.2 31.6 31.6a31.6 31.6 0 0 1-31.6 31.6z"></path>
-                  </svg>
-                  <div>Cho vào giỏ hàng</div>
-                </a>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
