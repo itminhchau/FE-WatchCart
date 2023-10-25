@@ -4,6 +4,7 @@ import StorageKeys from 'constants/storage-keys';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import OrderDetail from 'scenes/OrderDetail';
 import cartEmpty from '../../assets/image/cart-empty.webp';
 import { changeWhenDeleteItemCart, changeWhenSentToCart } from './cartSlice';
 const Cart = () => {
@@ -14,6 +15,7 @@ const Cart = () => {
   const user = useSelector((state) => state.user.current);
   const checkDeleteItemCart = useSelector((state) => state.cart.checkDeleteItemCart);
   const checkAddToCart = useSelector((state) => state.cart.checkAddToCart);
+  const [openModalOrder, setOpenModalOrder] = useState(false);
   const dispatch = useDispatch();
 
   const handleAddClick = async (id) => {
@@ -76,6 +78,13 @@ const Cart = () => {
     });
     return total;
   }, [listCart]);
+
+  const handleOpenModalOrder = () => {
+    setOpenModalOrder(true);
+  };
+  const handleCloseModalOrder = () => {
+    setOpenModalOrder(false);
+  };
 
   return (
     <div>
@@ -176,10 +185,13 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="mt-[10px] lg:flex lg:items-center lg:justify-center lg:mt-[20px]">
-                  <button className="w-[100%] lg:w-[500px]  bg-primary-yelow  hover:bg-[#05c3ff] duration-200 ">
-                    <a className="block h-[100%]  w-[100%] px-[5px] py-[10px] uppercase font-medium" href="/thanhtoan">
+                  <button
+                    className="w-[100%] lg:w-[500px]  bg-primary-yelow  hover:bg-[#05c3ff] duration-200 "
+                    onClick={handleOpenModalOrder}
+                  >
+                    <span className="block h-[100%]  w-[100%] px-[5px] py-[10px] uppercase font-medium">
                       Thanh toán
-                    </a>
+                    </span>
                   </button>
                 </div>
               </div>
@@ -193,6 +205,9 @@ const Cart = () => {
           </div>
         )}
       </div>
+      {openModalOrder && (
+        <OrderDetail onCloseModalOrder={handleCloseModalOrder} listCart={listCart} totalPrice={totalPrice} />
+      )}
     </div>
   );
 };
