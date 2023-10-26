@@ -59,6 +59,7 @@ const Cart = () => {
       try {
         const res = await cartApi.getAllCart({ idCustomer: user.id || '' }, token);
         setListCart(res.data.data);
+        console.log('res cart :', res);
       } catch (error) {
         if (error.response.data.errCode === 3) {
           toast.error(`${error.response.data.message}`);
