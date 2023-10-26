@@ -58,7 +58,7 @@ function CategoryProduct() {
         {listBrand &&
           listBrand.map((item) => {
             return (
-              <div className="flex flex-col justify-center items-center">
+              <div className="flex flex-col justify-center items-center" key={item.id}>
                 {}
                 <img
                   src={imageBrand(item.id)}

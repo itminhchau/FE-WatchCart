@@ -32,9 +32,9 @@ function ItemProduct({ product }) {
       </div>
 
       <span className=" text-gray-500 text-[14px] float-left block w-full">Đã bán: {product.quantitySold || 0}</span>
-      <div class=" flex flex-col justify-center  items-center absolute top-[4px] right-[4px] w-[40px] h-[36px] text-center bg-primary-yelow before:content-[''] before:block before:absolute before:border-x-[20px] before:border-b-[8px] before:bottom-[-8px] before:left-0 before:border-solid before:border-icon-sale">
-        <span class=" text-white text-[16px]">10%</span>
-        <span class=" text-white text-[14px]">Giảm</span>
+      <div className=" flex flex-col justify-center  items-center absolute top-[4px] right-[4px] w-[40px] h-[36px] text-center bg-primary-yelow before:content-[''] before:block before:absolute before:border-x-[20px] before:border-b-[8px] before:bottom-[-8px] before:left-0 before:border-solid before:border-icon-sale">
+        <span className=" text-white text-[16px]">10%</span>
+        <span className=" text-white text-[14px]">Giảm</span>
       </div>
     </div>
   );
