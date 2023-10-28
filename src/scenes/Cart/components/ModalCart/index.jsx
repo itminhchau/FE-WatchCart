@@ -40,7 +40,7 @@ function ModalCart({ modalCartRef, onSetCountItemCart }) {
   const handlDeleteItemCart = async (id) => {
     try {
       const res = await cartApi.deleteItemCart(id);
-      console.log(res.data);
+
       if (res && res.data.errCode === 0) {
         dispatch(changeWhenDeleteItemCart());
       }

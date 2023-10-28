@@ -48,7 +48,6 @@ const Cart = () => {
   const handleRemoveProduct = async (id) => {
     try {
       const res = await cartApi.deleteItemCart(id);
-      console.log(res.data);
       if (res && res.data.errCode === 0) {
         dispatch(changeWhenDeleteItemCart());
       }
@@ -60,7 +59,6 @@ const Cart = () => {
       try {
         const res = await cartApi.getAllCart({ idCustomer: user.id || '' }, token);
         setListCart(res.data.data);
-        console.log('res cart :', res);
       } catch (error) {
         if (error.response.data.errCode === 3) {
           toast.error(`${error.response.data.message}`);
@@ -120,7 +118,7 @@ const Cart = () => {
               {listCart &&
                 listCart.map((item) => {
                   return (
-                    <div className="mt-[20px]">
+                    <div className="mt-[20px]" key={item.id}>
                       <div className="left flex items-center bg-[#fff] px-2 py-2 rounded-md lg:py-[20px] lg:px-[20px]">
                         <div className="relative">
                           <div className="flex items-center cursor-pointer justify-center absolute left-[-7px] top-[-7px]">

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logOut } from 'scenes/auth/userSlice';
 import addUser from '../../../../assets/image/add-user.png';
 import logout from '../../../../assets/image/logout.png';
@@ -10,8 +10,10 @@ ModalProfile.propTypes = {};
 
 function ModalProfile({ modalProfileRef, onCheckProfile }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handlLogout = () => {
     dispatch(logOut());
+    navigate('/');
     onCheckProfile();
   };
   return (

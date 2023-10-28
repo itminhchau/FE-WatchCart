@@ -109,7 +109,7 @@ function DetailProduct(props) {
     const token = localStorage.getItem(StorageKeys.TOKEN);
     try {
       const res = await cartApi.createCart(newProduct, token);
-      console.log('check res cart', res);
+
       if (res.data.errCode === 0) {
         dispatch(changeWhenSentToCart());
       }
@@ -118,11 +118,7 @@ function DetailProduct(props) {
         toast.error(`${error.response.data.message}`);
       }
     }
-
-    // dispatch(addTocart(newProduct));
-    // dispatch(showMiniCart());
   };
-  console.log('check stock', stock);
 
   //
   const safeDescription = DOMPurify.sanitize(product?.description);

@@ -31,7 +31,6 @@ const RegisterForm = ({ onSubmit }) => {
     resolver: yupResolver(schema),
   });
   const handleSubmit = (values) => {
-    console.log('register', values);
     onSubmit(values);
     form.reset();
   };

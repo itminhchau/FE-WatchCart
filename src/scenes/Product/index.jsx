@@ -20,7 +20,6 @@ function Product(props) {
   const navigate = useNavigate();
   const clickProductHeader = useSelector((state) => state.product.clickProductHeader);
 
-  console.log(location);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 12,
@@ -28,7 +27,7 @@ function Product(props) {
 
   const queryParams = useMemo(() => {
     const param = queryString.parse(location.search);
-    console.log(param);
+
     return {
       ...param,
       page: Number.parseInt(param.page) || 1,

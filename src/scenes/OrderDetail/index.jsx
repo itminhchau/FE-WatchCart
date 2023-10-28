@@ -1,16 +1,14 @@
-import React, { useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import smartWatch from 'assets/image/smart-watch.png';
-import product from 'assets/image/detail-product.jpg';
-import close from 'assets/image/close.png';
-import AddressCustomer from './component/AddressCustomer';
-import { formatPrice } from 'constants/common';
-import { useDispatch, useSelector } from 'react-redux';
-import StorageKeys from 'constants/storage-keys';
-import orderApi from 'api/orderApi';
-import detailOrderApi from 'api/detailOrderApi';
-import { toast } from 'react-toastify';
 import { Box, LinearProgress } from '@mui/material';
+import detailOrderApi from 'api/detailOrderApi';
+import orderApi from 'api/orderApi';
+import userApi from 'api/userApi';
+import close from 'assets/image/close.png';
+import smartWatch from 'assets/image/smart-watch.png';
+import { formatPrice } from 'constants/common';
+import StorageKeys from 'constants/storage-keys';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { changeWhenOrder } from 'scenes/Cart/cartSlice';
 
 OrderDetail.propTypes = {};
@@ -22,12 +20,28 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
   const user = JSON.parse(localStorage.getItem(StorageKeys.USER));
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const [inputUser, setInputUser] = useState({});
+  const handleOnchangeInput = (e) => {
+    setInputUser({
+      ...inputUser,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const arrayPaymentMethod = [
     { id: 1, value: 'Nhận hàng', status: 'chưa thanh toán' },
     { id: 2, value: 'Thẻ ATM', status: 'đã thanh toán qua ATM' },
     { id: 3, value: 'PayPal', status: 'đã thanh toán qua Paypal' },
   ];
+
+  useEffect(() => {
+    (async () => {
+      const res = await userApi.getOneCustomer({
+        id: user.id,
+      });
+      setInputUser(res.data.data);
+    })();
+  }, [user.id]);
 
   const handleOnchangeOrderMethod = (item) => {
     setChecked(item.id);
@@ -37,15 +51,16 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
   const handleConfirmOrder = async () => {
     const newValue = {
       idCustomer: user.id,
-      totalPrice: totalPrice,
+      totalPrice: totalPrice + fee,
       status: itemOrderMethodStatus,
     };
     setIsLoading(true);
+
     try {
+      await userApi.updateCustomer(inputUser);
       const res = await orderApi.createOrder(newValue);
       let allTasksCompleted = false;
       if (res && res.data.errCode === 0 && listCart && listCart.length > 0) {
-        console.log('đã vào chưa', res.data.data.id);
         const idOrder = res.data.data.id;
         for (const element of listCart) {
           try {
@@ -56,7 +71,7 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
               quantity: element.quantity,
               price: element.ImageProduct.imageProduct.price,
             };
-            console.log('new data ', newData);
+
             const res = await detailOrderApi.createDetailOrder(newData);
             if (res && res.data.errCode === 0) {
               allTasksCompleted = true;
@@ -79,6 +94,7 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
   };
 
   console.log('check list cart', listCart);
+  console.log('check custommer', inputUser);
   return (
     <div className="modal fixed top-0 left-0 right-0 bottom-0 flex z-20 ">
       <div className="modal-overlay absolute w-full h-full bg-[rgba(0,0,0,0.3)]"></div>
@@ -114,14 +130,88 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
           </div>
           {/* form infor customer */}
 
-          <AddressCustomer user={user} />
+          <div className="w-full flex-col justify-center items-start gap-3 my-4">
+            <div className=" flex justify-center gap-3 items-center w-full my-2">
+              <span className="text-black text-[14px] w-[120px]">Họ khách hàng:</span>
+              <input
+                type="text"
+                placeholder="Họ khách hàng"
+                className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1"
+                name="lastName"
+                value={inputUser.lastName}
+                onChange={handleOnchangeInput}
+              />
+            </div>
+            <div className=" flex justify-center gap-3 items-center w-full my-2">
+              <span className="text-black text-[14px] w-[120px]">Tên khách hàng:</span>
+              <input
+                type="text"
+                placeholder="Tên khách hàng"
+                className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1"
+                name="firstName"
+                value={inputUser.firstName}
+                onChange={handleOnchangeInput}
+              />
+            </div>
+            <div className=" flex justify-center gap-3 items-center w-full my-2">
+              <span className="text-black text-[14px]  w-[120px]">Tên đăng nhập:</span>
+              <input
+                type="text"
+                placeholder="Tên đăng nhập"
+                className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1 opacity-[0.5]"
+                name="userName"
+                disabled
+                value={inputUser.userName}
+                onChange={handleOnchangeInput}
+              />
+            </div>
+            <span className=" text-red-500 text-[12px] font-bold">
+              Bạn vui lòng nhập đúng địa chỉ nhà để có thể nhận hàng hoặc để mặc định(* Bắt buộc){' '}
+            </span>
+            <div className=" flex justify-center gap-3 items-center w-full my-2">
+              <span className="text-black text-[14px]  w-[120px]">Địa chỉ:</span>
+              <input
+                type="text"
+                placeholder="Địa chỉ"
+                className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1"
+                name="shipAddress"
+                value={inputUser.shipAddress}
+                onChange={handleOnchangeInput}
+              />
+            </div>
+            <div className=" flex justify-center gap-3 items-center w-full my-2">
+              <span className="text-black text-[14px]  w-[120px]">Số điện thoại:</span>
+              <input
+                type="text"
+                placeholder="Số điện thoại"
+                className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1"
+                name="phoneNumber"
+                value={inputUser.phoneNumber}
+                onChange={handleOnchangeInput}
+              />
+            </div>
+            <span className=" text-red-500 text-[12px] font-bold">
+              Bạn vui lòng nhập đúng Email để có thể nhận được hoá đơn (* Bắt buộc){' '}
+            </span>
+            <div className=" flex justify-center gap-3 items-center w-full my-2">
+              <span className="text-black text-[14px]  w-[120px]">Email:</span>
+              <input
+                type="text"
+                placeholder="Email"
+                className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1"
+                name="email"
+                value={inputUser.email}
+                onChange={handleOnchangeInput}
+              />
+            </div>
+          </div>
           {/* list item product */}
           <div className="h-[180px] overflow-y-scroll w-full">
             <div className="mt-[10px] w-full">
               {listCart &&
                 listCart.map((item) => {
                   return (
-                    <div className="left flex items-center bg-gray-200 px-2 py-2 rounded-md my-2">
+                    <div key={item.id} className="left flex items-center bg-gray-200 px-2 py-2 rounded-md my-2">
                       <div className="w-[60px] h-[60px] ">
                         <img
                           src={item.ImageProduct.url}

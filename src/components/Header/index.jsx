@@ -107,7 +107,6 @@ function Header(props) {
   useEffect(() => {
     (async () => {
       const res = await productsApi.searchProduct(searchInput);
-      console.log('check res search ', res.data.data);
       setListProductSearch(res.data.data);
     })();
   }, [searchInput]);
