@@ -13,13 +13,13 @@ function LoginForm({ onSubmit }) {
   const [loading, setLoading] = useState(false);
   const schema = yup
     .object({
-      email: yup.string().required('Vui lòng nhập email').email('Làm ơn nhập đúng định dạng email'),
+      userName: yup.string().required('Vui lòng nhập userName'),
       password: yup.string().required('vui lòng nhập mật khẩu').min(6, 'Lớn hơn 6 số'),
     })
     .required();
   const form = useForm({
     defaultValues: {
-      email: '',
+      userName: '',
       password: '',
     },
     resolver: yupResolver(schema),
@@ -38,7 +38,7 @@ function LoginForm({ onSubmit }) {
   const { isSubmitting } = form.formState;
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col justify-center items-center gap-2">
-      <InputField name="email" label="Email" form={form} width="100%" />
+      <InputField name="userName" label="Tên Đăng nhập" form={form} width="100%" />
       <InputFieldPassword name="password" label="Mật khẩu" form={form} />
       <Button disabled={isSubmitting} type="submit" variant="contained">
         Đăng nhập

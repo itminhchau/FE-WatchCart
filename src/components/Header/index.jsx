@@ -33,6 +33,7 @@ function Header(props) {
   const checkAddToCart = useSelector((state) => state.cart.checkAddToCart);
   const token = localStorage.getItem(StorageKeys.TOKEN);
   const checkDeleteItemCart = useSelector((state) => state.cart.checkDeleteItemCart);
+  const checkOrder = useSelector((state) => state.cart.checkOrder);
   const [mode, setMode] = useState(AUTHMODE.LOGIN);
   const [checkModalSearch, setCheckModalSearch] = useState(false);
   const [searchInput, setSearchInput] = useState('');
@@ -101,7 +102,7 @@ function Header(props) {
         }
       }
     })();
-  }, [checkAddToCart, user.id, token, checkDeleteItemCart]);
+  }, [checkAddToCart, user.id, token, checkDeleteItemCart, checkOrder]);
 
   useEffect(() => {
     (async () => {

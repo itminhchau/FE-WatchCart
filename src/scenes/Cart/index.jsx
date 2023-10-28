@@ -14,6 +14,7 @@ const Cart = () => {
   const token = localStorage.getItem(StorageKeys.TOKEN);
   const user = useSelector((state) => state.user.current);
   const checkDeleteItemCart = useSelector((state) => state.cart.checkDeleteItemCart);
+  const checkOrder = useSelector((state) => state.cart.checkOrder);
   const checkAddToCart = useSelector((state) => state.cart.checkAddToCart);
   const [openModalOrder, setOpenModalOrder] = useState(false);
   const dispatch = useDispatch();
@@ -66,7 +67,7 @@ const Cart = () => {
         }
       }
     })();
-  }, [checkAddToCart, user.id, token, checkDeleteItemCart]);
+  }, [checkAddToCart, user.id, token, checkDeleteItemCart, checkOrder]);
 
   const totalPrice = useMemo(() => {
     if (listCart === []) {

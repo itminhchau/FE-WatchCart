@@ -7,6 +7,7 @@ export const cartSlice = createSlice({
     itemCart: [],
     checkAddToCart: false,
     checkDeleteItemCart: false,
+    checkOrder: false,
   },
   reducers: {
     showMiniCart: (state) => {
@@ -20,6 +21,9 @@ export const cartSlice = createSlice({
     },
     changeWhenDeleteItemCart: (state) => {
       state.checkDeleteItemCart = !state.checkDeleteItemCart;
+    },
+    changeWhenOrder: (state) => {
+      state.checkOrder = !state.checkOrder;
     },
     // addTocart: (state, action) => {
     //   const newItem = action.payload;
@@ -49,5 +53,5 @@ export const cartSlice = createSlice({
 });
 
 export const { actions, reducer } = cartSlice;
-export const { showMiniCart, hideMiniCart, changeWhenSentToCart, changeWhenDeleteItemCart } = actions;
+export const { showMiniCart, hideMiniCart, changeWhenSentToCart, changeWhenDeleteItemCart, changeWhenOrder } = actions;
 export default reducer;

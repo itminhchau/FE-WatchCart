@@ -36,14 +36,14 @@ function AddressCustomer({ user }) {
         />
       </div>
       <div className=" flex justify-center gap-3 items-center w-full my-2">
-        <span className="text-black text-[14px]  w-[120px]">Email:</span>
+        <span className="text-black text-[14px]  w-[120px]">Tên đăng nhập:</span>
         <input
           type="text"
-          placeholder="Email"
+          placeholder="Tên đăng nhập"
           className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1 opacity-[0.5]"
-          name="email"
+          name="userName"
           disabled
-          value={inputUser.email}
+          value={inputUser.userName}
         />
       </div>
       <div className=" flex justify-center gap-3 items-center w-full my-2">
@@ -64,6 +64,19 @@ function AddressCustomer({ user }) {
           className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1"
           name="phoneNumber"
           value={inputUser.phoneNumber}
+        />
+      </div>
+      <span className=" text-red-500 text-[12px] font-bold">
+        Bạn vui lòng nhập đúng Email để có thể nhận được hoá đơn (* Bắt buộc){' '}
+      </span>
+      <div className=" flex justify-center gap-3 items-center w-full my-2">
+        <span className="text-black text-[14px]  w-[120px]">Email:</span>
+        <input
+          type="text"
+          placeholder="Email"
+          className="text-black text-[14px] bg-gray-100 ml-3 outline-none p-[8px] flex-1"
+          name="email"
+          value={inputUser.email}
         />
       </div>
     </div>

@@ -11,7 +11,7 @@ const RegisterForm = ({ onSubmit }) => {
     .object({
       firstName: yup.string().required('Vui lòng nhập Họ'),
       lastName: yup.string().required('Vui lòng nhập Tên'),
-      email: yup.string().required('Vui lòng nhập email').email('Làm ơn nhập đúng định dạng email'),
+      userName: yup.string().required('Vui lòng nhập userName'),
       password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Lớn hơn 6 số'),
       shipAddress: yup.string().required('Vui lòng nhập địa chỉ'),
       phoneNumber: yup.number().required('Vui lòng nhập số điện thoại'),
@@ -22,7 +22,7 @@ const RegisterForm = ({ onSubmit }) => {
     defaultValues: {
       firstName: '',
       lastName: '',
-      email: '',
+      userName: '',
       password: '',
       shipAddress: '',
       phoneNumber: '',
@@ -31,6 +31,7 @@ const RegisterForm = ({ onSubmit }) => {
     resolver: yupResolver(schema),
   });
   const handleSubmit = (values) => {
+    console.log('register', values);
     onSubmit(values);
     form.reset();
   };
@@ -43,7 +44,7 @@ const RegisterForm = ({ onSubmit }) => {
     >
       <InputField name="firstName" label="Họ" form={form} width="100%" />
       <InputField name="lastName" label="Tên" form={form} width="100%" />
-      <InputField name="email" label="Email" form={form} width="100%" />
+      <InputField name="userName" label="Tên Đăng nhập" form={form} width="100%" />
       <InputFieldPassword name="password" label="Mật khẩu" form={form} width="380px" />
       <InputField name="shipAddress" label="Địa chỉ" form={form} width="100%" />
       <InputField name="phoneNumber" label="Số điện thoại" form={form} width="100%" />

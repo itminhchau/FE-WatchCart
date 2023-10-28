@@ -1,30 +1,84 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import smartWatch from 'assets/image/smart-watch.png';
 import product from 'assets/image/detail-product.jpg';
 import close from 'assets/image/close.png';
 import AddressCustomer from './component/AddressCustomer';
 import { formatPrice } from 'constants/common';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import StorageKeys from 'constants/storage-keys';
+import orderApi from 'api/orderApi';
+import detailOrderApi from 'api/detailOrderApi';
+import { toast } from 'react-toastify';
+import { Box, LinearProgress } from '@mui/material';
+import { changeWhenOrder } from 'scenes/Cart/cartSlice';
 
 OrderDetail.propTypes = {};
 
 function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
   const [checked, setChecked] = useState(1);
+  const [itemOrderMethodStatus, setItemOrderMethodStatus] = useState('chưa thanh toán');
   const [fee, setFee] = useState(15000);
   const user = JSON.parse(localStorage.getItem(StorageKeys.USER));
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const arrayPaymentMethod = [
-    { id: 1, value: 'Nhận hàng' },
-    { id: 2, value: 'Thẻ ATM' },
-    { id: 3, value: 'PayPal' },
+    { id: 1, value: 'Nhận hàng', status: 'chưa thanh toán' },
+    { id: 2, value: 'Thẻ ATM', status: 'đã thanh toán qua ATM' },
+    { id: 3, value: 'PayPal', status: 'đã thanh toán qua Paypal' },
   ];
 
-  const handleOnchange = (item) => {
+  const handleOnchangeOrderMethod = (item) => {
     setChecked(item.id);
+    setItemOrderMethodStatus(item.status);
   };
 
+  const handleConfirmOrder = async () => {
+    const newValue = {
+      idCustomer: user.id,
+      totalPrice: totalPrice,
+      status: itemOrderMethodStatus,
+    };
+    setIsLoading(true);
+    try {
+      const res = await orderApi.createOrder(newValue);
+      let allTasksCompleted = false;
+      if (res && res.data.errCode === 0 && listCart && listCart.length > 0) {
+        console.log('đã vào chưa', res.data.data.id);
+        const idOrder = res.data.data.id;
+        for (const element of listCart) {
+          try {
+            const newData = {
+              idCart: element.id,
+              idOrder: idOrder,
+              idImageProduct: element.ImageProduct.id,
+              quantity: element.quantity,
+              price: element.ImageProduct.imageProduct.price,
+            };
+            console.log('new data ', newData);
+            const res = await detailOrderApi.createDetailOrder(newData);
+            if (res && res.data.errCode === 0) {
+              allTasksCompleted = true;
+            }
+          } catch (error) {
+            console.error(error);
+            allTasksCompleted = false; //
+          }
+        }
+        if (allTasksCompleted) {
+          toast.success('thanh toán thành công');
+          setIsLoading(false);
+          dispatch(changeWhenOrder());
+          onCloseModalOrder();
+        }
+      }
+    } catch (error) {
+      console.log('check err order', error);
+    }
+  };
+
+  console.log('check list cart', listCart);
   return (
     <div className="modal fixed top-0 left-0 right-0 bottom-0 flex z-20 ">
       <div className="modal-overlay absolute w-full h-full bg-[rgba(0,0,0,0.3)]"></div>
@@ -50,7 +104,7 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
                   <input
                     type="radio"
                     className="w-[18px] h-[18px] cursor-pointer "
-                    onChange={() => handleOnchange(item)}
+                    onChange={() => handleOnchangeOrderMethod(item)}
                     checked={checked === item.id}
                   />
                   <span className="text-primary-yelow text-[16px] font-bold">{item.value}</span>
@@ -116,11 +170,19 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
           </div>
           {/* button order */}
           <div className="flex w-full">
-            <button className=" text-white bg-green-700 my-[18px] p-[12px] rounded-lg m-auto cursor-pointer">
+            <button
+              className=" text-white bg-green-700 my-[18px] p-[12px] rounded-lg m-auto cursor-pointer"
+              onClick={handleConfirmOrder}
+            >
               Xác nhận thanh toán đơn hàng
             </button>
           </div>
         </div>
+        {isLoading && (
+          <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+          </Box>
+        )}
       </div>
     </div>
   );
