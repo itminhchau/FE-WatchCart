@@ -76,52 +76,56 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
   console.log('arrayItemCart', arrayItemCart);
 
   const handleConfirmOrder = async () => {
-    const newValue = {
-      idCustomer: user.id,
-      totalPrice: totalPrice + fee,
-      status: itemOrderMethodStatus,
-      email: inputUser.email,
-      arrayItemCart: arrayItemCart,
-      fee: fee,
-      inforCustomer: inputUser,
-      itemOrderMethodStatus: itemOrderMethodStatus,
-    };
-    setIsLoading(true);
+    if (inputUser.email) {
+      const newValue = {
+        idCustomer: user.id,
+        totalPrice: totalPrice + fee,
+        status: itemOrderMethodStatus,
+        email: inputUser.email,
+        arrayItemCart: arrayItemCart,
+        fee: fee,
+        inforCustomer: inputUser,
+        itemOrderMethodStatus: itemOrderMethodStatus,
+      };
+      setIsLoading(true);
 
-    try {
-      await userApi.updateCustomer(inputUser);
-      const res = await orderApi.createOrder(newValue);
-      let allTasksCompleted = false;
-      if (res && res.data.errCode === 0 && listCart && listCart.length > 0) {
-        const idOrder = res.data.data.id;
-        for (const element of listCart) {
-          try {
-            const newData = {
-              idCart: element.id,
-              idOrder: idOrder,
-              idImageProduct: element.ImageProduct.id,
-              quantity: element.quantity,
-              price: element.ImageProduct.imageProduct.price,
-            };
+      try {
+        await userApi.updateCustomer(inputUser);
+        const res = await orderApi.createOrder(newValue);
+        let allTasksCompleted = false;
+        if (res && res.data.errCode === 0 && listCart && listCart.length > 0) {
+          const idOrder = res.data.data.id;
+          for (const element of listCart) {
+            try {
+              const newData = {
+                idCart: element.id,
+                idOrder: idOrder,
+                idImageProduct: element.ImageProduct.id,
+                quantity: element.quantity,
+                price: element.ImageProduct.imageProduct.price,
+              };
 
-            const res = await detailOrderApi.createDetailOrder(newData);
-            if (res && res.data.errCode === 0) {
-              allTasksCompleted = true;
+              const res = await detailOrderApi.createDetailOrder(newData);
+              if (res && res.data.errCode === 0) {
+                allTasksCompleted = true;
+              }
+            } catch (error) {
+              console.error(error);
+              allTasksCompleted = false; //
             }
-          } catch (error) {
-            console.error(error);
-            allTasksCompleted = false; //
+          }
+          if (allTasksCompleted) {
+            toast.success('thanh toán thành công');
+            setIsLoading(false);
+            dispatch(changeWhenOrder());
+            onCloseModalOrder();
           }
         }
-        if (allTasksCompleted) {
-          toast.success('thanh toán thành công');
-          setIsLoading(false);
-          dispatch(changeWhenOrder());
-          onCloseModalOrder();
-        }
+      } catch (error) {
+        console.log('check err order', error);
       }
-    } catch (error) {
-      console.log('check err order', error);
+    } else {
+      toast.warning('Mời bạn nhập email để tiến hành thanh toán');
     }
   };
 
