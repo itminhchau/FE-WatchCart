@@ -5,8 +5,9 @@ import userApi from 'api/userApi';
 import close from 'assets/image/close.png';
 import smartWatch from 'assets/image/smart-watch.png';
 import { formatPrice } from 'constants/common';
+import formatSalePrice from 'constants/formatSalePrice';
 import StorageKeys from 'constants/storage-keys';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { changeWhenOrder } from 'scenes/Cart/cartSlice';
@@ -48,11 +49,41 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
     setItemOrderMethodStatus(item.status);
   };
 
+  // custom array send item to send email
+  const arrayItemCart = useMemo(() => {
+    const array =
+      listCart &&
+      listCart.length > 0 &&
+      listCart.map((item) => {
+        console.log('item', item);
+        if (item) {
+          item = {
+            nameProduct: item.ImageProduct.imageProduct.nameProduct,
+            price: item.ImageProduct.imageProduct.price,
+            salePrice: formatSalePrice(
+              item.ImageProduct.imageProduct.price,
+              item.ImageProduct.imageProduct.promotion?.valuePromotion
+            ),
+            color: item.ImageProduct.colorProduct.nameColor,
+            quantity: item.quantity,
+          };
+        }
+        return item;
+      });
+    return array;
+  }, [listCart]);
+
+  console.log('arrayItemCart', arrayItemCart);
+
   const handleConfirmOrder = async () => {
     const newValue = {
       idCustomer: user.id,
       totalPrice: totalPrice + fee,
       status: itemOrderMethodStatus,
+      email: inputUser.email,
+      arrayItemCart: arrayItemCart,
+      fee: fee,
+      inforCustomer: inputUser,
     };
     setIsLoading(true);
 
@@ -93,8 +124,7 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
     }
   };
 
-  console.log('check list cart', listCart);
-  console.log('check custommer', inputUser);
+  console.log('check user', inputUser);
   return (
     <div className="modal fixed top-0 left-0 right-0 bottom-0 flex z-20 ">
       <div className="modal-overlay absolute w-full h-full bg-[rgba(0,0,0,0.3)]"></div>

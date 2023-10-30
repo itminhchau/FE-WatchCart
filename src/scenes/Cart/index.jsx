@@ -1,5 +1,6 @@
 import cartApi from 'api/cartApi';
 import { formatPrice } from 'constants/common';
+import formatSalePrice from 'constants/formatSalePrice';
 import StorageKeys from 'constants/storage-keys';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -74,7 +75,11 @@ const Cart = () => {
     }
     let total = 0;
     listCart.forEach((item) => {
-      total += item.ImageProduct.imageProduct.price * item.quantity;
+      total +=
+        formatSalePrice(
+          item.ImageProduct.imageProduct.price,
+          item.ImageProduct.imageProduct.promotion?.valuePromotion
+        ) * item.quantity;
     });
     return total;
   }, [listCart]);
@@ -140,12 +145,22 @@ const Cart = () => {
                             {item.ImageProduct.imageProduct.nameProduct}
                           </div>
                           <div className="text-[14px] mt-[10px] text-black">
-                            {formatPrice(item.ImageProduct.imageProduct.price)}
+                            {formatPrice(
+                              formatSalePrice(
+                                item.ImageProduct.imageProduct.price,
+                                item.ImageProduct.imageProduct.promotion?.valuePromotion
+                              )
+                            )}
                           </div>
                         </div>
                         <div className="">
                           <div className="text-[14px] font-medium text-black">
-                            {formatPrice(item.ImageProduct.imageProduct.price * item.quantity)}
+                            {formatPrice(
+                              formatSalePrice(
+                                item.ImageProduct.imageProduct.price,
+                                item.ImageProduct.imageProduct.promotion?.valuePromotion
+                              ) * item.quantity
+                            )}
                           </div>
                           <div className="flex items-center justify-between mt-1">
                             <button className="">

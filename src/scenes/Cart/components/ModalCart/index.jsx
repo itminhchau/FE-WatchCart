@@ -1,6 +1,7 @@
 import cartApi from 'api/cartApi';
 import iconDelete from 'assets/image/delete.png';
 import { formatPrice } from 'constants/common';
+import formatSalePrice from 'constants/formatSalePrice';
 import StorageKeys from 'constants/storage-keys';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,7 +62,14 @@ function ModalCart({ modalCartRef, onSetCountItemCart }) {
                 <img src={item.ImageProduct.url} alt="" className=" m-auto rounded-xl" />
                 <div className="flex flex-col justify-center items-start">
                   <span className=" font-bold">{item.ImageProduct.imageProduct.nameProduct}</span>
-                  <span>{formatPrice(item.ImageProduct.imageProduct.price)}</span>
+                  <span>
+                    {formatPrice(
+                      formatSalePrice(
+                        item.ImageProduct.imageProduct.price,
+                        item.ImageProduct.imageProduct.promotion?.valuePromotion
+                      )
+                    )}
+                  </span>
                 </div>
                 <div className="flex flex-col justify-center items-center gap-2">
                   <span>{item.quantity}</span>

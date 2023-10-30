@@ -4,6 +4,7 @@ import imageProductApi from 'api/imageProductApi';
 import productsApi from 'api/productsApi';
 import QuantityButton from 'components/QuantityButton';
 import { formatPrice } from 'constants/common';
+import formatSalePrice from 'constants/formatSalePrice';
 import StorageKeys from 'constants/storage-keys';
 import DOMPurify from 'dompurify';
 import { useEffect, useMemo, useState } from 'react';
@@ -131,10 +132,13 @@ function DetailProduct(props) {
         </div>
         <div>
           <div className=" ">
-            <h1 className="text-3xl font-semibold pt-[20px]	">{product?.nameProduct}</h1>
-            <div className="my-4 mx-0  text-2xl font-bold leading-7 text-primary-yelow">
+            <h1 className="text-3xl font-semibold pt-[20px] mb-2">{product?.nameProduct}</h1>
+            <span className="my-4 mx-0  text-2xl font-bold leading-7 text-primary-yelow mr-3">
+              {formatPrice(formatSalePrice(product?.price, product?.discount_percent))}
+            </span>
+            <span className="my-4 mx-0  text-xl font-bold leading-7 text-gray-300 line-through">
               {formatPrice(product?.price)}
-            </div>
+            </span>
             <div className="flex flex-col justify-start items-start">
               <span className="font-normal text-base">{product?.shortDescription}</span>
               <span className="font-normal text-base text-red-300">Số lượng sản phẩm còn: {stock}</span>
