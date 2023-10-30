@@ -84,6 +84,7 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
       arrayItemCart: arrayItemCart,
       fee: fee,
       inforCustomer: inputUser,
+      itemOrderMethodStatus: itemOrderMethodStatus,
     };
     setIsLoading(true);
 
