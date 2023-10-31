@@ -7,8 +7,20 @@ import instagram from 'assets/image/instagram.png';
 import twitter from 'assets/image/twitter.png';
 import linkedin from 'assets/image/linkedin.png';
 import youtube from 'assets/image/youtube.png';
+import contactApi from 'api/contactApi';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
+  const handleSumbit = async (values) => {
+    try {
+      const res = await contactApi.createContact(values);
+      if (res && res.data?.errCode === 0) {
+        toast.success('Bạn đã gửi tin nhắn thành công, chờ câu trả lời từ WatchSC');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="">
       <div className="px-4 lg:px-32">
@@ -50,7 +62,7 @@ const Contact = () => {
           <span className=" text-[24px] font-bold p-[16px] text-primary-yelow text-center">
             Nếu bạn có bất cứ câu hỏi cần tư vấn hay gửi ngay cho chúng tôi !!
           </span>
-          <FormContact />
+          <FormContact onSubmit={handleSumbit} />
           <span className="text-gray-500 text-[16px] mt-[16px]">hoặc</span>
           <span className="text-gray-500 text-[16px] ">Kết nối với chúng tôi</span>
           <ul className=" flex justify-center items-center gap-8 my-4">
