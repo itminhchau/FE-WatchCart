@@ -1,14 +1,12 @@
 import Header from 'components/Header';
-import ModalSearch from 'components/Header/components/ModalSearch';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cart from 'scenes/Cart';
 import Contact from 'scenes/Contact';
+import Endow from 'scenes/Endow';
 import Footer from 'scenes/Footer';
 import Home from 'scenes/Home';
-import News from 'scenes/News';
-import OrderDetail from 'scenes/OrderDetail';
 import Product from 'scenes/Product';
 import DetailProduct from 'scenes/Product/components/DetailProduct';
 import ProfileUser from 'scenes/ProfileUser';
@@ -25,7 +23,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/profile" element={<ProfileUser />} />
-        <Route path="/news" element={<News />} />
+        <Route path="/endow" element={<Endow />} />
       </Routes>
 
       <Footer />

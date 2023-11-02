@@ -151,7 +151,7 @@ function Header(props) {
             </Link>
           </li>
           <li>
-            <Link to="/news">Tin Tức</Link>
+            <Link to="/endow">Ưu Đãi</Link>
           </li>
           <li>
             <Link to="/contact">Liên Hệ</Link>
