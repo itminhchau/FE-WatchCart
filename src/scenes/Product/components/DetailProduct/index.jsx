@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { logOut } from 'scenes/auth/userSlice';
 import { changeWhenSentToCart } from 'scenes/Cart/cartSlice';
 
 DetailProduct.propTypes = {};
@@ -117,6 +118,10 @@ function DetailProduct(props) {
     } catch (error) {
       if (error.response.data.errCode === 3) {
         toast.error(`${error.response.data.message}`);
+      }
+      if (error.response.data.errCode === -1) {
+        toast.warning('xin lỗi vì vấn đề này. account bạn hết hạn vui lòng đăng nhập lại');
+        dispatch(logOut());
       }
     }
   };

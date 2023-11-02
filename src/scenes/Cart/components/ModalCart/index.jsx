@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { logOut } from 'scenes/auth/userSlice';
 import { changeWhenDeleteItemCart, hideMiniCart } from 'scenes/Cart/cartSlice';
 
 ModalCart.propTypes = {};
@@ -35,9 +36,13 @@ function ModalCart({ modalCartRef, onSetCountItemCart }) {
         if (error.response.data.errCode === 3) {
           toast.error(`${error.response.data.message}`);
         }
+        if (error.response.data.errCode === -1) {
+          dispatch(logOut());
+        }
       }
     })();
-  }, [checkAddToCart, user.id, token, checkDeleteItemCart]);
+  }, [checkAddToCart, user.id, token, checkDeleteItemCart, dispatch]);
+
   const handlDeleteItemCart = async (id) => {
     try {
       const res = await cartApi.deleteItemCart(id);
