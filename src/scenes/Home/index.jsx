@@ -6,6 +6,7 @@ import BannerHome from 'scenes/BannerHome';
 import BestSellingProduct from 'scenes/Product/components/BestSellingProduct';
 import CategoryProduct from 'scenes/Product/components/CategoryProduct';
 import ProductNew from 'scenes/Product/components/ProductNew';
+import PromotionProduct from 'scenes/Product/components/PromotionProduct';
 
 Home.propTypes = {};
 
@@ -16,6 +17,8 @@ function Home(props) {
       <div className=" mx-[36px] my-[8px]">
         <TitleWeb title="ĐỐI TÁC" subTitle="Bộ sưu tập những thương hiệu nổi tiếng về smartwatch trên thế giới" />
         <BannerBrand listImage={listImageBrand} slidesToShow={4} padding="8px" />
+        <TitleWeb title="KHUYẾN MÃI LỚN NHẤT" subTitle="Săn phẩm có khuyến mãi lớn nhất hiện tại" />
+        <PromotionProduct />
         <TitleWeb
           title="SẢN PHẨM THEO DANH MỤC"
           subTitle="Những sản phẩm nổi tiếng với chất lượng hàng đầu được shop nhập về phục vụ quý khách hàng"

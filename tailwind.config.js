@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'logo-shop': "url('/src/assets/image/logo.png')",
+        'lg-background-promotion': "url('/src/assets/image/smarwatchpromotion.PNG')",
       },
       colors: {
         'primary-white': '#fff',

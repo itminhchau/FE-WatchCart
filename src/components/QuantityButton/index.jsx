@@ -22,7 +22,7 @@ function QuantityButton({ onSubmit, stock }) {
       onSubmit(quantity);
     }
   };
-  console.log('check tooc', stock);
+
   return (
     <div className=" ml-3">
       <div className="flex items-center justify-center gap-8 mt-1">

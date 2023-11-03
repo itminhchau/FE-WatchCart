@@ -55,7 +55,6 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
       listCart &&
       listCart.length > 0 &&
       listCart.map((item) => {
-        console.log('item', item);
         if (item) {
           item = {
             nameProduct: item.ImageProduct.imageProduct.nameProduct,
@@ -72,8 +71,6 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
       });
     return array;
   }, [listCart]);
-
-  console.log('arrayItemCart', arrayItemCart);
 
   const handleConfirmOrder = async () => {
     if (inputUser.email) {
@@ -129,7 +126,6 @@ function OrderDetail({ onCloseModalOrder, listCart, totalPrice }) {
     }
   };
 
-  console.log('check user', inputUser);
   return (
     <div className="modal fixed top-0 left-0 right-0 bottom-0 flex z-20 ">
       <div className="modal-overlay absolute w-full h-full bg-[rgba(0,0,0,0.3)]"></div>
