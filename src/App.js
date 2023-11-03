@@ -9,6 +9,7 @@ import Footer from 'scenes/Footer';
 import Home from 'scenes/Home';
 import Product from 'scenes/Product';
 import DetailProduct from 'scenes/Product/components/DetailProduct';
+import ReviewProduct from 'scenes/Product/components/ReviewProduct';
 import ProfileUser from 'scenes/ProfileUser';
 import Shipment from 'scenes/Shipment';
 function App() {

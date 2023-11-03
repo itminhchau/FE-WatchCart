@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { logOut } from 'scenes/auth/userSlice';
 import { changeWhenSentToCart } from 'scenes/Cart/cartSlice';
+import ReviewProduct from '../ReviewProduct';
 
 DetailProduct.propTypes = {};
 
@@ -174,6 +175,8 @@ function DetailProduct(props) {
         </div>
         <div className=" text-sm font-normal  " dangerouslySetInnerHTML={mark}></div>
       </div>
+
+      <ReviewProduct />
     </div>
   );
 }
