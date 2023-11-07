@@ -6,28 +6,31 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../userSlice';
 import RegisterForm from './RegisterForm';
+import { Box, LinearProgress } from '@mui/material';
 
 const Register = ({ onClose, handleSetModeLogin }) => {
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const result = await dispatch(register(values));
       const user = unwrapResult(result);
-
       if (user && user.errCode === 0) {
         onClose();
         navigate('/');
+        setLoading(false);
       } else {
-        setError(user.message);
+        setError(user?.message);
+        setLoading(false);
       }
     } catch (error) {
       console.log('error register', error);
     }
   };
-
   const handleClose = () => {
     onClose();
     handleSetModeLogin();
@@ -46,7 +49,11 @@ const Register = ({ onClose, handleSetModeLogin }) => {
             />
             <span className=" font-bold text-[24px] text-black mb-4 pt-[20px]">Đăng ký</span>
             {error && <span className="text-red-400 text-[14px]">{error}</span>}
-
+            {loading && loading === true && (
+              <Box sx={{ width: '60%' }}>
+                <LinearProgress />
+              </Box>
+            )}
             <RegisterForm onSubmit={handleSubmit} />
 
             <span className="text-gray-500 mb-[20px]">

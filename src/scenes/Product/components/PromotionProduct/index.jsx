@@ -18,7 +18,6 @@ function PromotionProduct(props) {
       } catch (error) {}
     })();
   }, []);
-
   return (
     <div className=" mx-[24px] h-[400px] bg-[#f7ede4] flex justify-around items-center p-5">
       <div className="  hidden lg:block basis-1/2 bg-lg-background-promotion w-full h-full bg-no-repeat"></div>

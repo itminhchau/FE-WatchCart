@@ -5,22 +5,27 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../userSlice';
 import LoginForm from './LoginForm';
+import { Box, LinearProgress } from '@mui/material';
 
 Login.propTypes = {};
 
 function Login({ onClose, handleSetModeRegister }) {
   const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     try {
       const result = await dispatch(login(values));
       const user = unwrapResult(result);
       if (user && user.id) {
         onClose();
+        setLoading(false);
       }
       if (user && user.errCode === 1) {
         setError(user?.message);
+        setLoading(false);
       }
     } catch (error) {
       console.log('error login', error);
@@ -40,6 +45,11 @@ function Login({ onClose, handleSetModeRegister }) {
           <span className=" font-bold text-[24px] text-black mb-4">Đăng nhập</span>
           {error ? <div className="text-red-500 text-[15px]"> {error} </div> : ' '}
           <LoginForm onSubmit={handleSubmit} />
+          {loading && loading === true && (
+            <Box sx={{ width: '60%' }}>
+              <LinearProgress />
+            </Box>
+          )}
           <div className="text-primary-gray text-[15px]">
             <span>
               Bạn chưa có tài khoản?{' '}
