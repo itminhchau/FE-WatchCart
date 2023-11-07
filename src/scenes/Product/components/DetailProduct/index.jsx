@@ -131,53 +131,56 @@ function DetailProduct(props) {
   const safeDescription = DOMPurify.sanitize(product?.description);
   const mark = { __html: safeDescription };
   return (
-    <div className="  lg:py-0 mb-[40px] ">
-      <div className="py-[24px] px-4 lg:px-32 lg:flex lg:justify-center lg:items-center gap-x-8 ">
-        <div className="  shadow-sm shadow-white  w-full h-full rounded-3xl border-1 bg-white overflow-hidden">
-          <img src={image.url} alt="" className=" lg:max-w-lg hover:scale-110 ease-in duration-300" />
-        </div>
-        <div>
-          <div className=" ">
-            <h1 className="text-3xl font-semibold pt-[20px] mb-2">{product?.nameProduct}</h1>
-            <span className="my-4 mx-0  text-2xl font-bold leading-7 text-primary-yelow mr-3">
-              {formatPrice(formatSalePrice(product?.price, product?.discount_percent))}
-            </span>
-            <span className="my-4 mx-0  text-xl font-bold leading-7 text-gray-300 line-through">
-              {formatPrice(product?.price)}
-            </span>
-            <div className="flex flex-col justify-start items-start">
-              <span className="font-normal text-base">{product?.shortDescription}</span>
-              <span className="font-normal text-base text-red-300">Số lượng sản phẩm còn: {stock}</span>
-            </div>
-            <div className="flex items-center justify-start gap-2 mt-4 mx-0 text-sm w-fit p-[16px] bg-white rounded-xl">
-              {listColorOfProduct &&
-                listColorOfProduct.length > 0 &&
-                listColorOfProduct.map((item) => {
-                  return (
-                    <div
-                      key={item.id}
-                      style={{ backgroundColor: `${item.hexCode}` }}
-                      className={`p-[20px] rounded-lg shadow-lg  my-0 mx-[5px] cursor-pointer capitalize ${
-                        isActive === item.id ? 'border-2 border-primary-yelow ' : ''
-                      }`}
-                      onClick={() => handleActive(item.id)}
-                    ></div>
-                  );
-                })}
-              <QuantityButton onSubmit={handleAddToCart} stock={stock} />
+    <>
+      <div className="  lg:py-0 mb-[40px] ">
+        <div className="py-[24px] px-4 lg:px-32 lg:flex lg:justify-center lg:items-center gap-x-8 ">
+          <div className="  shadow-sm shadow-white  w-full h-full rounded-3xl border-1 bg-white overflow-hidden">
+            <img src={image.url} alt="" className=" lg:max-w-lg hover:scale-110 ease-in duration-300" />
+          </div>
+          <div>
+            <div className=" ">
+              <h1 className="text-3xl font-semibold pt-[20px] mb-2">{product?.nameProduct}</h1>
+              <span className="my-4 mx-0  text-2xl font-bold leading-7 text-primary-yelow mr-3">
+                {formatPrice(formatSalePrice(product?.price, product?.discount_percent))}
+              </span>
+              <span className="my-4 mx-0  text-xl font-bold leading-7 text-gray-300 line-through">
+                {formatPrice(product?.price)}
+              </span>
+              <div className="flex flex-col justify-start items-start">
+                <span className="font-normal text-base">{product?.shortDescription}</span>
+                <span className="font-normal text-base text-red-300">Số lượng sản phẩm còn: {stock}</span>
+              </div>
+              <div className="flex items-center justify-start gap-2 mt-4 mx-0 text-sm w-fit p-[16px] bg-white rounded-xl">
+                {listColorOfProduct &&
+                  listColorOfProduct.length > 0 &&
+                  listColorOfProduct.map((item) => {
+                    return (
+                      <div
+                        key={item.id}
+                        style={{ backgroundColor: `${item.hexCode}` }}
+                        className={`p-[20px] rounded-lg shadow-lg  my-0 mx-[5px] cursor-pointer capitalize ${
+                          isActive === item.id ? 'border-2 border-primary-yelow ' : ''
+                        }`}
+                        onClick={() => handleActive(item.id)}
+                      ></div>
+                    );
+                  })}
+                <QuantityButton onSubmit={handleAddToCart} stock={stock} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="mt-[40px] py-0 px-4 lg:px-32 sm:pb-[10px]">
-        <div className="pl-[40px] text-2xl font-semibold mb-[30px] ">
-          <h1>Thông tin chi tiết</h1>
+        <div className="mt-[40px] py-0 px-4 lg:px-32 sm:pb-[10px]">
+          <div className="pl-[40px] text-2xl font-semibold mb-[30px] ">
+            <h1>Thông tin chi tiết</h1>
+          </div>
+          <div className=" text-sm font-normal  " dangerouslySetInnerHTML={mark}></div>
         </div>
-        <div className=" text-sm font-normal  " dangerouslySetInnerHTML={mark}></div>
+        <div>
+          <ReviewProduct />
+        </div>
       </div>
-
-      <ReviewProduct />
-    </div>
+    </>
   );
 }
 
