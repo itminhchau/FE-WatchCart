@@ -1,5 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 CountDownClock.propTypes = {};
 
