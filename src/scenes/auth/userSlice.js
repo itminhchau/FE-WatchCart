@@ -16,6 +16,8 @@ export const register = createAsyncThunk('users/register', async (payload, thunk
   const res = await userApi.register(payload);
   if (res && res.data.errCode === 0) {
     return res.data;
+  } else {
+    return res.data;
   }
 });
 
