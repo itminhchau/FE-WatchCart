@@ -111,7 +111,6 @@ const ReviewProduct = () => {
   useEffect(() => {
     (async () => {
       const res = await reviewApi.getAvgStar({ idProduct: id });
-      // console.log('res :', res);
       setTotalStar(res.data.total);
       setAvgStar(res.data.avgStar);
       setCountStar(res.data.coutStar);
@@ -123,18 +122,10 @@ const ReviewProduct = () => {
     return formatDate;
   };
 
-  // console.log('listReviewProduct :', listReviewProduct);
-  // console.log('filter :', filter);
-  console.log('countStar :', countStar);
-  // console.log('totalReview :', totalReview);
-
-  // console.log('idAvgStar :', idAvgStar);
-  // console.log('totalStar :', totalStar);
-
   return (
     <>
       <div className="mt-[50px] container text-black py-2 px-2 lg:px-32 rounded-md   ">
-        <div className="bg-[#F8F9FA] h-[1000px] py-2 px-4 rounded-md">
+        <div className="bg-[#F8F9FA]  py-2 px-4 rounded-md ">
           <h1 className="text-[18px] ">Đánh giá sản phẩm</h1>
           <div className="review-top border-t lg:flex lg:justify-center lg:items-center lg:gap-40 mb-[30px] mt-[30px]">
             <div className="left flex flex-col items-center">
@@ -175,7 +166,7 @@ const ReviewProduct = () => {
               </button>
             </div>
           </div>
-          <div className="review-bottom  w-full h-[200px] pt-[20px] border-t">
+          <div className="review-bottom  w-full  pt-[20px] border-t">
             <div className="mt-[5px] flex items-center gap-3">
               <span>Sắp xếp theo:</span>
               {arrayfilter.map((item) => {

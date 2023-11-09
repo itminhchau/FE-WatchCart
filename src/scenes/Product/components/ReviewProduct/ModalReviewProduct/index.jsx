@@ -20,7 +20,6 @@ const ModalReviewProduct = ({ handleClickOpen, open, handleClose, product, check
     } catch (error) {
       console.log(error);
     }
-    // console.log('values :', newValue);
   };
   return (
     <div>

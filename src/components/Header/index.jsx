@@ -72,13 +72,12 @@ function Header(props) {
     };
   }, [dispatch]);
 
-  const handleCloseLogin = () => {
-    setLoginCheck(false);
-  };
   const handleCheckProfile = () => {
     setCheckProfile(true);
   };
-
+  const handleCloseLogin = () => {
+    setLoginCheck(false);
+  };
   const handleSetModeLogin = () => {
     setMode(AUTHMODE.LOGIN);
   };

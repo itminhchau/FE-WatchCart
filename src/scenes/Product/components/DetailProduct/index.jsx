@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { logOut } from 'scenes/auth/userSlice';
 import { changeWhenSentToCart } from 'scenes/Cart/cartSlice';
+import QuestionAnswer from '../QuestionAnswer';
 import ReviewProduct from '../ReviewProduct';
 
 DetailProduct.propTypes = {};
@@ -178,6 +179,9 @@ function DetailProduct(props) {
         </div>
         <div>
           <ReviewProduct />
+        </div>
+        <div>
+          <QuestionAnswer idProduct={product?.id} />
         </div>
       </div>
     </>
