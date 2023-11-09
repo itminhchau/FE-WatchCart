@@ -15,9 +15,13 @@ const Register = ({ onClose, handleSetModeLogin }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleSubmit = async (values) => {
+    const newValue = {
+      ...values,
+      role: 'customer',
+    };
     setLoading(true);
     try {
-      const result = await dispatch(register(values));
+      const result = await dispatch(register(newValue));
       const user = unwrapResult(result);
       if (user && user.errCode === 0) {
         onClose();
