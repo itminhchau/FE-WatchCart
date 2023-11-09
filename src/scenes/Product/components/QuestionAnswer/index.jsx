@@ -6,25 +6,30 @@ import { useState } from 'react';
 import { AUTHMODE } from 'constants/common';
 import Register from 'scenes/auth/Register';
 import AnswerForm from './AnswerForm';
+import { useLocation } from 'react-router-dom';
 
 QuestionAnswer.propTypes = {};
 
 function QuestionAnswer({ idProduct }) {
   const [loginCheck, setLoginCheck] = useState(false);
-  const [checkOpenAnswer, setCheckOpenAnswer] = useState(false);
+  const location = useLocation();
+  const [idQuestion, setIdQuestion] = useState(0);
   const [mode, setMode] = useState(AUTHMODE.LOGIN);
   const [checked, setChecked] = useState();
   const [hide, setHide] = useState(true);
 
+  console.log(location);
   const user = useSelector((state) => state.user.current);
   const idCustomer = user ? !!user.id : false;
   console.log('user', user);
   const handleSubmitQuestion = (values) => {
     if (idCustomer) {
+      const name = `${user.firstName} ${user.lastName}`;
       const newValues = {
         ...values,
         idProduct,
-        idCustomer,
+        idCustomer: user.id,
+        useName: name,
       };
       console.log('value question', newValues);
     } else {
@@ -36,8 +41,8 @@ function QuestionAnswer({ idProduct }) {
     if (idCustomer) {
       const newValues = {
         ...values,
-        idProduct,
-        idCustomer,
+        idQuestion: idQuestion,
+        idCustomer: user.id,
       };
       console.log('value question', newValues);
     } else {
@@ -61,7 +66,7 @@ function QuestionAnswer({ idProduct }) {
   };
 
   const handleAnswer = (question) => {
-    setCheckOpenAnswer(!checkOpenAnswer);
+    setIdQuestion(question.id);
     if (checked === question.id) {
       setHide(false);
       setChecked(' ');
