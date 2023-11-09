@@ -1,28 +1,12 @@
 import { Pagination, Rating } from '@mui/material';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalReviewProduct from './ModalReviewProduct';
 import productsApi from 'api/productsApi';
 import { useParams } from 'react-router-dom';
 import reviewApi from 'api/reviewApi';
 import ReviewNotCmt from '../../../../assets/image/review-not-cmt.png';
+import converArrayStar from 'constants/converArrayStar';
 
-const converArrayStar = (arr) => {
-  const result = Array(5)
-    .fill(0)
-    .map((_, index) => ({
-      star: index + 1,
-      count: 0,
-    }));
-
-  arr.forEach((item) => {
-    const starIndex = item.star - 1;
-    if (starIndex >= 0 && starIndex < result.length) {
-      result[starIndex].count = item.count;
-    }
-  });
-
-  return result.reverse();
-};
 const ReviewProduct = () => {
   const params = useParams();
   const { id } = params;
@@ -32,9 +16,6 @@ const ReviewProduct = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [listReviewProduct, setListReviewProduct] = useState([]);
-  const [totalReview, setTotalReview] = useState();
-  // const [showLike, setShowLike] = useState();
-  // const [totalLike, setTotalLike] = useState(0);
   const [filter, setFilter] = useState({
     idProduct: id,
     page: 1,
@@ -42,13 +23,9 @@ const ReviewProduct = () => {
     newReview: '',
     numberStar: '',
   });
-  // const [idAvgStar, setIdAvtStar] = useState({
-  //   idProduct: id,
-  // });
   const [totalStar, setTotalStar] = useState();
   const [avgStar, setAvgStar] = useState();
   const [countStar, setCountStar] = useState([]);
-  // const [rate, setRate] = useState();
   const [checkRender, setCheckRender] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -105,7 +82,6 @@ const ReviewProduct = () => {
     (async () => {
       const res = await reviewApi.getReviewProduct(filter);
       setListReviewProduct(res.data.data);
-      setTotalReview(res.data.total);
     })();
   }, [filter, checkRender]);
   useEffect(() => {
@@ -124,12 +100,12 @@ const ReviewProduct = () => {
 
   return (
     <>
-      <div className="mt-[50px] container text-black py-2 px-2 lg:px-32 rounded-md   ">
-        <div className="bg-[#F8F9FA]  py-2 px-4 rounded-md ">
-          <h1 className="text-[18px] ">Đánh giá sản phẩm</h1>
-          <div className="review-top border-t lg:flex lg:justify-center lg:items-center lg:gap-40 mb-[30px] mt-[30px]">
-            <div className="left flex flex-col items-center">
-              <span className="text-[#444b52]">Đánh Giá Trung Bình</span>
+      <div className="mt-[50px]  text-black py-2 px-2 lg:px-32 rounded-md   ">
+        <div className="bg-[#F8F9FA]  py-2 px-4 rounded-md">
+          <h1 className="text-[18px] lg:text-[20px] mb-[20px] font-medium">Đánh giá sản phẩm</h1>
+          <div className="review-top border-t lg:flex lg:justify-center lg:items-center lg:gap-20 py-3 px-0">
+            <div className="left flex flex-col items-center mb-4 lg:mb-0">
+              <span className="text-[#444b52] hidden lg:block">Đánh Giá Trung Bình</span>
               <div className="text-[30px] text-primary-yelow font-bold">{Math.round(avgStar * 10) / 10 || 5}/5</div>
               <Rating
                 name="read-only"
@@ -140,16 +116,21 @@ const ReviewProduct = () => {
               />
               <div className="text-[#939ca3] text-[14px]">{totalStar || 0} đánh giá</div>
             </div>
-            <div className="center">
+            <div className="center mb-4 lg:mb-0">
               {converArrayStar(countStar) &&
                 converArrayStar(countStar).length > 0 &&
                 converArrayStar(countStar).map((item) => {
+                  let listStar = Math.floor((100 * item.count) / totalStar);
+                  let percentStar = `${listStar}%`;
                   return (
-                    <div key={item.id} className="flex items-center gap-1">
+                    <div key={item.star} className="flex items-center gap-1">
                       <span className="text-[#444b52] text-[14px]">{item.star}</span>
                       <Rating name="read-only" value={item.star} readOnly size="small" />
                       <div className="h-[8px] w-[280px] rounded bg-[#edeeef] overflow-hidden relative">
-                        <div className={`bg-[#48bb78] rounded w-[20%] float-left h-full text-right `}></div>
+                        <div
+                          style={{ width: `${percentStar}` }}
+                          className={`bg-[#48bb78] rounded  h-full float-left  text-right `}
+                        ></div>
                       </div>
                       <span className="text-[14px] text-[#444b52]">{item.count}</span>
                     </div>
@@ -157,9 +138,9 @@ const ReviewProduct = () => {
                 })}
             </div>
             <div className="right flex flex-col">
-              <span>Bạn đã dùng sản phẩm này?</span>
+              <span className="text-[#444b52] text-[15px] hidden lg:block">Bạn đã dùng sản phẩm này?</span>
               <button
-                className=" mt-[5px] uppercase bg-primary-yelow text-[white] text-[15px] p-[10px] rounded-lg cursor-pointer hover:bg-blue-500 duration-100"
+                className=" mt-[5px] uppercase bg-primary-yelow text-[white] text-[15px] px-0 py-3 rounded-lg cursor-pointer hover:bg-blue-500 duration-100"
                 onClick={() => handleClickOpen()}
               >
                 gửi đánh giá
@@ -172,8 +153,8 @@ const ReviewProduct = () => {
               {arrayfilter.map((item) => {
                 return (
                   <button
-                    onClick={() => handleOnclickButton(item)}
                     key={item.id}
+                    onClick={() => handleOnclickButton(item)}
                     className=" bg-gray-500 p-[8px] text-white rounded-xl"
                     style={{ backgroundColor: `${active === item.id ? '#eba81d' : ''}` }}
                   >
@@ -223,7 +204,7 @@ const ReviewProduct = () => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 w-full mt-[20px]">
+            <div className="flex flex-col gap-3 w-full mt-[20px] ">
               {listReviewProduct.length === 0 ? (
                 <div className="flex flex-col items-center">
                   <img className="w-[126px] h-[112px] mb-[16px]" src={ReviewNotCmt} alt="ReviewNotCmt" />
@@ -234,12 +215,12 @@ const ReviewProduct = () => {
                 listReviewProduct.length > 0 &&
                 listReviewProduct.map((item) => {
                   return (
-                    <div className="flex flex-col items-start " key={item.id}>
-                      <span className="text-[18px] font-bold ">{item.userName}</span>
+                    <div className="flex flex-col items-start text-[14px]" key={item.id}>
+                      <span className="lg:text-[18px] font-bold ">{item.userName}</span>
                       <span className="mt-[5px]">
-                        <Rating name="read-only" readOnly value={item.star}></Rating>
+                        <Rating name="read-only" readOnly value={item.star} size="small"></Rating>
                       </span>
-                      <span className="text-[#444b52]">{item.content}</span>
+                      <span className="text-[#444b52] lg:text-[16px]">{item.content}</span>
                       <span className="mt-[5px] text-[#939ca3]">{formatDate(item.createdAt)}</span>
                     </div>
                   );
