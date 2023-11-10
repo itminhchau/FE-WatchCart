@@ -2,11 +2,14 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import QuestionForm from './QuestionForm';
 import Login from 'scenes/auth/Login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AUTHMODE } from 'constants/common';
 import Register from 'scenes/auth/Register';
 import AnswerForm from './AnswerForm';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import questionApi from 'api/questionApi';
+import answerApi from 'api/answerApi';
+import { Pagination } from '@mui/material';
 
 QuestionAnswer.propTypes = {};
 
@@ -17,40 +20,67 @@ function QuestionAnswer({ idProduct }) {
   const [mode, setMode] = useState(AUTHMODE.LOGIN);
   const [checked, setChecked] = useState();
   const [hide, setHide] = useState(true);
+  const [question, setQuestion] = useState([]);
+  const [rerender, setRerender] = useState(false);
 
-  console.log(location);
+  const params = useParams();
+  const { id } = params;
+  const [filter, setFilter] = useState({
+    idProduct: id,
+    page: 1,
+    limit: 3,
+  });
+  const [total, setTotal] = useState();
+  const totalPages = Math.ceil(total / filter.limit);
   const user = useSelector((state) => state.user.current);
   const idCustomer = user ? !!user.id : false;
-  console.log('user', user);
-  const handleSubmitQuestion = (values) => {
+  const handleOnChangePage = (e, newPage) => {
+    setFilter({
+      ...filter,
+      page: newPage,
+    });
+  };
+  const handleSubmitQuestion = async (values) => {
     if (idCustomer) {
       const name = `${user.firstName} ${user.lastName}`;
+      const linkProduct = location.pathname;
       const newValues = {
         ...values,
         idProduct,
         idCustomer: user.id,
-        useName: name,
+        userName: name,
+        link: linkProduct,
       };
-      console.log('value question', newValues);
+
+      const res = await questionApi.createQuestion(newValues);
+      if (res && res.data.errCode === 0) {
+        checkRender();
+      }
     } else {
       toast.warning('mời bạn đăng nhập');
       handleSetLoginOpen();
     }
   };
-  const handleSubmitAnswer = (values) => {
+  const handleSubmitAnswer = async (values) => {
     if (idCustomer) {
       const newValues = {
         ...values,
         idQuestion: idQuestion,
         idCustomer: user.id,
       };
-      console.log('value question', newValues);
+
+      const res = await answerApi.createAnswer(newValues);
+      if (res && res.data.errCode === 0) {
+        checkRender();
+      }
     } else {
       toast.warning('mời bạn đăng nhập');
       handleSetLoginOpen();
     }
   };
-
+  const checkRender = () => {
+    setRerender(!rerender);
+  };
   const handleCloseLogin = () => {
     setLoginCheck(false);
   };
@@ -75,17 +105,28 @@ function QuestionAnswer({ idProduct }) {
       setHide(true);
     }
   };
-  const arrayTest = [
-    { id: 1, value: '' },
-    { id: 2, value: '' },
-    { id: 3, value: '' },
-    { id: 4, value: '' },
-    { id: 5, value: '' },
-  ];
-  const arrayTest2 = [
-    { id: 1, value: '' },
-    { id: 2, value: '' },
-  ];
+
+  const formatDate = (date) => {
+    let dateObj = new Date(date);
+    let formatDate = dateObj.getDate() + '/' + (dateObj.getMonth() + 1) + '/' + dateObj.getFullYear();
+    return formatDate;
+  };
+  useEffect(() => {
+    (async () => {
+      const res = await questionApi.getQuestion(filter);
+      setQuestion(res.data.data);
+      setTotal(res.data?.pagination?.total);
+    })();
+  }, [filter, rerender]);
+
+  //func conver name ,ví dụ Lê Thái sơn =>LTS
+  function abbreviateName(fullName) {
+    const words = fullName.split(' ');
+    // Lấy chữ cái đầu của mỗi từ và chuyển thành chữ hoa
+    const abbreviation = words.map((word) => word.charAt(0).toUpperCase()).join('');
+
+    return abbreviation;
+  }
   return (
     <div className="mt-[50px] container text-black py-2 px-2 lg:px-32 rounded-md   ">
       <div className="bg-[#F8F9FA]  py-2 px-4 rounded-md">
@@ -96,48 +137,72 @@ function QuestionAnswer({ idProduct }) {
         </div>
         {/* conversation */}
         <ul>
-          {arrayTest.map((item, index) => {
-            return (
-              <li className="mb-4 flex justify-start gap-2 items-start">
-                <div className="w-[60px] h-[60px] bg-gray-300 font-bold text-[28px] text-white rounded-sm text-center p-[8px]">
-                  MC
-                </div>
-                <div className="flex-1">
-                  <div className="flex justify-start items-center gap-2 ">
-                    <span className="font-bold text-[18px]">Đào Minh châu</span>
-                    <span className="text-[14px] text-gray-300">vào 24/01/2023</span>
+          {question &&
+            question.length > 0 &&
+            question.map((item, index) => {
+              return (
+                <li className="mb-4 flex justify-start gap-2 items-start" key={item.id}>
+                  <div className="w-[40x] h-[40px] text-[16px] lg:w-[60px] lg:h-[60px] bg-gray-300 font-bold lg:text-[28px] text-white rounded-sm text-center p-[8px]">
+                    {abbreviateName(item.questionCt?.firstName + ' ' + item.questionCt?.lastName)}
                   </div>
-                  <span className="block">Dạ cho em hỏi sản phẩm có bảo hành không ạ</span>
-                  <span
-                    className="text-blue-400 block cursor-pointer text-[14px] hover:text-red-500"
-                    onClick={() => handleAnswer(item)}
-                  >
-                    Trả lời
-                  </span>
-                  <div className=" ml-6">
-                    <ul>
-                      {arrayTest2.map((item, index) => {
-                        return (
-                          <li className="mb-4">
-                            <div className="flex-1">
-                              <div className="flex justify-start items-center gap-2 ">
-                                <span className="font-bold text-[18px] ">Thái Sơn</span>
-                                <span className="text-red-500 font-bold italic text-[16px]">Quản trị viên</span>
-                                <span className="text-[14px] text-gray-300">vào 24/01/2023</span>
-                              </div>
-                              <span className="block">Dạ sản phẩm có bảo hành một năm nha bạn!</span>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    {checked === item.id && hide && <AnswerForm onSubmit={handleSubmitAnswer} />}
+                  <div className="flex-1">
+                    <div className="flex justify-start items-center gap-2 ">
+                      <span className="font-bold text-[16px] lg:text-[18px]">
+                        {item.questionCt?.firstName + ' ' + item.questionCt?.lastName}
+                      </span>
+                      <span className="text-[14px] text-gray-300"> vào {formatDate(item.createdAt)}</span>
+                    </div>
+                    <span className="block text-[14px] lg:text-[16px]">{item.content}</span>
+                    <span
+                      className="text-blue-400 block cursor-pointer text-[14px] hover:text-red-500"
+                      onClick={() => handleAnswer(item)}
+                    >
+                      Trả lời
+                    </span>
+                    <div className=" ml-6">
+                      <ul>
+                        {item?.anwerQs &&
+                          item?.anwerQs.length > 0 &&
+                          item?.anwerQs.map((item, index) => {
+                            return (
+                              <li key={item.id} className="mb-4">
+                                <div className="flex-1">
+                                  <div className="flex justify-start items-center gap-2 ">
+                                    <span className="font-bold text-[14px] lg:text-[18px] ">
+                                      {' '}
+                                      {item.answerCt?.firstName + ' ' + item.answerCt?.lastName}
+                                    </span>
+                                    <span className="text-red-500 font-bold italic text-[14px] lg:text-[16px]">
+                                      {item.answerCt?.role === 'admin' ? 'Quản trị viên' : ''}
+                                    </span>
+                                    <span className="text-[14px] text-gray-300">vào {formatDate(item.createdAt)}</span>
+                                  </div>
+                                  <span className="block text-[14px] lg:text-[16px]">{item.content}</span>
+                                </div>
+                              </li>
+                            );
+                          })}
+                      </ul>
+                      {checked === item.id && hide && <AnswerForm onSubmit={handleSubmitAnswer} />}
+                    </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })}
         </ul>
+        {question.length === 0 ? (
+          ''
+        ) : (
+          <div className="text-center flex  mt-[20px] ">
+            <Pagination
+              onChange={handleOnChangePage}
+              sx={{ margin: 'auto' }}
+              page={Number.parseInt(filter.page) || 1}
+              count={totalPages || 3}
+              color="primary"
+            />
+          </div>
+        )}
       </div>
       {loginCheck && mode === AUTHMODE.LOGIN && (
         <Login onClose={handleCloseLogin} handleSetModeRegister={handleSetModeRegister} />
