@@ -35,6 +35,7 @@ function Product(props) {
       idBrand: param.idBrand || '',
       newProduct: param.newProduct || '',
       modePrice: param.modePrice || '',
+      bestSelling: param.bestSelling || '',
     };
   }, [location.search]);
 
@@ -60,7 +61,7 @@ function Product(props) {
   };
 
   const arrayfilter = [
-    { id: 1, value: 'Bán chạy nhất', order: '' },
+    { id: 1, value: 'Bán chạy nhất', orders: 'DESC' },
     { id: 2, value: 'Mới nhất', order: 'DESC' },
   ];
   const arrayPrice = [
@@ -86,10 +87,12 @@ function Product(props) {
   };
 
   const handleOnclickButton = (item) => {
+    console.log(item);
     setActive(item.id);
     const newFilter = {
       ...queryParams,
       newProduct: item.order,
+      bestSelling: item.orders,
     };
     navigate({
       pathname: location.pathname,
