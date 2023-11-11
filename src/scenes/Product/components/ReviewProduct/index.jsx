@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import reviewApi from 'api/reviewApi';
 import ReviewNotCmt from '../../../../assets/image/review-not-cmt.png';
 import converArrayStar from 'constants/converArrayStar';
+import formatDate from 'constants/formatDate';
 
 const ReviewProduct = () => {
   const params = useParams();
@@ -92,11 +93,6 @@ const ReviewProduct = () => {
       setCountStar(res.data.coutStar);
     })();
   }, [id, checkRender]);
-  const formatDate = (date) => {
-    let dateObj = new Date(date);
-    let formatDate = dateObj.getDate() + '/' + (dateObj.getMonth() + 1) + '/' + dateObj.getFullYear();
-    return formatDate;
-  };
 
   return (
     <>

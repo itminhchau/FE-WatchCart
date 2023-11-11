@@ -10,6 +10,8 @@ import { useLocation, useParams } from 'react-router-dom';
 import questionApi from 'api/questionApi';
 import answerApi from 'api/answerApi';
 import { Pagination } from '@mui/material';
+import abbreviateName from 'constants/abbrevitateName';
+import formatDate from 'constants/formatDate';
 
 QuestionAnswer.propTypes = {};
 
@@ -106,11 +108,6 @@ function QuestionAnswer({ idProduct }) {
     }
   };
 
-  const formatDate = (date) => {
-    let dateObj = new Date(date);
-    let formatDate = dateObj.getDate() + '/' + (dateObj.getMonth() + 1) + '/' + dateObj.getFullYear();
-    return formatDate;
-  };
   useEffect(() => {
     (async () => {
       const res = await questionApi.getQuestion(filter);
@@ -120,13 +117,7 @@ function QuestionAnswer({ idProduct }) {
   }, [filter, rerender]);
 
   //func conver name ,ví dụ Lê Thái sơn =>LTS
-  function abbreviateName(fullName) {
-    const words = fullName.split(' ');
-    // Lấy chữ cái đầu của mỗi từ và chuyển thành chữ hoa
-    const abbreviation = words.map((word) => word.charAt(0).toUpperCase()).join('');
 
-    return abbreviation;
-  }
   return (
     <div className="mt-[50px] container text-black py-2 px-2 lg:px-32 rounded-md   ">
       <div className="bg-[#F8F9FA]  py-2 px-4 rounded-md">
