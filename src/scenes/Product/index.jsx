@@ -123,7 +123,7 @@ function Product(props) {
     setActiveBrand(null);
     setSelectedItem('');
   }, [clickProductHeader]);
-
+  console.log('test');
   return (
     <>
       <div className="lg:flex lg:justify-between py-[18px] grid grid-cols-1 lg:grid-cols-2-8 gap-4">
