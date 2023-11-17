@@ -1,15 +1,17 @@
-import { Pagination } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, Pagination } from '@mui/material';
 import brandApi from 'api/brandApi';
 import productsApi from 'api/productsApi';
 import menu from 'assets/image/list.png';
 import queryString from 'query-string';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ItemProduct from './components/ItemProduct';
+import listPriceData from '../../mockData/listData';
 Product.propTypes = {};
 
 function Product(props) {
+  let newValue = useRef('');
   const [listAllProduct, setListAllProduct] = useState([]);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +26,7 @@ function Product(props) {
     page: 1,
     limit: 12,
   });
-
+  const [reload, setReload] = useState(false);
   const queryParams = useMemo(() => {
     const param = queryString.parse(location.search);
 
@@ -36,6 +38,7 @@ function Product(props) {
       newProduct: param.newProduct || '',
       modePrice: param.modePrice || '',
       bestSelling: param.bestSelling || '',
+      arrayPrice: param.arrayPrice || '',
     };
   }, [location.search]);
 
@@ -87,7 +90,6 @@ function Product(props) {
   };
 
   const handleOnclickButton = (item) => {
-    console.log(item);
     setActive(item.id);
     const newFilter = {
       ...queryParams,
@@ -123,7 +125,28 @@ function Product(props) {
     setActiveBrand(null);
     setSelectedItem('');
   }, [clickProductHeader]);
-  console.log('test');
+
+  const handleChangePrice = (value) => {
+    const isChecked = newValue.current.includes(value);
+    if (isChecked) {
+      let x = newValue.current
+        .split('-')
+        .filter((item) => item !== value)
+        .join('-');
+      newValue.current = x;
+    } else {
+      newValue.current += `-${value}`;
+    }
+    setReload(!reload);
+    const newFilter = {
+      ...queryParams,
+      arrayPrice: newValue.current,
+    };
+    navigate({
+      pathname: location.pathname,
+      search: queryString.stringify(newFilter),
+    });
+  };
   return (
     <>
       <div className="lg:flex lg:justify-between py-[18px] grid grid-cols-1 lg:grid-cols-2-8 gap-4">
@@ -148,6 +171,26 @@ function Product(props) {
                     </li>
                   );
                 })}
+            </ul>
+            <span className="text-black text-[18px] font-bold mt-[20px] mb-[10px]">Mức giá</span>
+            <ul className="text-black ">
+              <FormGroup>
+                {listPriceData &&
+                  listPriceData.length > 0 &&
+                  listPriceData.map((item) => (
+                    <li key={item.id}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={newValue.current.includes(item.value)}
+                            onChange={() => handleChangePrice(item.value)}
+                          />
+                        }
+                        label={item.title}
+                      />
+                    </li>
+                  ))}
+              </FormGroup>
             </ul>
           </div>
         </div>
@@ -194,6 +237,7 @@ function Product(props) {
                     {arrayPrice.map((item) => {
                       return (
                         <button
+                          key={item.id}
                           onClick={() => handleItemClick(item)}
                           className="block px-4 py-2 w-full text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                         >
