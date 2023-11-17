@@ -26,14 +26,16 @@ function PurchaseOrder({ idCustomer }) {
   }, [idCustomer]);
 
   return (
-    <div class="flex flex-col justify-center items-center gap-3 mt-3">
-      <span className="text-black text-[24px]">Thông Tin Chi Tiết Đơn Mua Hàng Của Quý Khách</span>
-      <table class="min-w-full bg-white border border-gray-300">
+    <div className="flex flex-col justify-center items-center gap-3 mt-3">
+      <span className="text-black text-[18px] mt-[10px] md:mt-0 px-1 md:px-0 md:text-[24px]">
+        Thông Tin Chi Tiết Đơn Mua Hàng Của Quý Khách
+      </span>
+      <table className="min-w-full bg-white border border-gray-300">
         <thead>
-          <tr className="bg-green-500">
-            <th class="py-2 px-4 border-b">Thứ tự</th>
-            <th class="py-2 px-4 border-b">Trạng thái </th>
-            <th class="py-2 px-4 border-b">Tổng tiền</th>
+          <tr className="bg-green-500 text-[14px] md:text-[16px]">
+            <th className="py-2 px-4 border-b">Thứ tự</th>
+            <th className="py-2 px-4 border-b">Trạng thái </th>
+            <th className="py-2 px-4 border-b">Tổng tiền</th>
           </tr>
         </thead>
         <tbody>
@@ -42,12 +44,13 @@ function PurchaseOrder({ idCustomer }) {
               return (
                 <>
                   <tr
-                    className="text-center cursor-pointer hover:bg-primary-yelow"
+                    key={item.id}
+                    className="text-center cursor-pointer hover:bg-primary-yelow text-[14px] md:text-[16px]"
                     onClick={() => hanldeOnclick(item.id)}
                   >
-                    <td class="py-2 px-4 border-b">{index + 1}</td>
-                    <td class="py-2 px-4 border-b">{item.status}</td>
-                    <td class="py-2 px-4 border-b">{item.totalPrice}</td>
+                    <td className="py-2 px-4 border-b">{index + 1}</td>
+                    <td className="py-2 px-4 border-b">{item.status}</td>
+                    <td className="py-2 px-4 border-b">{item.totalPrice}</td>
                   </tr>
                   {checked === item.id && hide && (
                     <tr>
