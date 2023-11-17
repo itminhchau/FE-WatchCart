@@ -1,13 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { yupResolver } from '@hookform/resolvers/yup';
+import SendIcon from '@mui/icons-material/Send';
+import { Button } from '@mui/material';
+import InputField from 'components/InputField';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Grid } from '@mui/material';
-import InputField from 'components/InputField';
-import SendIcon from '@mui/icons-material/Send';
-import InputFieldArea from 'components/InputFieldArea';
-import InputFieldRate from 'components/InputFieldRate';
 
 AnswerForm.propTypes = {};
 
@@ -28,7 +24,7 @@ function AnswerForm({ onSubmit }) {
     onSubmit(values);
     form.reset();
   };
-  const { isSubmitting } = form.formState;
+
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <div className="flex justify-between items-center">

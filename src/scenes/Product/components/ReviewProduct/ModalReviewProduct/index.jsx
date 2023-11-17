@@ -5,21 +5,16 @@ import reviewApi from 'api/reviewApi';
 import { toast } from 'react-toastify';
 
 const ModalReviewProduct = ({ handleClickOpen, open, handleClose, product, checkRenderReivew }) => {
-  // console.log('product', product);
-
   const handleSubmit = async (values) => {
     const newValue = { ...values, idProduct: product && product.id };
     try {
       const res = await reviewApi.createReviewProduct(newValue);
-      console.log(res);
       if (res && res.data.errCode === 0) {
         toast.success('Đánh giá thành công');
         handleClose();
         checkRenderReivew();
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   return (
     <div>

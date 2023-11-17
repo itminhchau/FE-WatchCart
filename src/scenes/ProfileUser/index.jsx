@@ -1,39 +1,14 @@
-import { useEffect, useState } from 'react';
+import { listComponentProfile } from 'mockData/listComponent';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import buy from '../../assets/image/buy-product.png';
 import profile from '../../assets/image/profile.png';
 import user from '../../assets/image/user.png';
+import PurchaseOrder from './components/PurchaseOrder';
 
-const account = [
-  {
-    id: 1,
-    name: 'Hồ sơ',
-    link: '/profile',
-  },
-  {
-    id: 2,
-    name: 'Ngân hàng',
-    link: '/profile',
-  },
-  {
-    id: 3,
-    name: 'Địa chỉ',
-    link: '/profile',
-  },
-  {
-    id: 4,
-    name: 'Đổi mật khẩu',
-    link: '/profile',
-  },
-  {
-    id: 5,
-    name: 'Cài Đặt thông báo',
-    link: '/profile',
-  },
-];
 const ProfileUser = () => {
   const [active, setActive] = useState(1);
+  const [checkOpenDetailOrder, setCheckOpenDetailOrder] = useState(false);
   const [profileUser, setProfileUser] = useState();
   const userProfile = useSelector((state) => state.user.current);
 
@@ -45,22 +20,31 @@ const ProfileUser = () => {
   const handleClickActive = (id) => {
     setActive(id);
   };
+
+  const dataSendToComponents = useMemo(() => {
+    const newData = {};
+    return {
+      ...newData,
+      user: userProfile,
+    };
+  }, [userProfile]);
   return (
-    <div>
-      <div className="container-profile container mx-auto py-2 px-2 bg-[#f5f5f5] text-black flex justify-center gap-5 sm:gap-40">
-        <div className="profile-left pl-0 sm:pl-[50px] 	">
+    <div className="container  w-[80%] mx-auto  bg-[#f5f5f5] mt-3">
+      <div className=" bg-background-profile w-full h-[250px] bg-no-repeat bg-cover bg-center relative">
+        <span className=" text-[48px] text-white bg-black px-[14px]  font-bold absolute bottom-[-35px] left-[70px] rounded-[25px]">
+          Hồ Sơ Của Tôi
+        </span>
+      </div>
+      <div className="  text-black grid grid-cols-4-8 ">
+        <div className=" profile-left pl-0 sm:pl-[50px] bg-primary-yelow py-[37px] text-white text-[18px] w-full h-full">
           <div className="profile-top flex items-center gap-4 text-[14px] ">
             <div>
               <img src={profile} alt="" className="w-[40px] h-[40px] bg-black rounded-full" />
             </div>
             <div className="">
-              <div className="text-[#333]">
+              <span className="text-[16px] md:text-[24px] ">
                 {profileUser?.lastName} {profileUser?.firstName}
-              </div>
-              <div className="text-[#888]">
-                <i className="fa-solid fa-pen-to-square"></i>
-                <span>Sửa Hồ Sơ</span>
-              </div>
+              </span>
             </div>
           </div>
           <div className="profile-bottom mt-[40px] text-[14px] ">
@@ -68,104 +52,46 @@ const ProfileUser = () => {
               <div>
                 <img src={user} alt="" className="w-[20px] h-[20px] " />
               </div>
-              <div className="text-[#000000de] cursor-pointer hover:text-primary-yelow ease-linear duration-100">
-                Tài Khoản Của Tôi
-              </div>
+              <div className=" cursor-pointer w-full hover:bg-gray-300 ease-linear duration-100">Tài Khoản Của Tôi</div>
             </div>
             <div className="mt-[10px]">
-              <div className="pl-[36px] ">
-                {account &&
-                  account.length > 0 &&
-                  account.map((item) => (
-                    <Link key={item.id} to={item.link}>
-                      <div
-                        onClick={() => handleClickActive(item.id)}
-                        className={`mt-[10px] text-[#000000a6] hover:text-primary-yelow ease-linear duration-100 ${
-                          active === item.id ? 'text-primary-yelow' : ''
-                        }`}
-                      >
-                        {item.name}
-                      </div>
-                    </Link>
+              <div className="pl-[36px] pr-[16px]">
+                {listComponentProfile &&
+                  listComponentProfile.length > 0 &&
+                  listComponentProfile.map((item) => (
+                    <div
+                      onClick={() => handleClickActive(item.id)}
+                      className={`mt-[10px]   hover:bg-gray-300 px-2 ease-linear duration-100 cursor-pointer ${
+                        active === item.id ? ' bg-blue-500' : ''
+                      }`}
+                    >
+                      {item.name}
+                    </div>
                   ))}
               </div>
               <div className="flex items-center mt-[15px] gap-3 cursor-pointer">
                 <div>
                   <img src={buy} alt="" className="w-[20px] h-[20px]" />
                 </div>
-                <div className="hover:text-primary-yelow ease-linear duration-100">Đơn mua</div>
+                <div
+                  className="hover:bg-gray-300 w-full ease-linear duration-100"
+                  onClick={() => setCheckOpenDetailOrder(!checkOpenDetailOrder)}
+                >
+                  Đơn mua
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="profile-right  ">
-          <div className="profile-top">
-            <div>
-              <h2 className="text-[18px]">Hồ Sơ Của Tôi</h2>
-              <span className="text-[14px]">Quản lý thông tin hồ sơ để bảo mật tài khoản</span>
+        <div className="profile-right  flex-1 ">
+          <div className=" mt-[40px]">
+            <div className="profile-left px-6">
+              {listComponentProfile &&
+                listComponentProfile.map((item) => {
+                  return item.id === active ? item.component(dataSendToComponents) : '';
+                })}
             </div>
-          </div>
-          <div className="profile-center mt-[40px]">
-            <div className="profile-left">
-              <div className="flex">
-                <table className="table-fixed	">
-                  <tbody className="py-3">
-                    <tr>
-                      <td className="pb-[30px]">
-                        <label htmlFor="" className="text-[14px] text-[#555555cc]">
-                          Tên Đăng nhập
-                        </label>
-                      </td>
-                      <td className="pb-[30px]">
-                        <div className="pl-[20px] text-[#333] text-[14px] ">
-                          {profileUser?.lastName} {profileUser?.firstName}
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="mt-[20px]">
-                      <td className="pb-[30px]">
-                        <label htmlFor="" className="text-[14px] text-[#555555cc]">
-                          Email
-                        </label>
-                      </td>
-                      <td className="pb-[30px]">
-                        <div className="pl-[20px] text-[#333] text-[14px]">{profileUser?.email}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="pb-[30px]">
-                        <label htmlFor="" className="text-[14px] text-[#555555cc]">
-                          Số điện thoại
-                        </label>
-                      </td>
-                      <td className="pb-[30px]">
-                        <div className="pl-[20px] text-[#333] text-[14px]">{profileUser?.phoneNumber}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="pb-[30px]">
-                        <label htmlFor="" className="text-[14px] text-[#555555cc]">
-                          Địa chỉ
-                        </label>
-                      </td>
-                      <td className="pb-[30px]">
-                        <div className="pl-[20px] text-[#333] text-[14px]">{profileUser?.shipAddress}</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="pb-[30px]">
-                        <label htmlFor="" className="text-[14px] text-[#555555cc]">
-                          Giới tính
-                        </label>
-                      </td>
-                      <td className="pb-[30px]">
-                        <div className="pl-[20px] text-[#333] text-[14px]">{profileUser?.gender}</div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            {checkOpenDetailOrder && <PurchaseOrder idCustomer={userProfile.id} />}
           </div>
         </div>
       </div>

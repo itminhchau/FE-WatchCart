@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import apple from 'assets/image/apple-logo.png';
 import promotionApi from 'api/promotionApi';
+import apple from 'assets/image/apple-logo.png';
 import { formatPrice } from 'constants/common';
 import formatSalePrice from 'constants/formatSalePrice';
+import { useEffect, useState } from 'react';
 import CountDownClock from './components/CountDownClock';
 
 PromotionProduct.propTypes = {};
