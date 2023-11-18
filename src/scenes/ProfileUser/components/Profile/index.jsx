@@ -22,8 +22,8 @@ function Profile({ profileUser }) {
     });
   };
   return (
-    <div className="">
-      <div className="flex justify-start items-center gap-2 mb-2">
+    <div className="text-[14px] md:text-[16px]">
+      <div className="flex justify-start items-center gap-2 mb-2  ">
         <label htmlFor="" className="w-[120px] block">
           Họ:
         </label>
@@ -109,7 +109,10 @@ function Profile({ profileUser }) {
         />
       </div>
       <div className=" text-center mt-2">
-        <button className=" bg-green-600 w-[200px] text-white text-[20px] p-2 rounded-sm" onClick={handleEditUser}>
+        <button
+          className=" bg-green-600 w-[200px] text-white text-[16px] md:text-[20px] p-2 rounded-sm"
+          onClick={handleEditUser}
+        >
           {checkEdit ? 'Chinh sửa thông tin' : 'Lưu thông tin'}
         </button>
       </div>
