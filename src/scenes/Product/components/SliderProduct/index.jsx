@@ -12,7 +12,7 @@ const SliderProduct = ({ listProduct }) => {
     autoplaySpeed: 2000,
     slidesToShow: 5,
     slidesToScroll: 1,
-
+    arrows: false,
     responsive: [
       {
         breakpoint: 1024,
@@ -30,7 +30,7 @@ const SliderProduct = ({ listProduct }) => {
   };
   return (
     <div>
-      <div className="mx-[24px] wrap-slider-product">
+      <div className="mx-[8px] lg:mx-[24px] wrap-slider-product">
         <Slider {...settings}>
           {listProduct &&
             listProduct.length > 0 &&

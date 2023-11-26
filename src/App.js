@@ -1,4 +1,5 @@
 import Header from 'components/Header';
+import ScrollToTop from 'components/ScrollToTop';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,9 +12,11 @@ import Product from 'scenes/Product';
 import DetailProduct from 'scenes/Product/components/DetailProduct';
 import ProfileUser from 'scenes/ProfileUser';
 import Shipment from 'scenes/Shipment';
+
 function App() {
   return (
     <div className="App container bg-[#514f4f] mx-auto mb-2">
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

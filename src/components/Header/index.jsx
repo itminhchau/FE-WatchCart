@@ -124,12 +124,16 @@ function Header(props) {
       limit: 10,
     });
   };
+
+  const handleCloseMenu = () => {
+    setMenuCheck(false);
+  };
   return (
     <>
-      <div className="h-24 bg-black flex flex-row justify-between items-center px-6 relative">
-        <div className=" basis-1/6 bg-cover flex justify-between items-center ">
+      <div className="h-24 bg-black flex flex-row justify-between items-center px-1 lg:px-6 relative">
+        <div className=" w-[32px] md:w-full md:basis-1/6 bg-cover flex justify-between items-center ">
           <div className=" lg:hidden w-[32px] h-full cursor-pointer hover:scale-125">
-            <img src={menu} alt="" onClick={() => setMenuCheck(!menuCheck)} />
+            <img src={menu} alt="" onClick={() => setMenuCheck(!menuCheck)} className=" w-[25px] h-[25px]" />
           </div>
           <img
             src={logo}
@@ -139,7 +143,7 @@ function Header(props) {
             onClick={() => navigate('/')}
           />
         </div>
-        {menuCheck && <ModalNav modalMenuRef={modalMenuRef} />}
+        {menuCheck && <ModalNav modalMenuRef={modalMenuRef} onCloseMenu={handleCloseMenu} />}
         <ul className=" basis-2.5/6  justify-center items-center gap-6 font-bold text-[18px] hidden lg:flex ">
           <li>
             <Link to="/">Trang Chủ</Link>
@@ -166,13 +170,13 @@ function Header(props) {
             onChange={(e) => handleOnchangeInput(e)}
           />
         </div>
-        <div className=" basis-0.5/6 font-bold flex justify-end items-center mr-4 ">
+        <div className=" basis-0.5/6 font-bold flex justify-end items-center mr-4 h-[32px] w-[32px]">
           <div className=" relative">
             <img
               src={cart}
               alt=""
               srcSet=""
-              className=" h-[24px] w-[24px] cursor-pointer"
+              className=" h-[32px] w-[32px] cursor-pointer"
               onClick={() => dispatch(showMiniCart())}
             />
             <span className=" bg-primary-yelow  h-[24px] w-[24px] text-center block text-white  absolute top-[-18px] right-[-18px] rounded-full">
@@ -188,7 +192,7 @@ function Header(props) {
               </span>
             )}
             {loginSuccess && (
-              <div className="flex justify-between items-center gap-4 relative">
+              <div className="flex justify-center  items-center gap-4 relative w-[32px] h-[32px] md:w-full md:h-full">
                 <img src={profile} alt="" onClick={handleCheckProfile} />
                 <span className=" hidden lg:block">
                   {user.lastName} {user.firstName}

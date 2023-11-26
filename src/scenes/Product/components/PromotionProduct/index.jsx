@@ -19,7 +19,7 @@ function PromotionProduct(props) {
     })();
   }, []);
   return (
-    <div className=" mx-[24px] h-[400px] bg-[#f7ede4] flex justify-around items-center p-5">
+    <div className=" mx-[8px] lg:mx-[24px] h-[400px] bg-[#f7ede4] flex justify-around items-center p-5">
       <div className="  hidden lg:block basis-1/2 bg-lg-background-promotion w-full h-full bg-no-repeat"></div>
       <div className="flex-1 lg:basis-1/2 flex flex-col justify-center items-center gap-4">
         <div className="flex justify-center items-start">
@@ -28,12 +28,12 @@ function PromotionProduct(props) {
             {data.nameProduct}
           </span>
         </div>
-        <div className=" h-[133px] w-[320px]  lg:w-full  bg-[#b2272c]  flex justify-center gap-3 items-center rounded-md">
+        <div className=" h-[133px] w-[260px]  lg:w-full  bg-[#b2272c] flex-col lg:flex-row  flex justify-center lg:gap-3 items-center rounded-md">
           <span className=" text-[20px] font-bold">Giảm giá sốc chỉ:</span>
-          <span className="my-4 mx-0 text-2xl  lg:text-5xl font-bold leading-7 text-primary-yelow mr-3">
+          <span className=" mx-0 text-2xl  lg:text-5xl font-bold leading-7 text-primary-yelow mr-3">
             {formatPrice(formatSalePrice(data.price, data.promotion))}
           </span>
-          <span className="my-4 mx-0 text-[16px] lg:text-xl font-bold leading-7 text-gray-300 line-through ">
+          <span className=" mx-0 text-[16px] lg:text-xl font-bold leading-7 text-gray-300 line-through ">
             {formatPrice(data.price)}
           </span>
         </div>

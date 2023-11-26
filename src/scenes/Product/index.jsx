@@ -7,7 +7,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ItemProduct from './components/ItemProduct';
+import arrowback from 'assets/image/arrowback.png';
 import listPriceData from '../../mockData/listData';
+
 Product.propTypes = {};
 
 function Product(props) {
@@ -20,6 +22,7 @@ function Product(props) {
   const [activeBrand, setActiveBrand] = useState(null);
   const [listBrand, setListBrand] = useState([]);
   const navigate = useNavigate();
+  const [checkSideBar, setCheckSideBar] = useState(false);
   const clickProductHeader = useSelector((state) => state.product.clickProductHeader);
 
   const [pagination, setPagination] = useState({
@@ -147,13 +150,68 @@ function Product(props) {
       search: queryString.stringify(newFilter),
     });
   };
+  const handleOpenSideBar = () => {
+    setCheckSideBar(true);
+  };
+  const handleCloseSideBar = () => {
+    setCheckSideBar(false);
+  };
+
   return (
     <>
-      <div className="lg:flex lg:justify-between py-[18px] grid grid-cols-1 lg:grid-cols-2-8 gap-4">
-        <div className="left lg:w-[20%]">
-          <div className="w-full h-full hidden lg:flex p-[18px] bg-white  lg:justify-start lg:items-start lg:flex-col ">
+      <div className="lg:flex lg:justify-between py-[18px] grid grid-cols-1 lg:grid-cols-2-8 gap-4 relative">
+        {checkSideBar && (
+          <div className="left lg:w-[20%]  lg:hidden absolute z-10 top-[18px] left-0  lg:top-0 ">
+            <div className="w-full h-full  lg:flex p-[18px] bg-gray-200 lg:bg-white  lg:justify-start lg:items-start lg:flex-col ">
+              <div className=" flex justify-start gap-2 items-center">
+                <img src={menu} alt="" className=" w-[20px] h-[20px] hidden lg:block" />
+                <img src={arrowback} alt="" className=" w-[20px] h-[20px] lg:hidden" onClick={handleCloseSideBar} />
+                <span className="text-black text-[18px] font-bold">Danh mục sản phẩm</span>
+              </div>
+              <ul className="w-full mt-4">
+                {listBrand &&
+                  listBrand.map((item, index) => {
+                    return (
+                      <li key={item.id}>
+                        <span
+                          onClick={() => handleOnclickBrand(item.id)}
+                          style={{ backgroundColor: `${activeBrand === item.id ? '#eba81d' : ''}` }}
+                          className=" block cursor-pointer bg-gray-500 text-white my-1 px-[12px] py-[8px] rounded-xl hover:bg-blue-400"
+                        >
+                          {item.nameBrand}
+                        </span>
+                      </li>
+                    );
+                  })}
+              </ul>
+              <span className="text-black text-[18px] font-bold mt-[20px] mb-[10px]">Mức giá</span>
+              <ul className="text-black ">
+                <FormGroup>
+                  {listPriceData &&
+                    listPriceData.length > 0 &&
+                    listPriceData.map((item) => (
+                      <li key={item.id}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={newValue.current.includes(item.value)}
+                              onChange={() => handleChangePrice(item.value)}
+                            />
+                          }
+                          label={item.title}
+                        />
+                      </li>
+                    ))}
+                </FormGroup>
+              </ul>
+            </div>
+          </div>
+        )}
+        <div className="left lg:w-[20%] hidden lg:block  z-10 top-[18px]  ">
+          <div className="w-full h-full  lg:flex p-[18px] bg-gray-200 lg:bg-white  lg:justify-start lg:items-start lg:flex-col ">
             <div className=" flex justify-start gap-2 items-center">
-              <img src={menu} alt="" className=" w-[20px] h-[20px]" />
+              <img src={menu} alt="" className=" w-[20px] h-[20px] hidden lg:block" />
+              <img src={arrowback} alt="" className=" w-[20px] h-[20px] lg:hidden" onClick={handleCloseSideBar} />
               <span className="text-black text-[18px] font-bold">Danh mục sản phẩm</span>
             </div>
             <ul className="w-full mt-4">
@@ -196,6 +254,7 @@ function Product(props) {
         </div>
         <div className="right lg:w-[80%]">
           <div className="h-[80px] w-full bg-white mb-4 flex justify-center md:justify-start px-[8px] gap-3 items-center">
+            <img src={menu} alt="" className=" lg:hidden cursor-pointer" onClick={handleOpenSideBar} />
             <span className="text-black hidden md:block">Sắp xếp theo</span>
             {arrayfilter.map((item) => {
               return (

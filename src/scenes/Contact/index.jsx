@@ -58,7 +58,7 @@ const Contact = () => {
             </div>
           </div>
         </div>
-        <div className="form p-[16px] w-full h-[580px] bg-white flex justify-center  flex-col items-center mt-[16px] rounded-xl">
+        <div className="form p-[16px] w-full h-[650px] bg-white flex justify-center  flex-col items-center mt-[16px] rounded-xl">
           <span className=" text-[24px] font-bold p-[16px] text-primary-yelow text-center">
             Nếu bạn có bất cứ câu hỏi cần tư vấn hay gửi ngay cho chúng tôi !!
           </span>

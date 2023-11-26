@@ -14,7 +14,7 @@ function Home(props) {
   return (
     <>
       <BannerHome listImage={listImageHomeBanner} slidesToShow={1} padding="0px" />
-      <div className=" mx-[36px] my-[8px]">
+      <div className="mx-[8px] lg:mx-[36px] my-[8px]">
         <TitleWeb title="ĐỐI TÁC" subTitle="Bộ sưu tập những thương hiệu nổi tiếng về smartwatch trên thế giới" />
         <BannerBrand listImage={listImageBrand} slidesToShow={4} padding="8px" />
         <TitleWeb title="KHUYẾN MÃI LỚN NHẤT" subTitle="Săn phẩm có khuyến mãi lớn nhất hiện tại" />

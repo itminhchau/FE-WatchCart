@@ -45,7 +45,7 @@ function QuestionAnswer({ idProduct }) {
   const handleSubmitQuestion = async (values) => {
     if (idCustomer) {
       const name = `${user.firstName} ${user.lastName}`;
-      const linkProduct = location.pathname;
+      const linkProduct = window.location.href;
       const newValues = {
         ...values,
         idProduct,
@@ -155,12 +155,11 @@ function QuestionAnswer({ idProduct }) {
                         {item?.anwerQs &&
                           item?.anwerQs.length > 0 &&
                           item?.anwerQs.map((item, index) => {
-                            return (
+                            return item.id ? (
                               <li key={item.id} className="mb-4">
                                 <div className="flex-1">
                                   <div className="flex justify-start items-center gap-2 ">
                                     <span className="font-bold text-[14px] lg:text-[18px] ">
-                                      {' '}
                                       {item.answerCt?.firstName + ' ' + item.answerCt?.lastName}
                                     </span>
                                     <span className="text-red-500 font-bold italic text-[14px] lg:text-[16px]">
@@ -171,6 +170,8 @@ function QuestionAnswer({ idProduct }) {
                                   <span className="block text-[14px] lg:text-[16px]">{item.content}</span>
                                 </div>
                               </li>
+                            ) : (
+                              ''
                             );
                           })}
                       </ul>

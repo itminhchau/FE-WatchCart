@@ -15,7 +15,7 @@ function BannerBrand({ listImage }) {
     arrows: false,
   };
   return (
-    <div className="wrap-banner-brand mx-[24px]">
+    <div className="wrap-banner-brand mx-[8px] lg:mx-[24px]">
       <Slider {...settings}>
         {listImage &&
           listImage.map((item) => {

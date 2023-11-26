@@ -32,34 +32,36 @@ function CountDownClock({ expDate }) {
 
   return (
     <div>
-      <div className=" flex justify-center gap-4 items-center w-[300px] lg:w-full ">
+      <div className=" flex justify-center gap-4 items-center w-[260px] lg:w-full flex-col  lg:flex-row ">
         <span className="text-black font-bold text-[14px] lg:text-[20px]">Thời gian khuyến mãi:</span>
-        <div className="flex flex-col justify-center items-center">
-          <div className="w-[40px] h-[40px] lg:w-[80px] lg:h-[80px] bg-black rounded">
-            <span className=" font-bold text-[30px] lg:text-[50px]  block text-center">{timeLeft.days}</span>
+        <div className="flex justify-center gap-4 items-center ">
+          <div className="flex flex-col justify-center items-center">
+            <div className="w-[35px] h-[35px] lg:w-[80px] lg:h-[80px] bg-black rounded">
+              <span className=" font-bold text-[25px] lg:text-[50px]  block text-center">{timeLeft.days}</span>
+            </div>
+            <span className="text-black font-bold">Ngày</span>
           </div>
-          <span className="text-black font-bold">Ngày</span>
-        </div>
-        <span className="text-black text-[30px] font-bold">:</span>
-        <div className="flex flex-col justify-center items-center">
-          <div className="w-[40px] h-[40px] lg:w-[80px] lg:h-[80px] bg-black rounded ">
-            <span className=" font-bold text-[30px] lg:text-[50px]  block text-center">{timeLeft.hours}</span>
+          <span className="text-black text-[25px] font-bold">:</span>
+          <div className="flex flex-col justify-center items-center">
+            <div className="w-[35px] h-[35px] lg:w-[80px] lg:h-[80px] bg-black rounded ">
+              <span className=" font-bold text-[25px] lg:text-[50px]  block text-center">{timeLeft.hours}</span>
+            </div>
+            <span className="text-black font-bold">Giờ</span>
           </div>
-          <span className="text-black font-bold">Giờ</span>
-        </div>
-        <span className="text-black text-[30px] font-bold">:</span>
-        <div className="flex flex-col justify-center items-center">
-          <div className="w-[40px] h-[40px] lg:w-[80px] lg:h-[80px] bg-black rounded ">
-            <span className=" font-bold text-[30px] lg:text-[50px]  block text-center">{timeLeft.minutes}</span>
+          <span className="text-black text-[25px] font-bold">:</span>
+          <div className="flex flex-col justify-center items-center">
+            <div className="w-[35px] h-[35px] lg:w-[80px] lg:h-[80px] bg-black rounded ">
+              <span className=" font-bold text-[25px] lg:text-[50px]  block text-center">{timeLeft.minutes}</span>
+            </div>
+            <span className="text-black font-bold">Phút</span>
           </div>
-          <span className="text-black font-bold">Phút</span>
-        </div>
-        <span className="text-black text-[30px] font-bold">:</span>
-        <div className="flex flex-col justify-center items-center">
-          <div className="w-[40px] h-[40px] lg:w-[80px] lg:h-[80px] bg-black rounded ">
-            <span className=" font-bold text-[30px] lg:text-[50px]  block text-center">{timeLeft.seconds}</span>
+          <span className="text-black text-[25px] font-bold">:</span>
+          <div className="flex flex-col justify-center items-center">
+            <div className="w-[35px] h-[35px] lg:w-[80px] lg:h-[80px] bg-black rounded ">
+              <span className=" font-bold text-[25px] lg:text-[50px]  block text-center">{timeLeft.seconds}</span>
+            </div>
+            <span className="text-black font-bold">Giây</span>
           </div>
-          <span className="text-black font-bold">Giây</span>
         </div>
       </div>
     </div>
